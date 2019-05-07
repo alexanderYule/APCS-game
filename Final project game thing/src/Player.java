@@ -3,17 +3,18 @@ public class Player
 {
 	private double damage;
 	private double health;
-	private double x,y;
+	private int x,y;
 	private Weapon weapon;
-	public Player(/*TBD*/)
+	public Player(int x, int y)
 	{
-		
+		this.x = x;
+		this.y = y;
 	}
-	public double getX()
+	public int getX()
 	{
 		return x;
 	}
-	public double getY()
+	public int getY()
 	{
 		return y;
 	}
@@ -24,5 +25,21 @@ public class Player
 	public double getHealth()
 	{
 		return health;
+	}
+	public void moveLeft()
+	{
+		x -= 5;
+	}
+	public void moveRight()
+	{
+		x += 5;
+	}
+	public void moveUp()
+	{
+		y -= 5;
+	}
+	public void moveDown()
+	{
+		y += 5;
 	}
 }
