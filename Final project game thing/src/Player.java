@@ -12,7 +12,7 @@ public class Player
 	{
 		this.x = x;
 		this.y = y;
-		g = new Gun(1,200,1,1,1,150);
+		g = new Gun(1,400,1,1,200,150);
 		this.dir = 0;
 	}
 	public int getX()
@@ -22,7 +22,7 @@ public class Player
 	public void FireWeapon(int targetX, int targetY)
 	{
 		double vx = targetX - x;
-		double vy = targetY - y;
+		double vy = -(targetY - y);
 		boolean isGoingUp;
 		boolean isGoingRight;
 		double angle = 0;
