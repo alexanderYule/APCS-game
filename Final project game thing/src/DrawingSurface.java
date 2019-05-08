@@ -7,7 +7,9 @@ public class DrawingSurface extends PApplet {
 
 	private Player p;
 	private Map m;
-	private PImage Player;
+	private PImage playerUp, playerDown, playerRight, playerLeft;
+	//private PImage background;
+	private PImage Bullet;
 	public DrawingSurface() 
 	{
 		p = new Player(100 , 100);
@@ -17,7 +19,13 @@ public class DrawingSurface extends PApplet {
 	// execute once when the program begins
 	public void setup() 
 	{
-		Player = loadImage("Resorces/Hero dude.png");
+		playerUp = loadImage("Resorces/hero_sprites/up.png");
+		playerDown = loadImage("Resorces/hero_sprites/standingDown.png");
+		playerRight = loadImage("Resorces/hero_sprites/right.png");
+		playerLeft = loadImage("Resorces/hero_sprites/left.png");
+
+	//	background = loadImage("Resorces/TEST.jpg");
+		Bullet = loadImage("Resorces/laser bullet thing.png");
 	}
 	
 	// The statements in draw() are executed until the 
@@ -27,7 +35,24 @@ public class DrawingSurface extends PApplet {
 	public void draw() { 
 		background(255);   // Clear the screen with a white background
 		fill(255);
-		image(Player, p.getX(), p.getY());
+		for(Bullet b : p.getExistingBullets())
+		{
+			b.move();
+			image(Bullet,b.getX(),b.getY());
+		}
+
+		if(p.getDir() == 1) {
+			image(playerLeft, p.getX(), p.getY());
+		}
+		else if(p.getDir() == 2) {
+			image(playerUp, p.getX(), p.getY());
+		}
+		else if(p.getDir() == 3) {
+			image(playerRight, p.getX(), p.getY());
+		}
+		else {
+			image(playerDown, p.getX(), p.getY());
+		}
 
 	}
 	
@@ -36,7 +61,7 @@ public class DrawingSurface extends PApplet {
 	{
 		if (mouseButton == LEFT) 
 		{
-			
+			p.FireWeapon(mouseX, mouseY);
 		} 
 		
 	}
