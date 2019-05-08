@@ -94,6 +94,7 @@ public class Player
 	{
 		y += 10;
 		dir = 4;
+		
 	}
 	
 	public int getDir() {

@@ -13,6 +13,7 @@ public class DrawingSurface extends PApplet {
 	public DrawingSurface() 
 	{
 		p = new Player(100 , 100);
+
 	}
 	
 	// The statements in the setup() function 
