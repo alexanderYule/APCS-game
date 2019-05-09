@@ -5,8 +5,10 @@ public class Player
 	private double damage;
 	private double health;
 	private int x,y;
+	private double xVel,yVel;
+	private double frict;
 	private Gun g;
-	private int dir;
+	private int dir; //1=left, 2=up, 3=right, 4=down
 	
 	public Player(int x, int y)
 	{
@@ -14,7 +16,11 @@ public class Player
 		this.y = y;
 		g = new Gun(1,400,1,1,200,150);
 		this.dir = 0;
+		this.xVel = 0;
+		this.yVel = 0;
+		this.frict = 0.8;
 	}
+	
 	public int getX()
 	{
 		return x;
@@ -75,29 +81,42 @@ public class Player
 	{
 		return health;
 	}
-	public void moveLeft()
-	{
-		x -= 10;
-		dir = 1;
-	}
-	public void moveRight()
-	{
-		x += 10;
-		dir = 3;
-	}
-	public void moveUp()
-	{
-		y -= 10;
-		dir = 2;
-	}
-	public void moveDown()
-	{
-		y += 10;
-		dir = 4;
-		
-	}
 	
 	public int getDir() {
 		return dir;
+	}
+
+	public void setVelocity(double xVel, double yVel) {
+		if(xVel > 0) {
+			this.dir = 3;
+		}
+		else if (xVel < 0){
+			this.dir = 1;
+		}
+		else if(yVel > 0) {
+			this.dir = 4;
+		}
+		else if(yVel < 0) {
+			this.dir = 2;
+		}
+		
+		this.xVel = xVel;
+		this.yVel = yVel;
+	}
+
+	public void act() {
+		this.x += xVel;
+		this.y += yVel;
+		
+		xVel*=frict;
+		yVel*=frict;
+	}
+	
+	public double getXVel() {
+		return this.xVel;
+	}
+
+	public double getYVel() {
+		return this.yVel;
 	}
 }

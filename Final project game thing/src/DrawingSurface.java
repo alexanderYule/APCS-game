@@ -36,12 +36,15 @@ public class DrawingSurface extends PApplet {
 	public void draw() { 
 		background(255);   // Clear the screen with a white background
 		fill(255);
+		
 		for(Bullet b : p.getExistingBullets())
 		{
 			b.move();
 			image(Bullet,b.getX(),b.getY());
 		}
 
+		p.act();
+		
 		if(p.getDir() == 1) {
 			image(playerLeft, p.getX(), p.getY());
 		}
@@ -68,28 +71,27 @@ public class DrawingSurface extends PApplet {
 	}
 	
 	
-	
 	public void keyPressed()
 	{
 		if (keyCode == KeyEvent.VK_SPACE)
 		{
 			
 		} 
-		if(keyCode == KeyEvent.VK_W)
+		if(keyCode == KeyEvent.VK_W) //UP
 		{
-			p.moveUp();
+			p.setVelocity(0, -8);
 		}
-		if(keyCode == KeyEvent.VK_A)
+		if(keyCode == KeyEvent.VK_A) //LEFT
 		{
-			p.moveLeft();
+			p.setVelocity(-8, 0);
 		}
-		if(keyCode == KeyEvent.VK_D)
+		if(keyCode == KeyEvent.VK_D) //RIGHT
 		{
-			p.moveRight();
+			p.setVelocity(8, 0);
 		}
-		if(keyCode == KeyEvent.VK_S)
+		if(keyCode == KeyEvent.VK_S) //DOWN
 		{
-			p.moveDown();
+			p.setVelocity(0,8);
 		}
 	}
 	

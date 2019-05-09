@@ -6,6 +6,7 @@ public class Gun extends Weapon
 	private int bulletCount;//number of bullets per shot
 	private ArrayList<Bullet> bullets;
 	private double bulletSpeed;
+	
 	public Gun(double damage, int range, int bulletCount, double fireRate, double speed, int ID)
 	{		
 		super(damage, fireRate, ID);
