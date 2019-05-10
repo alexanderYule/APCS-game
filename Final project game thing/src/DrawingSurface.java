@@ -1,76 +1,103 @@
 import java.awt.event.KeyEvent;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class DrawingSurface extends PApplet {
 
 	private Player p;
+	private RangedEnemy rangedEnemy;
 	private Map m;
-	private PImage playerUp, playerDown, playerRight, playerLeft;
-	//private PImage background;
-	private PImage Bullet;
+	private PImage back;
+	private PImage pBullet, eBullet;
+	private double interval, timeCheck;
+	
+	/**
+	 *  Creates a DrawingSurface that has
+	 *  enemies, a player, and other game elements
+	*/
 	public DrawingSurface() 
 	{
 		p = new Player(100 , 100);
-
+		rangedEnemy = new RangedEnemy(Math.random()*300, Math.random()*300, 3,3); 
+		interval = 5000;
+		timeCheck = millis();
 	}
 	
-	// The statements in the setup() function 
-	// execute once when the program begins
+	/**
+	 *  The statements in the setup() function 
+	 *  execute once when the program begins
+	*/
 	public void setup() 
-	{
-		playerUp = loadImage("Resorces/hero_sprites/up.png");
-		playerDown = loadImage("Resorces/hero_sprites/standingDown.png");
-		playerRight = loadImage("Resorces/hero_sprites/right.png");
-		playerLeft = loadImage("Resorces/hero_sprites/left.png");
-
-	//	background = loadImage("Resorces/TEST.jpg");
-		Bullet = loadImage("Resorces/laser bullet thing.png");
+	{		
+		pBullet = loadImage("Resorces/bullettt.png");
+		eBullet = loadImage("Resorces/bulletE.png");
+		back = loadImage("Resorces/tiles/tileBlock.png");
 	}
 	
-	// The statements in draw() are executed until the 
-	// program is stopped. Each statement is executed in 
-	// sequence and after the last line is read, the first 
-	// line is executed again.
+	/**
+	 *  Draws the the particular Shape instances on DrawingSurface using 
+	 *  Processing PApplet.
+	 *  @post background will change the color of the of the Processing
+	 *  window to white
+	*/
 	public void draw() { 
 		background(255);   // Clear the screen with a white background
-		fill(255);
-		
-		for(Bullet b : p.getExistingBullets())
-		{
-			b.move();
-			image(Bullet,b.getX(),b.getY());
+
+		for(int i = 0; i < 900; i+=20) {         //INEFFICIENT, but temporary
+			for(int j = 0; j < 900; j+=20) {
+				image(back, i, j);
+			}
 		}
 
-		p.act();
+		for(Bullet b : p.getExistingBullets())  //INCORPORATE IN PLAYER CLASS LATER
+		{
+			b.move();
+			image(pBullet,(int)b.getX(),(int)b.getY());
+		}
 		
-		if(p.getDir() == 1) {
-			image(playerLeft, p.getX(), p.getY());
+		for(Bullet b : rangedEnemy.getGun().getExistingBullets())  //INCORPORATE IN RANGED ENEMY CLASS LATER
+		{
+			b.move();
+			image(eBullet,(int)b.getX(),(int)b.getY());
+		}	
+		
+		if(millis() > interval + timeCheck) {
+			timeCheck = millis();
+			double tempXVel = rangedEnemy.getxVel();
+			double tempYVel = rangedEnemy.getyVel();
+
+			if(Math.random()*6 >= 3) {
+				tempXVel*=-1;
+				tempYVel=0;
+			}
+			else{
+				tempXVel*=0;
+				tempYVel*=-1;
+			}
+			rangedEnemy.setVel(tempXVel, tempYVel);
 		}
-		else if(p.getDir() == 2) {
-			image(playerUp, p.getX(), p.getY());
-		}
-		else if(p.getDir() == 3) {
-			image(playerRight, p.getX(), p.getY());
-		}
-		else {
-			image(playerDown, p.getX(), p.getY());
-		}
+		
+		rangedEnemy.draw(this);
+		p.draw(this); //draws this player
 
 	}
 	
-	
+	/**
+	 * Makes this player shoot a bullet from his/her
+	 * weapon on a mouse click
+	*/
 	public void mousePressed() 
 	{
 		if (mouseButton == LEFT) 
 		{
-			p.FireWeapon(mouseX, mouseY);
+			p.fireWeapon(mouseX, mouseY);
 		} 
-		
 	}
 	
-	
+	/** 
+	 * Uses Processing PApplet to check when a keyboard key is pressed 
+	 * @post The velocity of this player will be changed
+	*/
 	public void keyPressed()
 	{
 		if (keyCode == KeyEvent.VK_SPACE)
@@ -79,19 +106,19 @@ public class DrawingSurface extends PApplet {
 		} 
 		if(keyCode == KeyEvent.VK_W) //UP
 		{
-			p.setVelocity(0, -8);
+			p.setVelocity(0, -5);
 		}
 		if(keyCode == KeyEvent.VK_A) //LEFT
 		{
-			p.setVelocity(-8, 0);
+			p.setVelocity(-5, 0);
 		}
 		if(keyCode == KeyEvent.VK_D) //RIGHT
 		{
-			p.setVelocity(8, 0);
+			p.setVelocity(5, 0);
 		}
 		if(keyCode == KeyEvent.VK_S) //DOWN
 		{
-			p.setVelocity(0,8);
+			p.setVelocity(0,5);
 		}
 	}
 	

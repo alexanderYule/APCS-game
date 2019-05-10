@@ -1,10 +1,13 @@
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+import processing.core.PImage;
+
 public class Player 
 {
 	private double damage;
 	private double health;
-	private int x,y;
+	private double x,y;
 	private double xVel,yVel;
 	private double frict;
 	private Gun g;
@@ -18,14 +21,34 @@ public class Player
 		this.dir = 0;
 		this.xVel = 0;
 		this.yVel = 0;
-		this.frict = 0.8;
+		this.frict = 0.95;
 	}
 	
-	public int getX()
+	public void draw(PApplet drawer) {
+	
+		this.act();
+		
+		if(dir == 1) { //LEFT
+			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
+		}
+		else if(dir == 2) { //UP
+			drawer.image(drawer.loadImage("Resorces/hero_sprites/up.png"), (int)x, (int)y);
+		}
+		else if(dir == 3) { //RIGHT
+			drawer.image(drawer.loadImage("Resorces/hero_sprites/right.png"), (int)x, (int)y);
+		}
+		else {  //DOWN
+			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)x, (int)y);
+		}	
+	}
+
+	
+	public double getX()
 	{
 		return x;
 	}
-	public void FireWeapon(int targetX, int targetY)
+	
+	public void fireWeapon(int targetX, int targetY)
 	{
 		double vx = targetX - x;
 		double vy = -(targetY - y);
@@ -65,7 +88,7 @@ public class Player
 		}
 		g.fireBullet(x, y, angle);
 	}
-	public int getY()
+	public double getY()
 	{
 		return y;
 	}
@@ -105,8 +128,8 @@ public class Player
 	}
 
 	public void act() {
-		this.x += xVel;
-		this.y += yVel;
+		this.x = this.x + xVel;
+		this.y = this.y + yVel;
 		
 		xVel*=frict;
 		yVel*=frict;
