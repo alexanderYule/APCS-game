@@ -1,4 +1,4 @@
-﻿* Header: Crimson Conquest (subject to change)
+﻿* Header: Hellshadown
    * Aaron D’Souza
    * Alexander Yule
    * Sumukhi Pandey
@@ -45,13 +45,24 @@ Class list: Lists the classes within the program and describes what each one rep
 * Main
 * DrawingSurface
 Credit list: Gives credit for project components. To do this:
-* Aaron D’Souza
-* Alexander Yule
-* Sumukhi Pandey 
+* Aaron D’Souza- Worked on Java Docs, wrote code to describe the movement of the player, surfed and added sprites, backgrounds suitable for the game
+* Alexander Yule- Wrote “blue print”code that outlined most of the classes, Worked on Java Docs (player, drawing surface), Generated the jar file.
+* Sumukhi Pandey - Worked on Java Docs , Brainstormed ideas , Suggested the name , coded the part for the keys that guide movement.
 
 
+Sources
 * Hero: https://lionheart963.itch.io/4-directional-character
 * TileSet: https://0x72.itch.io/dungeontileset-ii
 * GreenBullet: https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj7w-G33ZHiAhX4IDQIHYYXDdkQjhx6BAgBEAM&url=https%3A%2F%2Fui-ex.com%2Fexplore%2Fbullet-transparent-laser%2F&psig=AOvVaw2AlxuZSLfK_nOf8KTCkR6W&ust=1557604060725950
 * RedBullet: https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjd7c3L3ZHiAhXuHjQIHQUsC-8Qjhx6BAgBEAM&url=https%3A%2F%2Fui-ex.com%2Fexplore%2Fbullet-transparent-game%2F&psig=AOvVaw2AlxuZSLfK_nOf8KTCkR6W&ust=1557604060725950
 
+
+
+
+
+
+
+
+[a]comma splice
+[b]triggers Anushka
+[c]wtf guys why have you done this
