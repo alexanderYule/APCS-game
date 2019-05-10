@@ -2,17 +2,26 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-
+/**
+ * 
+ * @author Alex Y.  Aaron D.
+ *
+ *
+ * represents the person who is playing the game.
+ */
 public class Player 
 {
-	private double damage;
 	private double health;
 	private double x,y;
 	private double xVel,yVel;
 	private double frict;
 	private Gun g;
 	private int dir; //1=left, 2=up, 3=right, 4=down
-	
+	/**
+	 * 
+	 * @param x the starting x coordinate of the player
+	 * @param y the starting y coordinate of the player
+	 */
 	public Player(int x, int y)
 	{
 		this.x = x;
@@ -23,7 +32,12 @@ public class Player
 		this.yVel = 0;
 		this.frict = 0.95;
 	}
-	
+	/**
+	 * Draws the player.
+	 * 
+	 * @param drawer the object that puts the images on the map
+	 * @post side effect of images on the screen
+	 */
 	public void draw(PApplet drawer) {
 	
 		this.act();
@@ -42,12 +56,20 @@ public class Player
 		}	
 	}
 
-	
+	/**
+	 * 
+	 * @return x coordinate of player
+	 */
 	public double getX()
 	{
 		return x;
 	}
-	
+	/**
+	 * Fires the gun that the player has at where the mouse is pointed.
+	 * 
+	 * @param targetX X coordinate of where the bullet is supposed to be fired
+	 * @param targetY Y coordinate of where the bullet is supposed to be fired
+	 */
 	public void fireWeapon(int targetX, int targetY)
 	{
 		double vx = targetX - x;
@@ -86,29 +108,45 @@ public class Player
 		{
 			angle = 270;
 		}
-		g.fireBullet(x, y, angle);
+		g.fireBullet(x, y, angle, true);
 	}
+	/**
+	 * 
+	 * @return Y coordinate of the player.
+	 */
 	public double getY()
 	{
 		return y;
 	}
-	public ArrayList<Bullet> getExistingBullets()
+	/**
+	 * 
+	 * @return The array of bullets that the gun has fired.
+	 */
+	public ArrayList<Bullet> getExistingBullets() // Remove this method once the Gun class has its own draw method
 	{
 		return g.getExistingBullets();
 	}
-	public double getDmg()
-	{
-		return damage;
-	}
+	/**
+	 * 
+	 * @return The current health of the player
+	 */
 	public double getHealth()
 	{
 		return health;
 	}
-	
+	/**
+	 * 
+	 * @return The direction the player is facing as an int where 1 is Left, 2 is up, 3 is Right, 4 is Down
+	 */
 	public int getDir() {
 		return dir;
 	}
-
+	/**
+	 * sets the velocity of the player, and changes the direction it is facing.
+	 * 
+	 * @param xVel the xVelocity of the player
+	 * @param yVel the yVelcoity of the player
+	 */
 	public void setVelocity(double xVel, double yVel) {
 		if(xVel > 0) {
 			this.dir = 3;
@@ -126,7 +164,9 @@ public class Player
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
-
+	/**
+	 * moves X and Y based on the velocity of the player and slows down the velocity by friction.
+	 */
 	public void act() {
 		this.x = this.x + xVel;
 		this.y = this.y + yVel;
@@ -134,11 +174,17 @@ public class Player
 		xVel*=frict;
 		yVel*=frict;
 	}
-	
+	/**
+	 * 
+	 * @return the velocity of the player in the x direction
+	 */
 	public double getXVel() {
 		return this.xVel;
 	}
-
+	/**
+	 * 
+	 * @return the velocity of the player in the y direction
+	 */
 	public double getYVel() {
 		return this.yVel;
 	}

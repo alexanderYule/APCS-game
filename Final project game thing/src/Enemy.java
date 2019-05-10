@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author ayule801
+ *
+ */
 public class Enemy 
 {
 	private double damage; //WHAT DOES DAMAGE EXACTLY STAND FOR?

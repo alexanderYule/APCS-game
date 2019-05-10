@@ -71,7 +71,7 @@ public class RangedEnemy extends Enemy
 	 * @return the Gun object that belongs to this enemy
 	 */
 	public Gun getGun() {
-		return this.eGun;
+		return eGun;
 	}
 
 	/**

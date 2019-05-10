@@ -1,7 +1,12 @@
 import java.awt.event.KeyEvent;
 import processing.core.PApplet;
 import processing.core.PImage;
-
+/**
+ * 
+ * @author Alex, Sumukhi, and Aaron
+ *
+ * Class that draws things and allows for images to be on the screen.
+ */
 public class DrawingSurface extends PApplet {
 
 	private Player p;

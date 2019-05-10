@@ -13,8 +13,8 @@ public class Gun extends Weapon
 	 * @param damage the damage the weapon can deal
 	 * @param range the range of the weapon
 	 * @param bulletCount the amount of bullets held by the gun
-	 * @param fireRate the rate of fire 
-	 * @param speed the speed of the weapon ???????
+	 * @param fireRate a double representing the number of fires the gun can perform per second.
+	 * @param speed the speed the bullet travels
 	 * @param ID the ID of the weapon
 	 */
 	public Gun(double damage, int range, int bulletCount, double fireRate, double speed, int ID)
@@ -34,9 +34,9 @@ public class Gun extends Weapon
 	 * @param direction the direction of this weapon
 	 * @post adds a bullet into this weapon
 	 */
-	public void fireBullet(double x, double y, double direction)
+	public void fireBullet(double x, double y, double direction, boolean isGood)
 	{
-		bullets.add(new Bullet(x,y,direction,bulletSpeed,getDamage(),true));
+		bullets.add(new Bullet(x,y,direction,bulletSpeed,getDamage(),isGood));
 	}
 	
 	/**

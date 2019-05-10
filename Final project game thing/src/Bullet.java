@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * @author ayule801
+ *
+ * Represents a bullet fired by a gun
+ */
 public class Bullet 
 {
 	private double x,y;
@@ -9,13 +14,13 @@ public class Bullet
 
 	/**
 	 * Creates a Bullet object that travels across the screen at an
-	 * angle, speed, and cerain amount of damage
+	 * angle, speed, and certain amount of damage
 	 * @param x the x coordinate of the bullet
 	 * @param y the y coordinate of the bullet
 	 * @param direction the angle at which this bullet is moving to the horizontal
 	 * @param speed the speed of the bullet
 	 * @param damage the amount of damage the bullet deals
-	 * @param isGood ??????
+	 * @param isGood if the player fires a bullet it "isGood", other wise it is not so that the enemies can't kill each other, and the player can't run into its own bullet.
 	 */
 	public Bullet(double x, double y, double direction, double speed, double damage, boolean isGood)
 	{
