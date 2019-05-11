@@ -11,7 +11,7 @@ public class Bullet
 	private double yVelocity;
 	private double damage;
 	private boolean isGood; //if both ranged enemies and the player intend on using this class then it makes sense 
-
+	private double speed;
 	/**
 	 * Creates a Bullet object that travels across the screen at an
 	 * angle, speed, and certain amount of damage
@@ -26,6 +26,7 @@ public class Bullet
 	{
 		this.x = x;
 		this.y = y;
+		this.speed = speed;
 		yVelocity = speed*Math.sin(Math.toRadians(direction));
 		xVelocity = speed*Math.cos(Math.toRadians(direction));
 		this.damage = damage;
@@ -57,7 +58,9 @@ public class Bullet
 	 */
 	public void move()
 	{
-		y += yVelocity/65;
-		x += xVelocity/65;
+		y += xVelocity/65;
+		x += yVelocity/65;
+		
 	}
+
 }

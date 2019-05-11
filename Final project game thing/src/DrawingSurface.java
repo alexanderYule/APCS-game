@@ -22,7 +22,7 @@ public class DrawingSurface extends PApplet {
 	*/
 	public DrawingSurface() 
 	{
-		p = new Player(100 , 100);
+		p = new Player(250 , 200);
 		rangedEnemy = new RangedEnemy(Math.random()*300, Math.random()*300, 3,3); 
 		interval = 5000;
 		timeCheck = millis();
@@ -36,8 +36,9 @@ public class DrawingSurface extends PApplet {
 	{		
 		pBullet = loadImage("Resorces/bullettt.png");
 		eBullet = loadImage("Resorces/bulletE.png");
-		back = loadImage("Resorces/tiles/tileBlock.png");
+		back = loadImage("Resorces/tiles/tileBlock.png");	
 	}
+	
 	
 	/**
 	 *  Draws the the particular Shape instances on DrawingSurface using 
@@ -46,11 +47,13 @@ public class DrawingSurface extends PApplet {
 	 *  window to white
 	*/
 	public void draw() { 
-		background(255);   // Clear the screen with a white background
+		background(0);   // Clear the screen with a white background
 
-		for(int i = 0; i < 900; i+=20) {         //INEFFICIENT, but temporary
-			for(int j = 0; j < 900; j+=20) {
-				image(back, i, j);
+		for(int i = 0; i < 900; i+=60) {         //INEFFICIENT, but temporary
+			for(int j = 0; j < 900; j+=30) {
+				fill(80,39,8);
+				strokeWeight(0.8f);
+				rect(i, j, 60, 30, 3, 3, 3, 3);			
 			}
 		}
 
@@ -80,6 +83,7 @@ public class DrawingSurface extends PApplet {
 				tempYVel*=-1;
 			}
 			rangedEnemy.setVel(tempXVel, tempYVel);
+			rangedEnemy.fireToPlayer(p);
 		}
 		
 		rangedEnemy.draw(this);

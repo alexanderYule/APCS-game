@@ -33,37 +33,14 @@ public class RangedEnemy extends Enemy
 	 * @param player the player object this RangedEnemy has to shoot/target
 	 */
 	public void fireToPlayer(Player player) {
-		double xDif = this.getX()-player.getX();
-		double yDif = this.getY()-player.getY();
-		
-		boolean isFront, isTop;
-		
-		if(xDif > 0) {
-			isFront = true;
-		}
-		else {
-			isFront = false; 
-		}
-		if(yDif > 0) {
-			isTop = true;
-		}
-		else {
-			isTop = false;
-		}
-		
-		if(isFront && isTop) {      //LOCATION PREDICTION BEGINS..
+		double vx = player.getX() - this.getX();
+		double vy = player.getY() - this.getY();
 
-		}
-		else if(isFront && !isTop){
-			
-		}
-		else if(!isFront && isTop) {
-			
-		}
-		else {  //!isFront && !isTop
-			
-		}
+		double angle = 0;
 		
+		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+	
+		this.getGun().fireBullet(this.getX(), this.getY(), angle, false);
 	}
 	
 	/**
@@ -81,10 +58,10 @@ public class RangedEnemy extends Enemy
 	*/
 	public void draw(PApplet drawer) {
 	
-		PImage eUp = drawer.loadImage("Resorces/hero_sprites/up.png");
-		PImage eDown = drawer.loadImage("Resorces/hero_sprites/standingDown.png");
-		PImage eRight = drawer.loadImage("Resorces/hero_sprites/right.png");
-		PImage eLeft = drawer.loadImage("Resorces/hero_sprites/left.png");
+		PImage eUp = drawer.loadImage("Resorces/enemy_sprites/upGoblin.png");
+		PImage eDown = drawer.loadImage("Resorces/enemy_sprites/frontGoblin.png");
+		PImage eRight = drawer.loadImage("Resorces/enemy_sprites/rightGoblin.png");
+		PImage eLeft = drawer.loadImage("Resorces/enemy_sprites/leftGoblin.png");
 				
 		if(getDir() == 1) { //LEFT
 			drawer.image(eLeft, (int)getX(), (int)getY());
