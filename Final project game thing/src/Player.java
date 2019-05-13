@@ -39,6 +39,17 @@ public class Player
 //		else {  //DOWN
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)x, (int)y);
 //		}
+		
+
+		if((this.getX() >= 900 || this.getX() <= 0)) {
+			setVelocity(-this.getXVel(), this.getYVel());
+		}
+		
+		if(this.getY() <= 0 ||this.getY() >= 900) {
+			System.out.println("OUT bounds");
+			setVelocity(this.getXVel(), -this.getYVel());
+		}
+		
 		drawer.noFill();
 		drawer.strokeWeight(5);
 		drawer.rect((int)x,(int) y, (int)100, (int)100);
