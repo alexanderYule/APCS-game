@@ -1,3 +1,5 @@
+import java.awt.Window;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -62,7 +64,8 @@ public class RangedEnemy extends Enemy
 		PImage eDown = drawer.loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		PImage eRight = drawer.loadImage("Resorces/enemy_sprites/rightGoblin.png");
 		PImage eLeft = drawer.loadImage("Resorces/enemy_sprites/leftGoblin.png");
-				
+			
+		
 		if(getDir() == 1) { //LEFT
 			drawer.image(eLeft, (int)getX(), (int)getY());
 		}
@@ -75,9 +78,19 @@ public class RangedEnemy extends Enemy
 		else {  //DOWN
 			drawer.image(eDown,  (int)getX(), (int)getY());
 		}
+	
 		
 		super.setX(getX() + (getxVel()));
 		super.setY(getY() + (getyVel()));
+	
+		if((this.getX() >= 900 || this.getX() <= 0)) {
+			super.setVel(-this.getxVel(), this.getyVel());
+		}
+		
+		if(this.getY() <= 0 ||this.getY() >= 900) {
+			System.out.println("OUT bounds");
+			super.setVel(this.getxVel(), -this.getyVel());
+		}
 		
 	}
 }
