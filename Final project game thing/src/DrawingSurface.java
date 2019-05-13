@@ -13,6 +13,7 @@ public class DrawingSurface extends PApplet {
 	private RangedEnemy rangedEnemy;
 	private Map m;
 	private PImage back;
+	private PImage backBeta;
 	private PImage pBullet, eBullet;
 	private double interval, timeCheck;
 	
@@ -37,6 +38,7 @@ public class DrawingSurface extends PApplet {
 		pBullet = loadImage("Resorces/bullettt.png");
 		eBullet = loadImage("Resorces/bulletE.png");
 		back = loadImage("Resorces/tiles/tileBlock.png");	
+		backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
 	}
 	
 	
@@ -47,16 +49,27 @@ public class DrawingSurface extends PApplet {
 	 *  window to white
 	*/
 	public void draw() { 
+		if(keyPressed)
+		{
+			kPressed(key);
+		}
 		background(0);   // Clear the screen with a white background
 
-		for(int i = 0; i < 900; i+=60) {         //INEFFICIENT, but temporary
+		/*for(int i = 0; i < 900; i+=60) {         //INEFFICIENT, but temporary
 			for(int j = 0; j < 900; j+=30) {
 				fill(80,39,8);
 				strokeWeight(0.8f);
 				rect(i, j, 60, 30, 3, 3, 3, 3);			
 			}
-		}
+		}*/
 
+		for(int i = 0; i < 900; i+=40) 
+		{         
+			for(int j = 0; j < 900; j+=40) 
+			{
+				image(backBeta, i, j);
+			}
+		}
 		for(Bullet b : p.getExistingBullets())  //INCORPORATE IN PLAYER CLASS LATER
 		{
 			b.move();
@@ -107,25 +120,32 @@ public class DrawingSurface extends PApplet {
 	 * Uses Processing PApplet to check when a keyboard key is pressed 
 	 * @post The velocity of this player will be changed
 	*/
-	public void keyPressed()
+	private void kPressed(char key)
 	{
-		if (keyCode == KeyEvent.VK_SPACE)
+		if(key == CODED)
 		{
-			
-		} 
-		if(keyCode == KeyEvent.VK_W) //UP
+			if(keyCode == UP)
+				p.setVelocity(0, -5);
+			if(keyCode == DOWN)
+				p.setVelocity(0,5);
+			if(keyCode == LEFT)
+				p.setVelocity(-5, 0);
+			if(keyCode == RIGHT)
+				p.setVelocity(5, 0);
+		}
+		if(key == 'w') //UP
 		{
 			p.setVelocity(0, -5);
 		}
-		if(keyCode == KeyEvent.VK_A) //LEFT
+		if(key == 'a') //LEFT
 		{
 			p.setVelocity(-5, 0);
 		}
-		if(keyCode == KeyEvent.VK_D) //RIGHT
+		if(key == 'd') //RIGHT
 		{
 			p.setVelocity(5, 0);
 		}
-		if(keyCode == KeyEvent.VK_S) //DOWN
+		if(key == 's') //DOWN
 		{
 			p.setVelocity(0,5);
 		}

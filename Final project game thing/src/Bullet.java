@@ -58,8 +58,8 @@ public class Bullet
 	 */
 	public void move()
 	{
-		y += xVelocity/65;
-		x += yVelocity/65;
+		y += xVelocity/20;
+		x += yVelocity/20;
 		
 	}
 

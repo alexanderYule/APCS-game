@@ -6,5 +6,11 @@
  */
 public class Map 
 {
-
+	//private static final fightRoom f = new Room();
+	private Room[][] Map;
+	
+	private Map(int ID)
+	{
+		//Map = 
+	}
 }

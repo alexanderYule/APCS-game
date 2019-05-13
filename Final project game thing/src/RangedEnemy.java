@@ -76,8 +76,7 @@ public class RangedEnemy extends Enemy
 			drawer.image(eDown,  (int)getX(), (int)getY());
 		}
 		
-		super.setX(getX() + (getxVel()));
-		super.setY(getY() + (getyVel()));
-		
+		setX((getX() + getxVel()));
+		setY((getY() + getyVel()));		
 	}
 }
