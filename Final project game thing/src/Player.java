@@ -57,6 +57,7 @@ public class Player
 		
 		drawer.noFill();
 		drawer.strokeWeight(5);
+
 		drawer.rect((int)x,(int) y, (int)40, (int)40);
 	}
 
@@ -147,16 +148,16 @@ public class Player
 	{
 		yVel = y;
 	}
-	private void act() 
+	public void act() 
 	{
 		if(up)
 			setYVel(-5);
-		else if(down)
+		if(down)
 			setYVel(5);
+		if(right)
+			setXVel(5);
 		if(left)
 			setXVel(-5);
-		else if(right)
-			setXVel(5);
 		this.x = this.x + xVel;
 		this.y = this.y + yVel;
 		
