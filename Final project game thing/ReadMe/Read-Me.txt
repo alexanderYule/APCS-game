@@ -1,0 +1,68 @@
+﻿* Header: Hellshadown
+   * Aaron D’Souza
+   * Alexander Yule
+   * Sumukhi Pandey
+* Description/Introduction:
+        Our program is a single player game where the player goes through dungeons where they have to fight off monsters that try to kill the player with guns or swords. The player is equipped with a gun that becomes stronger as the game progresses. If players lose their given health while completing a stage, the game terminates.  When the user clears a room, the players progress to a new room to ultimately complete the level. At the end of every level, the user receives a new weapon and moves on to harder enemies and obstacles. Each room has either a fight, rest site or some other opportunity to interact with something, and each level has multiple rooms in it. There may be bosses at the end of some levels,[a] and opportunities to become stronger. The basis for writing the game was to make room for a “break” for academically engrossed students/ [b]adults for a short time. This game is targeted at anyone over 10 years old as there is mild violence; however, the game would be a fun game for anyone to play.
+* Instructions: Explains how to use the program (specific keyboard or mouse commands)
+Features List
+Must Have:
+* Multiple rooms with fights in each one. Rooms can be open or contain obstacles.
+* A player with a gun/melee weapon depending on the level
+* At least 3 types of enemies with various skill sets (swords, guns, etc.) and  [c]depth (heath counts and weapon damage)
+* Multiple stages - Rooms lead to other rooms, one room contains an exit to the next level
+* Randomly generated level maps
+Want-to-Have:
+* Non-fight rooms (various puzzles, items, interesting events)
+* A boss at the end of each stage
+* Big enough rooms for “scrolling” as the player moves.
+* Various weapon types that act differently (machine gun, shotgun spray, etc) at the level win
+* Multiple players each with special abilities.
+* Multiple lives and each life has its health
+* Items that make the player stronger
+* Timer
+* Resume state of the game every time player exits.
+Stretch:
+*  Making it multiplayer to allow users to collaboratively defeat enemies.
+* Many weapons that are found throughout the run instead of at the end of each level
+*  Add an inventory that will enable users to store the objects they find throughout the game
+* Disappearing structures that appear when the player moves closer to the structure
+* Sound
+Class list: Lists the classes within the program and describes what each one represents
+* Player
+* Room
+* Fight room
+* Not-fight room (not sure what that would be yet)
+* Enemy
+* Melee enemy
+* Ranged enemy
+* Bullet
+* Gun
+* Sword/Knife (maybe)
+* Map
+* Boss (maybe)
+* Structure (inside rooms)
+* Main
+* DrawingSurface
+Credit list: Gives credit for project components. To do this:
+* Aaron D’Souza- Worked on Java Docs, wrote code to describe the movement of the player, surfed and added sprites, backgrounds suitable for the game
+* Alexander Yule- Wrote “blue print”code that outlined most of the classes, Worked on Java Docs (player, drawing surface), Generated the jar file.
+* Sumukhi Pandey - Worked on Java Docs , Brainstormed ideas , Suggested the name , coded the part for the keys that guide movement.
+
+
+Sources
+* Hero: https://lionheart963.itch.io/4-directional-character
+* TileSet: https://0x72.itch.io/dungeontileset-ii
+* GreenBullet: https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwj7w-G33ZHiAhX4IDQIHYYXDdkQjhx6BAgBEAM&url=https%3A%2F%2Fui-ex.com%2Fexplore%2Fbullet-transparent-laser%2F&psig=AOvVaw2AlxuZSLfK_nOf8KTCkR6W&ust=1557604060725950
+* RedBullet: https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjd7c3L3ZHiAhXuHjQIHQUsC-8Qjhx6BAgBEAM&url=https%3A%2F%2Fui-ex.com%2Fexplore%2Fbullet-transparent-game%2F&psig=AOvVaw2AlxuZSLfK_nOf8KTCkR6W&ust=1557604060725950
+
+
+
+
+
+
+
+
+[a]comma splice
+[b]triggers Anushka
+[c]wtf guys why have you done this

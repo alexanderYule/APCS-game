@@ -1,82 +1,99 @@
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+
 public class Player 
 {
 	private double damage;
 	private double health;
-	private int x,y;
+	private double x,y;
 	private double xVel,yVel;
 	private double frict;
 	private Gun g;
-	private int dir; //1=left, 2=up, 3=right, 4=down
+	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
+	private boolean up,down,left,right;
 	
 	public Player(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 		g = new Gun(1,400,1,1,200,150);
-		this.dir = 0;
+		dir = 0;
 		this.xVel = 0;
 		this.yVel = 0;
-		this.frict = 0.8;
+		this.frict = 0.95;
+		up = false;
+		down = false;
+		left = false;
+		right = false;
 	}
 	
-	public int getX()
+	public void draw(PApplet drawer) {
+	
+		this.act();
+//		
+//		if(dir == 1) { //LEFT
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
+//		}
+//		else if(dir == 2) { //UP
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/up.png"), (int)x, (int)y);
+//		}
+//		else if(dir == 3) { //RIGHT
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/right.png"), (int)x, (int)y);
+//		}
+//		else {  //DOWN
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)x, (int)y);
+//		}
+		
+
+		if((this.getX() >= 900 || this.getX() <= 0)) {
+			setVelocity(-this.getXVel(), this.getYVel());
+		}
+		
+		if(this.getY() <= 0 ||this.getY() >= 900) {
+			System.out.println("OUT bounds");
+			setVelocity(this.getXVel(), -this.getYVel());
+		}
+		
+		drawer.noFill();
+		drawer.strokeWeight(5);
+		drawer.rect((int)x,(int) y, (int)40, (int)40);
+	}
+
+	
+	public double getX()
 	{
 		return x;
 	}
-	public void FireWeapon(int targetX, int targetY)
+	
+	public void fireWeapon(int targetX, int targetY)
 	{
 		double vx = targetX - x;
-		double vy = -(targetY - y);
-		boolean isGoingUp;
-		boolean isGoingRight;
+		double vy = targetY - y;
+
 		double angle = 0;
-		if(vx >= 0)
-			isGoingRight = true; //this chain of if's and eles's is so we can find the whole angle not just from -90 to 90.
-		else
-			isGoingRight = false;
-		if(vy <= 0)
-			isGoingUp = true;
-		else
-			isGoingUp = false;
-		angle = Math.abs((Math.atan(vy/vx)*(180/Math.PI)));
-		if(!isGoingRight && isGoingUp)
-			angle += 90;
-		if(!isGoingRight && !isGoingUp)
-			angle += 180;
-		if(isGoingRight && !isGoingUp)
-			angle +=270;
-		if(vy == 0 && isGoingRight)
-		{
-			angle = 0; // the previous code has trouble when either vx or vy is zero so it has to be done "manually"
-		}
-		if(vy == 0 && !isGoingRight)
-		{
-			angle = 180;
-		}
-		if(vx == 0 && isGoingUp)
-		{
-			angle = 90;
-		}
-		if(vx == 0 && !isGoingUp)
-		{
-			angle = 270;
-		}
-		g.fireBullet(x, y, angle);
+
+		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+	
+		g.fireBullet(x-25, y-25, angle, true);
 	}
-	public int getY()
+	
+	public double getY()
 	{
 		return y;
 	}
+	
 	public ArrayList<Bullet> getExistingBullets()
 	{
+		
 		return g.getExistingBullets();
 	}
+	
 	public double getDmg()
 	{
 		return damage;
 	}
+	
 	public double getHealth()
 	{
 		return health;
@@ -85,31 +102,91 @@ public class Player
 	public int getDir() {
 		return dir;
 	}
-
+	public void setup(boolean x)
+	{
+		up = x;
+		if(x && down)
+			down = false;
+	}
+	public void setdown(boolean x)
+	{
+		down = x;
+		if(x && up)
+			up = false;
+	}
+	public void setleft(boolean x)
+	{
+		left = x;
+		if(x && right)
+			right = false;
+	}
+	public void setright(boolean x)
+	{
+		right = x;
+		if(x && left)
+			left = false;
+	}
+	public void notMoving()
+	{
+		up = false;
+		down = false;
+		right = false;
+		left = false;
+				
+	}
 	public void setVelocity(double xVel, double yVel) {
-		if(xVel > 0) {
-			this.dir = 3;
-		}
-		else if (xVel < 0){
-			this.dir = 1;
-		}
-		else if(yVel > 0) {
-			this.dir = 4;
-		}
-		else if(yVel < 0) {
-			this.dir = 2;
-		}
 		
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
-
-	public void act() {
-		this.x += xVel;
-		this.y += yVel;
+	public void setXVel(double x)
+	{
+		xVel = x;
+	}
+	public void setYVel(double y)
+	{
+		yVel = y;
+	}
+	private void act() 
+	{
+		if(up)
+			setYVel(-5);
+		else if(down)
+			setYVel(5);
+		if(left)
+			setXVel(-5);
+		else if(right)
+			setXVel(5);
+		this.x = this.x + xVel;
+		this.y = this.y + yVel;
 		
 		xVel*=frict;
 		yVel*=frict;
+		if(xVel > 0) 
+		{
+			if(Math.abs(yVel) < 0.05)
+				dir = 5; // only right
+			else if(yVel < 0)
+				dir = 4; // right and up
+			else
+				dir = 6; // right and down
+		}
+		else if (xVel < 0)
+		{
+			if(Math.abs(yVel) < 0.05)
+				dir = 1; // only left
+			else if(yVel < 0) 
+				dir = 4; //left and up
+			else
+				dir = 6; //left and down
+		}
+		else if(yVel < 0) {
+			dir = 3;
+		}
+		else {
+			dir = 7;
+		}
+		
 	}
 	
 	public double getXVel() {
