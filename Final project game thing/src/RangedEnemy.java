@@ -58,7 +58,7 @@ public class RangedEnemy extends Enemy
 	 *  by checking the RangedEnemy's current direction
 	 *  @post the x and y coordinate values of this RangedEnemy will be changed
 	*/
-	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
+	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft, PImage eBullet) {
 	
 	
 			
@@ -88,7 +88,17 @@ public class RangedEnemy extends Enemy
 		if(this.getY() <= 0 ||this.getY() >= 900) {
 			super.setVelocity(this.getxVel(), -this.getyVel());
 		}
-		
+		for(int x = 0; x < eGun.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
+		{
+			Bullet b =  eGun.getExistingBullets().get(x);
+			if(b.move())
+			{
+				eGun.getExistingBullets().remove(x);
+				x--;
+			}
+				
+			b.draw(drawer, eBullet);
+		}
 		drawer.rect((float)this.getX(), (float)this.getY(), 10f, 50f);
 	}
 }

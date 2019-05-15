@@ -31,9 +31,9 @@ public class Player extends GameEntity
 		this.rect = new Rectangle(x,y, 50, 60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED ON .IMG DIMENSIONS.
 	}
 	
-	public void draw(PApplet drawer) {
+	public void draw(PApplet drawer, ArrayList<Structure> s) {
 	
-		this.act();
+		this.act(s);
 
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
@@ -63,12 +63,6 @@ public class Player extends GameEntity
 		drawer.rect((int)x,(int) y, (int)40, (int)40);
 	}
 
-	
-	public double getX()
-	{
-		return x;
-	}
-	
 	public void fireWeapon(int targetX, int targetY)
 	{
 		double vx = targetX - x;
@@ -79,11 +73,6 @@ public class Player extends GameEntity
 		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
 	
 		g.fireBullet(x-25, y-25, angle, true);
-	}
-	
-	public double getY()
-	{
-		return y;
 	}
 	
 	public ArrayList<Bullet> getExistingBullets()
@@ -151,7 +140,7 @@ public class Player extends GameEntity
 	{
 		yVel = y;
 	}
-	public void act() 
+	public void act(ArrayList<Structure> structures) 
 	{
 		if(up)
 			setYVel(-5);
@@ -162,6 +151,14 @@ public class Player extends GameEntity
 		if(left)
 			setXVel(-5);
 		
+		for(Structure s : structures)
+		{
+			if(s.getHitBox().intersects(rect))
+			{
+				xVel = 0;
+				yVel = 0;
+			}
+		}
 		if(x >= 870 || x <= 0)
 			xVel = 0;
 		if(y >= 900 || y <= 0)

@@ -1,5 +1,7 @@
 import java.awt.Window;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 /**
@@ -11,7 +13,6 @@ import processing.core.PImage;
 public class DrawingSurface extends PApplet {
 
 	private Player p;
-	private RangedEnemy rangedEnemy;
 	private Map m;
 	private PImage back;
 	private PImage backBeta;
@@ -31,7 +32,6 @@ public class DrawingSurface extends PApplet {
 	{
 		m = new Map();
 		p = new Player(250 , 200);
-		rangedEnemy = new RangedEnemy(Math.random()*300, Math.random()*300, 3,3); 
 		interval = 1000;
 		timeCheck = millis();
 	}
@@ -79,8 +79,14 @@ public class DrawingSurface extends PApplet {
 			}
 		}*/
 		Room thisRoom = m.getRoom(0, 0);
-		thisRoom.draw(this, backBeta, obstacle);
+		thisRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
 		
+		/*
+		 * 
+		 * when the player exits a room
+		 * 
+		 * 
+		 */
 		
 		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
@@ -93,35 +99,24 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 		
-		for(int x = 0; x < rangedEnemy.getGun().getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
+		for(RangedEnemy r : thisRoom.getRangedEnemies())
 		{
-			Bullet b =  rangedEnemy.getGun().getExistingBullets().get(x);
-			if(b.move())
-			{
-				rangedEnemy.getGun().getExistingBullets().remove(x);
-				x--;
+			if(millis() > interval + timeCheck) {
+				timeCheck = millis();
+				double tempXVel = r.getxVel();
+				double tempYVel = r.getyVel();
+	
+				if(Math.random()*6 >= 3) {
+					tempXVel*=-1;
+				}
+				else{
+					tempYVel*=-1;
+				}
+				r.setVelocity(tempXVel, tempYVel);
+				r.fireToPlayer(p);
 			}
-				
-			b.draw(this, eBullet);
 		}
-		
-		if(millis() > interval + timeCheck) {
-			timeCheck = millis();
-			double tempXVel = rangedEnemy.getxVel();
-			double tempYVel = rangedEnemy.getyVel();
-
-			if(Math.random()*6 >= 3) {
-				tempXVel*=-1;
-			}
-			else{
-				tempYVel*=-1;
-			}
-			rangedEnemy.setVelocity(tempXVel, tempYVel);
-			rangedEnemy.fireToPlayer(p);
-		}
-		
-		rangedEnemy.draw(this, eUp, eDown, eRight, eLeft);
-		p.draw(this); //draws this player
+		p.draw(this, thisRoom.getStructures()); //draws this player
 
 	}
 	

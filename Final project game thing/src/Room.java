@@ -6,6 +6,8 @@ import processing.core.PImage;
 public class Room 
 {
 	private ArrayList<Structure> Structures; 
+	private ArrayList<RangedEnemy> rangedEnemies;
+	private ArrayList<MeleeEnemy> meleeEnemies;
 	private int roomID;
 	//private 
 	/**
@@ -15,7 +17,9 @@ public class Room
 	{
 		this.roomID = roomID;
 		Structures  = new ArrayList<Structure>();
+		rangedEnemies = new ArrayList<RangedEnemy>();
 		setRoom();
+		setEnemies();
 	}
 	
 	public ArrayList<Structure> getStructures()
@@ -25,6 +29,21 @@ public class Room
 	public int getRoomID()
 	{
 		return roomID;
+	}
+	private void setEnemies()
+	{
+//		if(roomID == 0)
+//		{
+//			
+//		}
+//		else
+//		{
+			rangedEnemies.add(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
+//		}
+	}
+	public ArrayList<RangedEnemy> getRangedEnemies()
+	{
+		return rangedEnemies;
 	}
 	private void setRoom()
 	{
@@ -56,7 +75,7 @@ public class Room
 			}
 		}
 	}
-	public void draw(PApplet drawer, PImage floor, PImage obstacle)
+	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet)
 	{
 		for(int x = 0; x < 920; x+=40) 
 		{         
@@ -64,8 +83,10 @@ public class Room
 			{
 				drawer.image(floor, x, y);
 				for( Structure s : Structures)
-					s.draw(drawer, obstacle ,x , y);			
+					s.draw(drawer, obstacle ,x , y);	
 			}
 		}
+		for(RangedEnemy e : rangedEnemies)
+			e.draw(drawer, rEUp, rEDown, rERight, rELeft, eBullet);
 	}
 }
