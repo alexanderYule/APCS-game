@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 
-public class Player 
+public class Player extends GameEntity
 {
 	private double damage;
 	private double health;
@@ -19,7 +19,7 @@ public class Player
 	{
 		this.x = x;
 		this.y = y;
-		g = new Gun(1,400,1,1,200,150); //damage, range, bulletCount, fireRate, speed, ID
+		g = new Gun(1,400,1,1,200,150);
 		dir = 0;
 		this.xVel = 0;
 		this.yVel = 0;
@@ -31,9 +31,9 @@ public class Player
 		this.rect = new Rectangle(x,y, 50, 60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED ON .IMG DIMENSIONS.
 	}
 	
-	public void draw(PApplet drawer, ArrayList<Structure> Structures) {
+	public void draw(PApplet drawer) {
 	
-		act(Structures);
+		this.act();
 
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
@@ -50,11 +50,11 @@ public class Player
 		
 
 		if((this.getX() >= 900 || this.getX() <= 0)) {
-			setVelocity(-this.getXVel(), this.getYVel());
+			setVelocity(-super.getxVel(), this.getyVel());
 		}
 		
 		if(this.getY() <= 0 ||this.getY() >= 900) {
-			setVelocity(this.getXVel(), -this.getYVel());
+			setVelocity(this.getxVel(), -this.getyVel());
 		}
 		
 		drawer.noFill();
@@ -142,6 +142,7 @@ public class Player
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
+	
 	public void setXVel(double x)
 	{
 		xVel = x;
@@ -150,8 +151,7 @@ public class Player
 	{
 		yVel = y;
 	}
-	
-	public void act(ArrayList<Structure> Structures) 
+	public void act() 
 	{
 		if(up)
 			setYVel(-5);
@@ -199,12 +199,5 @@ public class Player
 		
 	}
 	
-	public double getXVel() {
-		return this.xVel;
-	}
-
-	public double getYVel() {
-		return this.yVel;
-	}
 
 }

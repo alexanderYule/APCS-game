@@ -1,4 +1,6 @@
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * Structures the obstacles in the room.
@@ -27,5 +29,10 @@ public class Structure
 	public Rectangle getHitBox()
 	{
 		return hitBox;
+	}
+	public void draw(PApplet drawer, PImage obstacle, int x, int y)
+	{
+		if(this.x* 40 == x && this.y * 40 == y)
+			drawer.image(obstacle, x, y);
 	}
 }

@@ -16,7 +16,7 @@ public class MeleeEnemy extends Enemy
 	public MeleeEnemy() {
 		super();
 		this.axe = new Weapon(1,100,1);
-		super.setVel(Math.random()*5, Math.random()*5);
+		super.setVelocity(Math.random()*5, Math.random()*5);
 		this.canAttack = false;
 	}
 	
@@ -31,7 +31,7 @@ public class MeleeEnemy extends Enemy
 	public MeleeEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
 		this.axe = new Weapon(1,400,1);
-		super.setVel(xVel, yVel);
+		super.setVelocity(xVel, yVel);
 		this.canAttack = true;
 	}
 	

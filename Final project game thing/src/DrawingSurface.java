@@ -116,12 +116,12 @@ public class DrawingSurface extends PApplet {
 			else{
 				tempYVel*=-1;
 			}
-			rangedEnemy.setVel(tempXVel, tempYVel);
+			rangedEnemy.setVelocity(tempXVel, tempYVel);
 			rangedEnemy.fireToPlayer(p);
 		}
 		
 		rangedEnemy.draw(this, eUp, eDown, eRight, eLeft);
-		p.draw(this,thisRoom.getStructures()); //draws this player
+		p.draw(this); //draws this player
 
 	}
 	

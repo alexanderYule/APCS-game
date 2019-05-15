@@ -34,9 +34,9 @@ public class Room
 			{
 				for(int y= 0; y < 23; y++)
 				{
-					if(x == 22 || y == 22 || x == 0 || y == 0)
+					if(x == 22 || y == 22 || x == 0 || y == 0) // x == 22 && y == 11
 					{
-						if(x != 22 || y != 11 || y != 12 || y != 10)
+						if(x != 22 || (y != 11 && y != 12 && y != 10))
 						Structures.add(new Structure(x,y));
 					}
 				}
@@ -64,12 +64,7 @@ public class Room
 			{
 				drawer.image(floor, x, y);
 				for( Structure s : Structures)
-				{
-					if(s.getX()* 40 == x && s.getY() * 40 == y)
-						drawer.image(obstacle, x, y);
-				}
-				
-				
+					s.draw(drawer, obstacle ,x , y);			
 			}
 		}
 	}

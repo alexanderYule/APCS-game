@@ -13,7 +13,7 @@ public class RangedEnemy extends Enemy
 	public RangedEnemy() {
 		super();
 		this.eGun = new Gun(1,100,1,1,200,150);
-		super.setVel(Math.random()*5, Math.random()*5);
+		super.setVelocity(Math.random()*5, Math.random()*5);
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class RangedEnemy extends Enemy
 	public RangedEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
 		this.eGun = new Gun(1,400,1,1,200,150);
-		super.setVel(xVel, yVel);
+		super.setVelocity(xVel, yVel);
 	}
 	
 	/**
@@ -82,11 +82,11 @@ public class RangedEnemy extends Enemy
 		
 		
 		if((this.getX() >= 900 || this.getX() <= 0)) {
-			super.setVel(-this.getxVel(), this.getyVel());
+			super.setVelocity(-this.getxVel(), this.getyVel());
 		}
 		
 		if(this.getY() <= 0 ||this.getY() >= 900) {
-			super.setVel(this.getxVel(), -this.getyVel());
+			super.setVelocity(this.getxVel(), -this.getyVel());
 		}
 		
 		drawer.rect((float)this.getX(), (float)this.getY(), 10f, 50f);
