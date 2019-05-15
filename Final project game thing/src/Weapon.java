@@ -38,6 +38,15 @@ public class Weapon
 	}
 	
 	/**
+	 * Returns the attack speed of this weapon
+	 * @return the attack speed value of this weapon
+	 */
+	public void setAttackSpeed(double speed)
+	{
+		this.attackSpeed = speed;
+	}
+	
+	/**
 	 * Returns the ID value  of this weapon
 	 * @return the ID  value of this weapon
 	 */

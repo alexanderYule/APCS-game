@@ -1,3 +1,5 @@
+import adsouza.shapes.Rectangle;
+
 /**
  * 
  * @author ayule801
@@ -10,6 +12,7 @@ public class Enemy
 	private double x,y;
 	private double xVel, yVel;
 	private int dir; //1=left, 2=up, 3=right, 4=down
+	private Rectangle rect;
 	 
 	/**
 	 * Creates an enemy object that has velocity,
@@ -23,6 +26,7 @@ public class Enemy
 		this.health = 100;
 		this.damage = 0; 
 		this.dir = 4;
+		this.rect = new Rectangle(x, y, 50,60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED
 	}
 	
 	/**
@@ -37,6 +41,7 @@ public class Enemy
 		this.health = 100;
 		this.damage = 0; 	
 		this.dir = 4;
+		this.rect = new Rectangle(x,y, 50, 60); //last 2 params need to be changed accordingly based on img size
 	}
 
 	/**
@@ -146,6 +151,10 @@ public class Enemy
 	 */
 	public void setDir(int dir) {
 		this.dir = dir;
+	}
+	
+	public Rectangle getRect() {
+		return this.rect;
 	}
 	
 }

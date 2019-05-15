@@ -13,6 +13,7 @@ public class Room
 		this.roomID = roomID;
 		Structures  = new ArrayList<Structure>();
 	}
+	
 	public ArrayList<Structure> getStructures()
 	{
 		return Structures;

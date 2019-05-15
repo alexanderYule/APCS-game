@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 
 public class Player 
@@ -12,8 +13,9 @@ public class Player
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
+	private Rectangle rect;
 	
-	public Player(int x, int y)
+	public Player(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
@@ -26,12 +28,13 @@ public class Player
 		down = false;
 		left = false;
 		right = false;
+		this.rect = new Rectangle(x,y, 50, 60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED ON .IMG DIMENSIONS.
 	}
 	
 	public void draw(PApplet drawer) {
 	
 		this.act();
-//		
+
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
 //		}
@@ -51,7 +54,6 @@ public class Player
 		}
 		
 		if(this.getY() <= 0 ||this.getY() >= 900) {
-			System.out.println("OUT bounds");
 			setVelocity(this.getXVel(), -this.getYVel());
 		}
 		
@@ -163,6 +165,7 @@ public class Player
 		
 		xVel*=frict;
 		yVel*=frict;
+		
 		if(xVel > 0) 
 		{
 			if(Math.abs(yVel) < 0.05)
@@ -197,4 +200,5 @@ public class Player
 	public double getYVel() {
 		return this.yVel;
 	}
+
 }

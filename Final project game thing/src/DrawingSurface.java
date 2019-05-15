@@ -27,7 +27,7 @@ public class DrawingSurface extends PApplet {
 	{
 		p = new Player(250 , 200);
 		rangedEnemy = new RangedEnemy(Math.random()*300, Math.random()*300, 3,3); 
-		interval = 5000;
+		interval = 1000;
 		timeCheck = millis();
 	}
 	
@@ -81,6 +81,7 @@ public class DrawingSurface extends PApplet {
 				}
 			}
 		}
+		
 		for(Bullet b : p.getExistingBullets())  //INCORPORATE IN PLAYER CLASS LATER
 		{
 			b.move();
@@ -100,10 +101,8 @@ public class DrawingSurface extends PApplet {
 
 			if(Math.random()*6 >= 3) {
 				tempXVel*=-1;
-				tempYVel=0;
 			}
 			else{
-				tempXVel*=0;
 				tempYVel*=-1;
 			}
 			rangedEnemy.setVel(tempXVel, tempYVel);
@@ -126,6 +125,7 @@ public class DrawingSurface extends PApplet {
 			p.fireWeapon(mouseX, mouseY);
 		} 
 	}
+	
 	 //1=left, 2=left & up, 3=up, 4= right & up 
 	//5 = right 6 = right & down 7 = down 8 = left & down
 	/** 

@@ -1,4 +1,3 @@
-import java.awt.Window;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -80,19 +79,18 @@ public class RangedEnemy extends Enemy
 		}
 	
 		
-		setX((getX() + getxVel()));
-		setY((getY() + getyVel()));		
-		super.setX(getX() + (getxVel()));
-		super.setY(getY() + (getyVel()));
-	
+		super.setX((getX() + getxVel()));
+		super.setY((getY() + getyVel()));	
+		
+		
 		if((this.getX() >= 900 || this.getX() <= 0)) {
 			super.setVel(-this.getxVel(), this.getyVel());
 		}
 		
 		if(this.getY() <= 0 ||this.getY() >= 900) {
-			System.out.println("OUT bounds");
 			super.setVel(this.getxVel(), -this.getyVel());
 		}
 		
+		drawer.rect((float)this.getX(), (float)this.getY(), 10f, 50f);
 	}
 }
