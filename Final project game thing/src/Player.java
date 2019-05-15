@@ -19,7 +19,7 @@ public class Player
 	{
 		this.x = x;
 		this.y = y;
-		g = new Gun(1,400,1,1,200,150);
+		g = new Gun(1,400,1,1,200,150); //damage, range, bulletCount, fireRate, speed, ID
 		dir = 0;
 		this.xVel = 0;
 		this.yVel = 0;
@@ -31,9 +31,9 @@ public class Player
 		this.rect = new Rectangle(x,y, 50, 60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED ON .IMG DIMENSIONS.
 	}
 	
-	public void draw(PApplet drawer) {
+	public void draw(PApplet drawer, ArrayList<Structure> Structures) {
 	
-		this.act();
+		act(Structures);
 
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
@@ -150,7 +150,8 @@ public class Player
 	{
 		yVel = y;
 	}
-	public void act() 
+	
+	public void act(ArrayList<Structure> Structures) 
 	{
 		if(up)
 			setYVel(-5);

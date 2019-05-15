@@ -78,8 +78,8 @@ public class DrawingSurface extends PApplet {
 				rect(i, j, 60, 30, 3, 3, 3, 3);			
 			}
 		}*/
-
-		m.getRoom(0, 0).draw(this, backBeta, obstacle);
+		Room thisRoom = m.getRoom(0, 0);
+		thisRoom.draw(this, backBeta, obstacle);
 		
 		
 		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
@@ -121,7 +121,7 @@ public class DrawingSurface extends PApplet {
 		}
 		
 		rangedEnemy.draw(this, eUp, eDown, eRight, eLeft);
-		p.draw(this); //draws this player
+		p.draw(this,thisRoom.getStructures()); //draws this player
 
 	}
 	
@@ -172,37 +172,7 @@ public class DrawingSurface extends PApplet {
 		{
 			p.setdown(true);
 		}
-	}/*
-	private void kPressed()
-	{
-		if(key == CODED)
-		{
-			if(keyCode == UP)
-				p.setVelocity(0, -5);
-			if(keyCode == DOWN)
-				p.setVelocity(0,5);
-			if(keyCode == LEFT)
-				p.setVelocity(-5, 0);
-			if(keyCode == RIGHT)
-				p.setVelocity(5, 0);
-		}
-		if(key == 'w') //UP
-		{
-			p.setVelocity(0, -5);
-		}
-		if(key == 'a') //LEFT
-		{
-			p.setVelocity(-5, 0);
-		}
-		if(key == 'd') //RIGHT
-		{
-			p.setVelocity(5, 0);
-		}
-		if(key == 's') //DOWN
-		{
-			p.setVelocity(0,5);
-		}
-	}*/
+	}
 	public void keyReleased()
 	{
 		if(key == CODED)
