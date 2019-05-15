@@ -28,15 +28,27 @@ public class Room
 	}
 	private void setRoom()
 	{
-		if(roomID == 0)
-		{}
+		if(roomID == 1)
+		{
+			for(int x = 0; x < 23; x++)
+			{
+				for(int y= 0; y < 23; y++)
+				{
+					if(x == 22 || y == 22 || x == 0 || y == 0)
+					{
+						if(x != 22 || y != 11 || y != 12 || y != 10)
+						Structures.add(new Structure(x,y));
+					}
+				}
+			}
+		}
 		else
 		{
 			for(int x = 0; x < 23; x++)
 			{
 				for(int y= 0; y < 23; y++)
 				{
-					if(x == 23 || y == 23 || x == 0 || y == 0)
+					if(x == 22 || y == 22 || x == 0 || y == 0)
 					{
 						Structures.add(new Structure(x,y));
 					}
