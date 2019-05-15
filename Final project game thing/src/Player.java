@@ -160,6 +160,11 @@ public class Player
 			setXVel(5);
 		if(left)
 			setXVel(-5);
+		
+		if(x >= 870 || x <= 0)
+			xVel = 0;
+		if(y >= 900 || y <= 0)
+			yVel = 0;
 		this.x = this.x + xVel;
 		this.y = this.y + yVel;
 		

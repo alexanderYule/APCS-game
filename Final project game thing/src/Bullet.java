@@ -1,3 +1,6 @@
+import processing.core.PApplet;
+import processing.core.PImage;
+
 /**
  * 
  * @author ayule801
@@ -56,11 +59,17 @@ public class Bullet
 	 * @post the x and y coordinate values of this bullet 
 	 * will change 
 	 */
-	public void move()
+	public boolean move()
 	{
 		y += xVelocity/20;
 		x += yVelocity/20;
-		
+		if(x >= 870 || x <= 0 || y >= 900 || y <= 0)
+			 return true;
+		return false;
+	}
+	public void draw(PApplet drawer, PImage Bullet)
+	{
+		drawer.image(Bullet,(int)x,(int)y);
 	}
 
 }

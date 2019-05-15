@@ -6,6 +6,7 @@ public class RangedEnemy extends Enemy
 {
 	private Gun eGun;
 	
+	
 	/**
 	 * Creates a default RangedEnemy object with a Gun
 	 */
@@ -57,12 +58,9 @@ public class RangedEnemy extends Enemy
 	 *  by checking the RangedEnemy's current direction
 	 *  @post the x and y coordinate values of this RangedEnemy will be changed
 	*/
-	public void draw(PApplet drawer) {
+	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 	
-		PImage eUp = drawer.loadImage("Resorces/enemy_sprites/upGoblin.png");
-		PImage eDown = drawer.loadImage("Resorces/enemy_sprites/frontGoblin.png");
-		PImage eRight = drawer.loadImage("Resorces/enemy_sprites/rightGoblin.png");
-		PImage eLeft = drawer.loadImage("Resorces/enemy_sprites/leftGoblin.png");
+	
 			
 		
 		if(getDir() == 1) { //LEFT

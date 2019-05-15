@@ -18,6 +18,10 @@ public class DrawingSurface extends PApplet {
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
 	private double interval, timeCheck;
+	private PImage eUp ;
+	private PImage eDown;
+	private PImage eRight;
+	private PImage eLeft;
 	
 	/**
 	 *  Creates a DrawingSurface that has
@@ -25,6 +29,7 @@ public class DrawingSurface extends PApplet {
 	*/
 	public DrawingSurface() 
 	{
+		m = new Map();
 		p = new Player(250 , 200);
 		rangedEnemy = new RangedEnemy(Math.random()*300, Math.random()*300, 3,3); 
 		interval = 1000;
@@ -43,6 +48,10 @@ public class DrawingSurface extends PApplet {
 		//backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
 		backBeta = loadImage("Resorces/floor.png");
 		obstacle = loadImage("Resorces/brick.jpg");
+		eUp = loadImage("Resorces/enemy_sprites/upGoblin.png");
+		eDown = loadImage("Resorces/enemy_sprites/frontGoblin.png");
+		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
+		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
 		
 	}
 	
@@ -70,29 +79,31 @@ public class DrawingSurface extends PApplet {
 			}
 		}*/
 
-		for(int i = 0; i < 900; i+=40) 
-		{         
-			for(int j = 0; j < 900; j+=40) 
+		m.getRoom(0, 0).draw(this, backBeta, obstacle);
+		
+		
+		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
+		{
+			Bullet b = p.getExistingBullets().get(x);
+			if(b.move())
 			{
-				image(backBeta, i, j);
-				if(j == 400 && i == 400)
-				{
-					image(obstacle, i, j);
-				}
+				p.getExistingBullets().remove(x);
+				x--;
 			}
+			b.draw(this, pBullet);
 		}
 		
-		for(Bullet b : p.getExistingBullets())  //INCORPORATE IN PLAYER CLASS LATER
+		for(int x = 0; x < rangedEnemy.getGun().getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
-			b.move();
-			image(pBullet,(int)b.getX(),(int)b.getY());
+			Bullet b =  rangedEnemy.getGun().getExistingBullets().get(x);
+			if(b.move())
+			{
+				rangedEnemy.getGun().getExistingBullets().remove(x);
+				x--;
+			}
+				
+			b.draw(this, eBullet);
 		}
-		
-		for(Bullet b : rangedEnemy.getGun().getExistingBullets())  //INCORPORATE IN RANGED ENEMY CLASS LATER
-		{
-			b.move();
-			image(eBullet,(int)b.getX(),(int)b.getY());
-		}	
 		
 		if(millis() > interval + timeCheck) {
 			timeCheck = millis();
@@ -109,7 +120,7 @@ public class DrawingSurface extends PApplet {
 			rangedEnemy.fireToPlayer(p);
 		}
 		
-		rangedEnemy.draw(this);
+		rangedEnemy.draw(this, eUp, eDown, eRight, eLeft);
 		p.draw(this); //draws this player
 
 	}
