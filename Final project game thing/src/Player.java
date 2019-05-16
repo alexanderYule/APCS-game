@@ -7,28 +7,21 @@ public class Player extends GameEntity
 {
 	private double damage;
 	private double health;
-	private double x,y;
-	private double xVel,yVel;
 	private double frict;
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
-	private Rectangle rect;
 	
 	public Player(double x, double y)
 	{
-		this.x = x;
-		this.y = y;
+		super(x,y,0,0,20,25);
 		g = new Gun(1,400,1,1,200,150);
 		dir = 0;
-		this.xVel = 0;
-		this.yVel = 0;
 		this.frict = 0.95;
 		up = false;
 		down = false;
 		left = false;
 		right = false;
-		this.rect = new Rectangle(x,y, 50, 60); //LAST TWO PARAMETERS NEED TO BE CHANGED BASED ON .IMG DIMENSIONS.
 	}
 	
 	public void draw(PApplet drawer, ArrayList<Structure> s) {
@@ -50,29 +43,29 @@ public class Player extends GameEntity
 		
 
 		if((this.getX() >= 900 || this.getX() <= 0)) {
-			setVelocity(-super.getxVel(), this.getyVel());
+			setxVel(-super.getxVel());
 		}
 		
 		if(this.getY() <= 0 ||this.getY() >= 900) {
-			setVelocity(this.getxVel(), -this.getyVel());
+			setyVel(-super.getyVel());
 		}
 		
 		drawer.noFill();
 		drawer.strokeWeight(5);
 
-		drawer.rect((int)x,(int) y, (int)40, (int)40);
+		drawer.rect((int)getX(),(int) getY(), (int)this.getRect().getWidth(), (int)this.getRect().getHeight());
 	}
 
 	public void fireWeapon(int targetX, int targetY)
 	{
-		double vx = targetX - x;
-		double vy = targetY - y;
+		double vx = targetX - getX();
+		double vy = targetY - getY();
 
 		double angle = 0;
 
 		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
 	
-		g.fireBullet(x-25, y-25, angle, true);
+		g.fireBullet(getX()-20, getY()-20, angle, true);
 	}
 	
 	public ArrayList<Bullet> getExistingBullets()
@@ -126,74 +119,75 @@ public class Player extends GameEntity
 		left = false;
 				
 	}
-	public void setVelocity(double xVel, double yVel) {
-		
-		this.xVel = xVel;
-		this.yVel = yVel;
-	}
 	
-	public void setXVel(double x)
-	{
-		xVel = x;
+	public void setVelocity(double xVel, double yVel) {
+		setxVel(xVel);
+		setyVel(yVel);
 	}
-	public void setYVel(double y)
-	{
-		yVel = y;
-	}
+
 	public void act(ArrayList<Structure> structures) 
 	{
 		if(up)
-			setYVel(-5);
+			setyVel(-5);
 		if(down)
-			setYVel(5);
+			setyVel(5);
 		if(right)
-			setXVel(5);
+			setxVel(5);
 		if(left)
-			setXVel(-5);
+			setxVel(-5);
 		
-		for(Structure s : structures)
-		{
-			if(s.getHitBox().intersects(rect))
-			{
-				xVel = 0;
-				yVel = 0;
+		double tempX = getX();
+		double tempY = getY();
+		boolean colDetected = false;
+		
+ 		for(Structure str : structures) 
+			if(str.getHitBox().intersects(getRect())) {
+				colDetected = true;
+				System.out.println("fd");
 			}
-		}
-		if(x >= 870 || x <= 0)
-			xVel = 0;
-		if(y >= 900 || y <= 0)
-			yVel = 0;
-		this.x = this.x + xVel;
-		this.y = this.y + yVel;
 		
-		xVel*=frict;
-		yVel*=frict;
 		
-		if(xVel > 0) 
+ 		if(!colDetected) {
+			this.setX(tempX + getxVel());
+			this.setY(tempY + getyVel());
+			this.getRect().move(this.getX(), this.getY());
+ 		}
+ 		else {
+ 			this.setxVel(getxVel()*-1);
+ 			this.setyVel(getyVel()*-1);
+ 			this.setX(tempX + getxVel());
+ 			this.setY(tempY + getyVel());
+ 			
+			this.getRect().move(this.getX(), this.getY());
+ 		}
+		
+		setxVel(getxVel() * frict); //slow down
+		setyVel(getyVel() * frict);
+		
+		if(getxVel() > 0) 
 		{
-			if(Math.abs(yVel) < 0.05)
+			if(Math.abs(getyVel()) < 0.05)
 				dir = 5; // only right
-			else if(yVel < 0)
+			else if(getyVel() < 0)
 				dir = 4; // right and up
 			else
 				dir = 6; // right and down
 		}
-		else if (xVel < 0)
+		else if (getxVel() < 0)
 		{
-			if(Math.abs(yVel) < 0.05)
+			if(Math.abs(getyVel()) < 0.05)
 				dir = 1; // only left
-			else if(yVel < 0) 
+			else if(getyVel() < 0) 
 				dir = 4; //left and up
 			else
 				dir = 6; //left and down
 		}
-		else if(yVel < 0) {
+		else if(getyVel() < 0) {
 			dir = 3;
 		}
 		else {
 			dir = 7;
 		}
-		
 	}
 	
 

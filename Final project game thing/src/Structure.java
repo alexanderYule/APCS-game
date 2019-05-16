@@ -35,4 +35,5 @@ public class Structure
 		if(this.x* 40 == x && this.y * 40 == y)
 			drawer.image(obstacle, x, y);
 	}
+	
 }

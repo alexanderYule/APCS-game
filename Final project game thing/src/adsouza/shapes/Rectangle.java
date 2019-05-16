@@ -130,15 +130,8 @@ public class Rectangle extends Shape2D{
 	*/
 	public boolean intersects(Rectangle other) {
 
-	//	if(this.x <= other.x+other.width && this.x+this.width >= other.x 
-	//	 && this.y <= other.y+other.height && this.y + this.height >= other.y) { //Checks for y intersection...
-	//		return true;
-	//	}
-	//	else {
-	//		return false;
-	//	}
-		
-		if((this.x >= other.x && this.x+this.width >= this.x) && (this.y >= other.y && this.y+this.height >= this.y)){
+		if(this.x <= other.x+other.width && this.x+this.width >= other.x 
+		 && this.y <= other.y+other.height && this.y + this.height >= other.y) { //Checks for y intersection...
 			return true;
 		}
 		else {
@@ -166,5 +159,12 @@ public class Rectangle extends Shape2D{
 		}
 
 	}
+
+	public double getWidth() {
+		return this.width;
+	}
 	
+	public double getHeight() {
+		return this.height;
+	}
 }

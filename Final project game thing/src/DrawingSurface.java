@@ -2,6 +2,7 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 /**
@@ -23,7 +24,7 @@ public class DrawingSurface extends PApplet {
 	private PImage eDown;
 	private PImage eRight;
 	private PImage eLeft;
-	
+			
 	/**
 	 *  Creates a DrawingSurface that has
 	 *  enemies, a player, and other game elements
@@ -52,7 +53,6 @@ public class DrawingSurface extends PApplet {
 		eDown = loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
 		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
-		
 	}
 	
 	
@@ -117,7 +117,7 @@ public class DrawingSurface extends PApplet {
 			}
 		}
 		p.draw(this, thisRoom.getStructures()); //draws this player
-
+	
 	}
 	
 	/**
