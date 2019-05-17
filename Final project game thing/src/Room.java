@@ -58,6 +58,8 @@ public class Room
 						if(x != 22 || (y != 11 && y != 12 && y != 10))
 						structures.add(new Structure(x,y));
 					}
+					if(x == 15 && y == 15)
+						structures.add(new Structure(x,y));
 				}
 			}
 		}

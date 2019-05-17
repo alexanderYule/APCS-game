@@ -42,18 +42,18 @@ public class Player extends GameEntity
 //		}
 		
 
-		if((this.getX() >= 900 || this.getX() <= 0)) {
-			setxVel(-super.getxVel());
-		}
-		
-		if(this.getY() <= 0 ||this.getY() >= 900) {
-			setyVel(-super.getyVel());
-		}
+//		if((getX() >= 900 || getX() <= 0)) {
+//			setxVel(-super.getxVel());
+//		}
+//		
+//		if(getY() <= 0 ||getY() >= 900) {
+//			setyVel(-super.getyVel());
+//		}
 		
 		drawer.noFill();
 		drawer.strokeWeight(5);
 
-		drawer.rect((int)getX(),(int) getY(), (int)this.getRect().getWidth(), (int)this.getRect().getHeight());
+		drawer.rect((int)getX(),(int) getY(), (int)getRect().getWidth(), (int)getRect().getHeight());
 	}
 
 	public void fireWeapon(int targetX, int targetY)
@@ -139,26 +139,57 @@ public class Player extends GameEntity
 		double tempX = getX();
 		double tempY = getY();
 		boolean colDetected = false;
-		
- 		for(Structure str : structures) 
+		Rectangle struc = null;
+ 		for(int x = 0; x < structures.size(); x++)
+ 		{
+ 			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(getRect())) {
 				colDetected = true;
+				struc = str.getHitBox();
 				System.out.println("fd");
 			}
+ 		}
 		
 		
  		if(!colDetected) {
-			this.setX(tempX + getxVel());
-			this.setY(tempY + getyVel());
-			this.getRect().move(this.getX(), this.getY());
+			setX(tempX + getxVel());
+			setY(tempY + getyVel());
+			getRect().move(getX(), getY());
  		}
  		else {
- 			this.setxVel(getxVel()*-1);
- 			this.setyVel(getyVel()*-1);
- 			this.setX(tempX + getxVel());
- 			this.setY(tempY + getyVel());
- 			
-			this.getRect().move(this.getX(), this.getY());
+ 			/*setxVel(getxVel()*-1);
+ 			setyVel(getyVel()*-1);
+ 			setX(tempX + getxVel());
+ 			setY(tempY + getyVel());*/
+ 			if(up)
+ 			{
+ 				if(getY() < struc.getY())
+ 				{
+ 					setY(tempY + getyVel());
+ 				}
+ 			}
+ 			if(down)
+ 			{
+ 				if(getY() > struc.getY())
+ 				{
+ 					setY(tempY + getyVel());
+ 				}
+ 			}
+ 			if(left)
+ 			{
+ 				if(getX() < struc.getX())
+ 				{
+ 					setX(tempX + getxVel());
+ 				}
+ 			}
+ 			if(right)
+ 			{	
+ 				if(getX() > struc.getX())
+				{
+ 					setX(tempX + getxVel());
+				}
+ 			}
+			getRect().move(getX(), getY());
  		}
 		
 		setxVel(getxVel() * frict); //slow down
