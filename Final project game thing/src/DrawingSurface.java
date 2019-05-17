@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -5,11 +6,12 @@ import java.util.ArrayList;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
+
 /**
  * 
  * @author Alex, Sumukhi, and Aaron
  *
- * Class that draws things and allows for images to be on the screen.
+ *         Class that draws things and allows for images to be on the screen.
  */
 public class DrawingSurface extends PApplet {
 
@@ -20,33 +22,29 @@ public class DrawingSurface extends PApplet {
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
 	private double interval, timeCheck;
-	private PImage eUp ;
+	private PImage eUp;
 	private PImage eDown;
 	private PImage eRight;
 	private PImage eLeft;
-			
+
 	/**
-	 *  Creates a DrawingSurface that has
-	 *  enemies, a player, and other game elements
-	*/
-	public DrawingSurface() 
-	{
+	 * Creates a DrawingSurface that has enemies, a player, and other game elements
+	 */
+	public DrawingSurface() {
 		m = new Map();
-		p = new Player(250 , 200);
+		p = new Player(250, 200);
 		interval = 1000;
 		timeCheck = millis();
 	}
-	
+
 	/**
-	 *  The statements in the setup() function 
-	 *  execute once when the program begins
-	*/
-	public void setup() 
-	{		
+	 * The statements in the setup() function execute once when the program begins
+	 */
+	public void setup() {
 		pBullet = loadImage("Resorces/bullettt.png");
 		eBullet = loadImage("Resorces/bulletE.png");
-		back = loadImage("Resorces/tiles/tileBlock.png");	
-		//backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
+		back = loadImage("Resorces/tiles/tileBlock.png");
+		// backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
 		backBeta = loadImage("Resorces/floor.png");
 		obstacle = loadImage("Resorces/brick.jpg");
 		eUp = loadImage("Resorces/enemy_sprites/upGoblin.png");
@@ -54,8 +52,7 @@ public class DrawingSurface extends PApplet {
 		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
 		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
 	}
-	
-	
+
 	/**
 	 *  Draws the the particular Shape instances on DrawingSurface using 
 	 *  Processing PApplet.
@@ -70,16 +67,21 @@ public class DrawingSurface extends PApplet {
 		{
 			p.notMoving();
 		}
-
-		/*for(int i = 0; i < 900; i+=60) {         //INEFFICIENT, but temporary
-			for(int j = 0; j < 900; j+=30) {
-				fill(80,39,8);
-				strokeWeight(0.8f);
-				rect(i, j, 60, 30, 3, 3, 3, 3);			
-			}
-		}*/
+		pushStyle();
+		fill(255);
+		rect(0,921, 919, 60);
+		fill(0);
+		textSize(30);
+		text("Health:", 10, 960);
+		fill(255,0,0);
+		rect(120,940,300,20,71);
+		fill(255);
+		if(p.getHealth() != 100)
+			rect(420,940,(float)(p.getHealth()/100)*300 - 300,20,0,71,71,0);
+		popStyle();
 		Room thisRoom = m.getRoom(0, 0);
 		thisRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
+		ArrayList<Structure> structures = thisRoom.getStructures();
 		
 		/*
 		 * 
@@ -91,7 +93,7 @@ public class DrawingSurface extends PApplet {
 		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-			if(b.move())
+			if(b.move(p, structures, thisRoom.getAllEnemies()))
 			{
 				p.getExistingBullets().remove(x);
 				x--;
@@ -99,13 +101,36 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 		
-		for(RangedEnemy r : thisRoom.getRangedEnemies())
+		for(int y = 0; y < thisRoom.getRangedEnemies().size(); y++)
+		{
+			RangedEnemy r = thisRoom.getRangedEnemies().get(y);
+			if(!r.isAlive())
+			{
+				thisRoom.getRangedEnemies().remove(y);
+				y--;
+			}
+			for(int x = 0; x < r.getGun().getExistingBullets().size(); x++) 
+			{
+				Bullet b =  r.getGun().getExistingBullets().get(x);
+				if(b.move(p, structures, thisRoom.getAllEnemies()))
+				{
+					r.getGun().getExistingBullets().remove(x);
+					x--;
+				}
+					
+				b.draw(this, eBullet);
+			}
+				
+		    if(millis() > interval + timeCheck) {
+		    	r.fireToPlayer(p);
+			}
+		}
+		for(Enemy r : thisRoom.getAllEnemies())
 		{
 			if(millis() > interval + timeCheck) {
 				timeCheck = millis();
 				double tempXVel = r.getxVel();
 				double tempYVel = r.getyVel();
-	
 				if(Math.random()*6 >= 3) {
 					tempXVel*=-1;
 				}
@@ -113,90 +138,92 @@ public class DrawingSurface extends PApplet {
 					tempYVel*=-1;
 				}
 				r.setVelocity(tempXVel, tempYVel);
-				r.fireToPlayer(p);
+				
 			}
+			r.move(structures);
 		}
-		p.draw(this, thisRoom.getStructures()); //draws this player
+		p.draw(this); //draws this player
+		p.move(structures);
 	
 	}
-	
+
 	/**
-	 * Makes this player shoot a bullet from his/her
-	 * weapon on a mouse click
-	*/
+	 * Makes this player shoot a bullet from his/her weapon on a mouse click
+	 */
 	public void mousePressed() 
 	{
 		if (mouseButton == LEFT) 
 		{
-			p.fireWeapon(mouseX, mouseY);
-		} 
+			p.fireWeapon(mouseX, mouseY,millis());
+		}
 	}
-	
-	 //1=left, 2=left & up, 3=up, 4= right & up 
-	//5 = right 6 = right & down 7 = down 8 = left & down
-	/** 
-	 * Uses Processing PApplet to check when a keyboard key is pressed 
+
+	// 1=left, 2=left & up, 3=up, 4= right & up
+	// 5 = right 6 = right & down 7 = down 8 = left & down
+	/**
+	 * Uses Processing PApplet to check when a keyboard key is pressed
+	 * 
 	 * @post The velocity of this player will be changed
-	*/
-	private void kPressed()
-	{
-		if(key == CODED)
-		{
-			if(keyCode == UP)
+	 */
+	private void kPressed() {
+		if (key == CODED) {
+			if (keyCode == UP)
 				p.setup(true);
-			if(keyCode == DOWN)
+			if (keyCode == DOWN)
 				p.setdown(true);
-			if(keyCode == LEFT)
+			if (keyCode == LEFT)
 				p.setleft(true);
-			if(keyCode == RIGHT)
+			if (keyCode == RIGHT)
 				p.setright(true);
 		}
-		if(key == 'w') //UP
+		if (key == 'w') // UP
 		{
 			p.setup(true);
 		}
-		if(key == 'a') //LEFT
+		if (key == 'a') // LEFT
 		{
 			p.setleft(true);
 		}
-		if(key == 'd') //RIGHT
+		if (key == 'd') // RIGHT
 		{
 			p.setright(true);
 		}
-		if(key == 's') //DOWN
+		if (key == 's') // DOWN
 		{
 			p.setdown(true);
 		}
+		if (key == 'p') {
+			p.takeDamage(1.0);
+		}
 	}
-	public void keyReleased()
-	{
-		if(key == CODED)
-		{
-			if(keyCode == UP)
+
+	public void keyReleased() {
+		if (key == CODED) {
+			if (keyCode == UP)
 				p.setup(false);
-			if(keyCode == DOWN)
+			if (keyCode == DOWN)
 				p.setdown(false);
-			if(keyCode == LEFT)
+			if (keyCode == LEFT)
 				p.setleft(false);
-			if(keyCode == RIGHT)
+			if (keyCode == RIGHT)
 				p.setright(false);
 		}
-		if(key == 'w') //UP
+		if (key == 'w') // UP
 		{
 			p.setup(false);
 		}
-		if(key == 'a') //LEFT
+		if (key == 'a') // LEFT
 		{
 			p.setleft(false);
 		}
-		if(key == 'd') //RIGHT
+		if (key == 'd') // RIGHT
 		{
 			p.setright(false);
 		}
-		if(key == 's') //DOWN
+		if (key == 's') // DOWN
 		{
 			p.setdown(false);
 		}
 	}
-	
+
 }

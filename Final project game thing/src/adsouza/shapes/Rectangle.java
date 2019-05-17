@@ -107,7 +107,9 @@ public class Rectangle extends Shape2D{
 	 * @post the method will change the fill property of the Rectangle to the
 	 * specified r, g, b value
 	*/
-	public void draw(PApplet drawer){
+	public void draw(PApplet drawer)
+	{
+		drawer.pushStyle();
 		drawer.rectMode(PApplet.CORNER);
 		super.draw(drawer);
 		if(getFillState()) {
@@ -118,6 +120,7 @@ public class Rectangle extends Shape2D{
 			drawer.fill(getFillR(), getFillG(), getFillB());
 			drawer.rect((float)x, (float)y, (float)width, (float)height);
 		}
+		drawer.popStyle();
 	}
 
 	/**

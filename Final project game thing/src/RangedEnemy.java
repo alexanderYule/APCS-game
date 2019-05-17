@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+
+import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -52,53 +55,35 @@ public class RangedEnemy extends Enemy
 	public Gun getGun() {
 		return eGun;
 	}
+	
 
 	/**
 	 *  Draws a graphical representation of this RangedEnemy at its respective location 
 	 *  by checking the RangedEnemy's current direction
+	 * @param structures 
 	 *  @post the x and y coordinate values of this RangedEnemy will be changed
 	*/
-	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft, PImage eBullet) {
-	
-	
-			
-		
-		if(getDir() == 1) { //LEFT
-			drawer.image(eLeft, (int)getX(), (int)getY());
-		}
-		else if(getDir() == 2) { //UP
-			drawer.image(eUp, (int)getX(), (int)getY());
-		}
-		else if(getDir() == 3) { //RIGHT
-			drawer.image(eRight,  (int)getX(), (int)getY());
-		}
-		else {  //DOWN
-			drawer.image(eDown,  (int)getX(), (int)getY());
-		}
-	
-		
-		super.setX((getX() + getxVel()));
-		super.setY((getY() + getyVel()));	
-		
-		
-		if((this.getX() >= 900 || this.getX() <= 0)) {
-			super.setVelocity(-this.getxVel(), this.getyVel());
-		}
-		
-		if(this.getY() <= 0 ||this.getY() >= 900) {
-			super.setVelocity(this.getxVel(), -this.getyVel());
-		}
-		for(int x = 0; x < eGun.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
-		{
-			Bullet b =  eGun.getExistingBullets().get(x);
-			if(b.move())
-			{
-				eGun.getExistingBullets().remove(x);
-				x--;
+	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
+		if(isAlive())
+		{			
+			if(getDir() == 1) { //LEFT
+				drawer.image(eLeft, (int)getX(), (int)getY());
 			}
-				
-			b.draw(drawer, eBullet);
+			else if(getDir() == 2) { //UP
+				drawer.image(eUp, (int)getX(), (int)getY());
+			}
+			else if(getDir() == 3) { //RIGHT
+				drawer.image(eRight,  (int)getX(), (int)getY());
+			}
+			else {  //DOWN
+				drawer.image(eDown,  (int)getX(), (int)getY());
+			}
+			getRect().move(getX(), getY());		
+			drawer.rect((float)this.getX() + 20, (float)this.getY()+10, 10f, 50f);
 		}
-		drawer.rect((float)this.getX(), (float)this.getY(), 10f, 50f);
+		else
+		{
+			System.out.println("hi");
+		}
 	}
 }

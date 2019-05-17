@@ -3,7 +3,7 @@ public class Weapon
 {
 	private int ID; // just to keep track which level the player got this weapon
 	private double damage;
-	private double attackSpeed; //attack speed is a double that represents the number of attacks the user can perform in a second, not implemented yet
+	private double attackSpeed; //attack speed is a double that represents the # of seconds between each attack
 	
 	/**
 	 * Creates a custom weapon that deals a certain amount of damage at a

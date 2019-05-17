@@ -11,69 +11,69 @@ public class Player extends GameEntity
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
+	private int time;
 	
 	public Player(double x, double y)
 	{
 		super(x,y,0,0,20,25);
-		g = new Gun(1,400,1,1,200,150);
+		g = new Gun(50,400,1,1,400,150);
 		dir = 0;
-		this.frict = 0.95;
+		this.frict = 0.3;
 		up = false;
 		down = false;
 		left = false;
 		right = false;
+		health = 100;
+		time = 0;
 	}
-	
-	public void draw(PApplet drawer, ArrayList<Structure> s) {
-	
-		this.act(s);
 
+	
+	public void draw(PApplet drawer) {
 //		if(dir == 1) { //LEFT
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)x, (int)y);
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)getX(), (int)getY());
 //		}
 //		else if(dir == 2) { //UP
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/up.png"), (int)x, (int)y);
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/up.png"), (int)getX(), (int)getY());
 //		}
 //		else if(dir == 3) { //RIGHT
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/right.png"), (int)x, (int)y);
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/right.png"), (int)getX(), (int)getY());
 //		}
 //		else {  //DOWN
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)x, (int)y);
-//		}
-		
-
-//		if((getX() >= 900 || getX() <= 0)) {
-//			setxVel(-super.getxVel());
-//		}
-//		
-//		if(getY() <= 0 ||getY() >= 900) {
-//			setyVel(-super.getyVel());
-//		}
-		
+//			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)getX(), (int)getY());
+//		}		
 		drawer.noFill();
 		drawer.strokeWeight(5);
-
-		drawer.rect((int)getX(),(int) getY(), (int)getRect().getWidth(), (int)getRect().getHeight());
+		//drawer.rect((int)getX(),(int) getY(), (int)getRect().getWidth(), (int)getRect().getHeight());
+		getRect().draw(drawer);
 	}
 
-	public void fireWeapon(int targetX, int targetY)
+	public void fireWeapon(int targetX, int targetY, int millis)
 	{
-		double vx = targetX - getX();
-		double vy = targetY - getY();
-
-		double angle = 0;
-
-		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+		if((millis - time)/1000.0 >g.getAttackSpeed())
+		{
+			time = millis;
+			double vx = targetX - getX();
+			double vy = targetY - getY();
 	
-		g.fireBullet(getX()-20, getY()-20, angle, true);
+			double angle = 0;
+	
+			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+			
+			g.fireBullet(getX()-20, getY()-20, angle, true);
+		}
 	}
-	
+	public void takeDamage(double dmg)
+	{
+		health -= dmg;
+	}
 	public ArrayList<Bullet> getExistingBullets()
-	{
-		
+	{		
 		return g.getExistingBullets();
 	}
-	
+	public Gun getGun()
+	{
+		return g;
+	}
 	public double getDmg()
 	{
 		return damage;
@@ -125,7 +125,7 @@ public class Player extends GameEntity
 		setyVel(yVel);
 	}
 
-	public void act(ArrayList<Structure> structures) 
+	public void move(ArrayList<Structure> structures) 
 	{
 		if(up)
 			setyVel(-5);
@@ -136,8 +136,6 @@ public class Player extends GameEntity
 		if(left)
 			setxVel(-5);
 		
-		double tempX = getX();
-		double tempY = getY();
 		boolean colDetected = false;
 		Rectangle struc = null;
  		for(int x = 0; x < structures.size(); x++)
@@ -146,52 +144,50 @@ public class Player extends GameEntity
 			if(str.getHitBox().intersects(getRect())) {
 				colDetected = true;
 				struc = str.getHitBox();
-				System.out.println("fd");
 			}
  		}
 		
 		
  		if(!colDetected) {
-			setX(tempX + getxVel());
-			setY(tempY + getyVel());
-			getRect().move(getX(), getY());
+			setX(getX() + getxVel());
+			setY(getY() + getyVel());
  		}
  		else {
  			/*setxVel(getxVel()*-1);
  			setyVel(getyVel()*-1);
- 			setX(tempX + getxVel());
- 			setY(tempY + getyVel());*/
+ 			setX(getX() + getxVel());
+ 			setY(getY() + getyVel());*/
  			if(up)
  			{
  				if(getY() < struc.getY())
  				{
- 					setY(tempY + getyVel());
+ 					setY(getY() + getyVel());
  				}
  			}
  			if(down)
  			{
  				if(getY() > struc.getY())
  				{
- 					setY(tempY + getyVel());
+ 					setY(getY() + getyVel());
  				}
  			}
  			if(left)
  			{
  				if(getX() < struc.getX())
  				{
- 					setX(tempX + getxVel());
+ 					setX(getX() + getxVel());
  				}
  			}
  			if(right)
  			{	
  				if(getX() > struc.getX())
 				{
- 					setX(tempX + getxVel());
+ 					setX(getX() + getxVel());
 				}
  			}
-			getRect().move(getX(), getY());
+			
  		}
-		
+ 		getRect().move(getX(), getY());
 		setxVel(getxVel() * frict); //slow down
 		setyVel(getyVel() * frict);
 		
@@ -220,6 +216,7 @@ public class Player extends GameEntity
 			dir = 7;
 		}
 	}
+
 	
 
 }

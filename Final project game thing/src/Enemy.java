@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import adsouza.shapes.Rectangle;
 
 /**
@@ -10,6 +12,7 @@ public class Enemy extends GameEntity
 	private double damage; //WHAT DOES DAMAGE EXACTLY STAND FOR?
 	private double health;
 	private int dir; //1=left, 2=up, 3=right, 4=down
+	private boolean isAlive;
 	 
 	/**
 	 * Creates an enemy object that has velocity,
@@ -22,6 +25,7 @@ public class Enemy extends GameEntity
 		this.health = 100;
 		this.damage = 0; 
 		this.dir = 4;
+		isAlive = true;
 	}
 	
 	/**
@@ -46,7 +50,18 @@ public class Enemy extends GameEntity
 	{
 		return damage;
 	}
-	
+	/**
+	 * 
+	 * @param damage how much damage the enemy takes
+	 * @return true if the enemy's health is zero or below, false otherwise.
+	 */
+	public boolean takeDmg(double damage) 
+	{
+		health -= damage;
+		if(health <= 0)
+			return true;
+		return false;
+	}
 	/**
 	 * Return the health of this enemy 
 	 * @return the health value of this enemy 
@@ -55,7 +70,14 @@ public class Enemy extends GameEntity
 	{
 		return health;
 	}
-
+	public void die()
+	{
+		isAlive = false;
+	}
+	public boolean isAlive()
+	{
+		return isAlive;
+	}
 	/**
 	 * Set the velocity of this enemy to a new velocity 
 	 * @param xVel the x component of this enemy's velocity
@@ -78,7 +100,7 @@ public class Enemy extends GameEntity
 		this.setxVel(xVel);
 		this.setyVel(yVel);
 	}
-
+	
 	/**
 	 * Return the direction angle of this enemy 
 	 * @return the direction value of this enemy 
@@ -87,6 +109,30 @@ public class Enemy extends GameEntity
 		return dir;
 	}
 
+	public void move( ArrayList<Structure> structures)
+	{
+		
+		boolean colDetected = false;
+		for(int x = 0; x < structures.size(); x++)
+ 		{
+ 			Structure str  = structures.get(x);
+			if(str.getHitBox().intersects(getRect())) 
+				colDetected = true;
+ 		}
+ 		
+		if(!colDetected) {
+			setX(getX() + getxVel());
+			setY(getY() + getyVel());
+			
+ 		}
+ 		else 
+ 		{
+ 			setyVel(getyVel() * -1);
+			setY(getY() + getyVel());
+ 			setxVel(getxVel() * -1);
+			setX(getX() + getxVel());
+ 		}
+	}
 	/**
 	 * Sets the direction of this enemy to direction that could
 	 * either be 1,2,3,4

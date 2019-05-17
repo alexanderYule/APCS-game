@@ -18,6 +18,8 @@ public abstract class GameEntity {
 		this.x = x;
 		this.y = y;
 		this.rect = new Rectangle(x, y, rWidth, rHeight);
+		rect.setNoFill();
+		rect.setStrokeWeight(5);
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
@@ -26,6 +28,8 @@ public abstract class GameEntity {
 		this.x = x;
 		this.y = y;
 		this.rect = new Rectangle(x, y, 10, 10);
+		rect.setNoFill();
+		rect.setStrokeWeight(5);
 		this.xVel = 0;
 		this.yVel = 0;
 	}

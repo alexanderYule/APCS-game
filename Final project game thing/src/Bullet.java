@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -58,13 +60,45 @@ public class Bullet
 	 * Moves this bullet to a new location (x,y)
 	 * @post the x and y coordinate values of this bullet 
 	 * will change 
+	 * @return returns true if the bullet should be deleted, false otherwise
 	 */
-	public boolean move()
+	public boolean move(Player p, ArrayList<Structure> structures , ArrayList<Enemy> enemies)
 	{
 		y += xVelocity/20;
 		x += yVelocity/20;
+		
+		for(Structure s : structures)
+		{
+			if(s.getHitBox().isPointInside(x,y))
+				return true;
+		}
+		
+		if(isGood)
+		{
+			for(int x = 0; x < enemies.size(); x++)
+			{
+				Enemy target = enemies.get(x);
+				if(target.getRect().isPointInside(this.x, y))
+				{
+					if(target.takeDmg(damage))
+					{
+						enemies.remove(x);
+						target.die();
+					}
+					return true;
+				}
+			}
+		}
+		else
+		{
+			if(p.getRect().isPointInside(this.x, y))
+			{
+				p.takeDamage(damage);
+				return true;
+			}
+		}
 		if(x >= 870 || x <= 0 || y >= 900 || y <= 0)
-			 return true;
+			 return true;	
 		return false;
 	}
 	public void draw(PApplet drawer, PImage Bullet)

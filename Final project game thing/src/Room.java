@@ -8,6 +8,7 @@ public class Room
 	private ArrayList<Structure> structures; 
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
+	private ArrayList<Enemy> allEnemies;
 	private int roomID;
 
 	/**
@@ -18,6 +19,7 @@ public class Room
 		this.roomID = roomID;
 		structures  = new ArrayList<Structure>();
 		rangedEnemies = new ArrayList<RangedEnemy>();
+		allEnemies = new ArrayList<Enemy>();
 		setRoom();
 		setEnemies();
 	}
@@ -38,12 +40,17 @@ public class Room
 //		}
 //		else
 //		{
-			rangedEnemies.add(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
+			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
+			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
 //		}
 	}
 	public ArrayList<RangedEnemy> getRangedEnemies()
 	{
 		return rangedEnemies;
+	}
+	public ArrayList<Enemy> getAllEnemies()
+	{
+		return allEnemies;
 	}
 	private void setRoom()
 	{
@@ -88,16 +95,18 @@ public class Room
 					s.draw(drawer, obstacle ,x , y);	
 			}
 		}
-//		for(RangedEnemy e : rangedEnemies)
-//			e.draw(drawer, rEUp, rEDown, rERight, rELeft, eBullet);
+		for(RangedEnemy e : rangedEnemies)
+			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
 	}
 	
 	public void addRangedEnemy(RangedEnemy enemy) {
-		this.rangedEnemies.add(enemy);
+		rangedEnemies.add(enemy);
+		allEnemies.add(enemy);
 	}
 	
 	public void addMeleeEnemy(MeleeEnemy enemy) {
 		this.meleeEnemies.add(enemy);
+		allEnemies.add(enemy);
 	}
 	
 	public void addStructure(Structure stuct) {
