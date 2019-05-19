@@ -97,6 +97,36 @@ public class Rectangle extends Shape2D{
 			return false;
 		}
 	}
+	
+	/**
+	 * Checks whether the Circle intersects with this rectangle
+	 * @param cir the Circle object to test for intersection
+	 * @return true if the Circle is inside this rectangle,
+	 * false otherwise
+	*/
+	public boolean isCircleInside(Circle cir){
+		double  closeX = 0;
+		double  closeY = 0;
+
+		if(cir.getX() < this.x) {
+			closeX = this.x;
+		}
+		else if(cir.getX() > this.x+this.width) {
+			closeX = this.x+this.width;
+		}
+		
+		if(cir.getY() < this.y-this.height) {
+			closeY = this.y-this.height;
+		}
+		else if(cir.getY() > this.y) {
+			closeY = this.y;
+		}
+		
+		double distX = cir.getX() - closeX;
+		double distY = cir.getY() - closeY;
+		
+		return Math.pow(distX, 2) + Math.pow(distY, 2) < Math.pow(cir.getRadius(), 2);
+	}
 
 	/**
 	 * Draws a new instance of the Rectangle using Processing's PApplet
@@ -160,7 +190,6 @@ public class Rectangle extends Shape2D{
 		else {
 			return false;
 		}
-
 	}
 
 	public double getWidth() {

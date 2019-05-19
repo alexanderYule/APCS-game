@@ -5,6 +5,7 @@ public abstract class GameEntity {
 	private double x,y;
 	private double xVel, yVel;
 	private Rectangle rect;
+	private boolean canLeaveRoom;
 	
 	public GameEntity() {
 		this.x = 50;
@@ -27,7 +28,7 @@ public abstract class GameEntity {
 	public GameEntity(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.rect = new Rectangle(x, y, 10, 10);
+		this.rect = new Rectangle(x, y, 50, 50);
 		rect.setNoFill();
 		rect.setStrokeWeight(5);
 		this.xVel = 0;
@@ -75,6 +76,14 @@ public abstract class GameEntity {
 
 	public void setRect(Rectangle rect) {
 		this.rect = rect;
+	}
+	
+	public void setRoomStat(boolean canLeave) {
+		this.canLeaveRoom = canLeave;
+	}
+	
+	public boolean getRoomStat() {
+		return this.canLeaveRoom;
 	}
 	
 	

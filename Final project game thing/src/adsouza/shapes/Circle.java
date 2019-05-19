@@ -124,5 +124,26 @@ public class Circle extends Shape2D{
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
 	}
+	
+	/**
+	 * @return The radius of this Circle
+	 */
+	public double getRadius() {
+		return this.radius;
+	}
+	
+	/**
+	 * @return The x-coordinate of this Circle
+	 */
+	public double getX() {
+		return this.x;
+	}
+	
+	/**
+	 * @return The y-coordinate of this Circle
+	 */
+	public double getY() {
+		return this.y;
+	}
 
 }

@@ -9,7 +9,7 @@ public class Room
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
 	private ArrayList<Enemy> allEnemies;
-	private int roomID;
+	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 AND Room ID = 3 is BOSS
 
 	/**
 	 * Creates a default Room object that contains structures in the room
@@ -42,6 +42,7 @@ public class Room
 //		{
 			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
 			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
+
 //		}
 	}
 	public ArrayList<RangedEnemy> getRangedEnemies()
@@ -84,6 +85,7 @@ public class Room
 			}
 		}
 	}
+	
 	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet)
 	{
 		for(int x = 0; x < 920; x+=40) 
@@ -95,6 +97,7 @@ public class Room
 					s.draw(drawer, obstacle ,x , y);	
 			}
 		}
+
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
 	}

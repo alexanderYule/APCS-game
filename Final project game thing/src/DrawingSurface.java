@@ -67,21 +67,18 @@ public class DrawingSurface extends PApplet {
 		{
 			p.notMoving();
 		}
-		pushStyle();
-		fill(255);
-		rect(0,921, 919, 60);
-		fill(0);
-		textSize(30);
-		text("Health:", 10, 960);
-		fill(255,0,0);
-		rect(120,940,300,20,71);
-		fill(255);
-		if(p.getHealth() != 100)
-			rect(420,940,(float)(p.getHealth()/100)*300 - 300,20,0,71,71,0);
-		popStyle();
+		
+		
 		Room thisRoom = m.getRoom(0, 0);
 		thisRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
 		ArrayList<Structure> structures = thisRoom.getStructures();
+		
+
+		if(thisRoom.getAllEnemies().size() <= 0) {
+			p.setRoomStat(true);  //CAN GO OUT OF THIS ROOM 
+			System.out.println("fas");
+			//thisRoom =  m.getRoom(1, 0);
+		}
 		
 		/*
 		 * 
@@ -121,29 +118,26 @@ public class DrawingSurface extends PApplet {
 				b.draw(this, eBullet);
 			}
 				
-		    if(millis() > interval + timeCheck) {
+		    if(millis() > interval + timeCheck) {  //LATER MAKE IT DEPENDENT ON EACH ENEMY RATE
 		    	r.fireToPlayer(p);
+		    	timeCheck = millis();
 			}
 		}
-		for(Enemy r : thisRoom.getAllEnemies())
-		{
-			if(millis() > interval + timeCheck) {
-				timeCheck = millis();
-				double tempXVel = r.getxVel();
-				double tempYVel = r.getyVel();
-				if(Math.random()*6 >= 3) {
-					tempXVel*=-1;
-				}
-				else{
-					tempYVel*=-1;
-				}
-				r.setVelocity(tempXVel, tempYVel);
-				
+		
+//		if(millis() > interval + timeCheck ) {
+//
+//			timeCheck = millis();
+
+			for(Enemy r : thisRoom.getAllEnemies()) //Changes direction of enemies
+			{
+				//if(millis() > interval + timeCheck ) {
+	
+					r.move(structures);
+				//}
 			}
-			r.move(structures);
-		}
-		p.draw(this); //draws this player
-		p.move(structures);
+	
+			p.draw(this); //draws this player
+			p.move(structures);
 	
 	}
 

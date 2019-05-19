@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import adsouza.shapes.Circle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -72,13 +73,14 @@ public class Bullet
 			if(s.getHitBox().isPointInside(x,y))
 				return true;
 		}
+	//	new Circle(this.x+10, this.y+10, 20,20,14,14,14) USE THIS FOR ACCURACY COLLISSION
 		
 		if(isGood)
 		{
 			for(int x = 0; x < enemies.size(); x++)
 			{
 				Enemy target = enemies.get(x);
-				if(target.getRect().isPointInside(this.x, y))
+				if(target.getRect().isPointInside(this.x, this.y))
 				{
 					if(target.takeDmg(damage))
 					{
@@ -91,7 +93,7 @@ public class Bullet
 		}
 		else
 		{
-			if(p.getRect().isPointInside(this.x, y))
+			if(p.getRect().isPointInside(this.x, this.y))
 			{
 				p.takeDamage(damage);
 				return true;
@@ -101,9 +103,11 @@ public class Bullet
 			 return true;	
 		return false;
 	}
+	
 	public void draw(PApplet drawer, PImage Bullet)
 	{
 		drawer.image(Bullet,(int)x,(int)y);
+		drawer.point((float)this.x+10, (float)this.y+10);
 	}
 
 }

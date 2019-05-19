@@ -113,6 +113,10 @@ public class Enemy extends GameEntity
 	{
 		
 		boolean colDetected = false;
+		if(this.getX() >= 900) {
+			colDetected = true;
+		}
+		
 		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
@@ -121,11 +125,20 @@ public class Enemy extends GameEntity
  		}
  		
 		if(!colDetected) {
-			setX(getX() + getxVel());
-			setY(getY() + getyVel());
 			
+			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
+			double tempYVel = this.getyVel();
+			if(Math.random()*6 >= 3) {
+				tempXVel*=-1;
+			}
+			else{
+				tempYVel*=-1;
+			}
+			
+			setX(getX() + tempXVel);
+			setY(getY() + tempYVel);
  		}
- 		else 
+ 		else
  		{
  			setyVel(getyVel() * -1);
 			setY(getY() + getyVel());

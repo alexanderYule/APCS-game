@@ -7,7 +7,6 @@ public class Player extends GameEntity
 {
 	private double damage;
 	private double health;
-	private double frict;
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
@@ -15,10 +14,9 @@ public class Player extends GameEntity
 	
 	public Player(double x, double y)
 	{
-		super(x,y,0,0,20,25);
+		super(x,y,0,0,30,30);
 		g = new Gun(50,400,1,1,400,150);
 		dir = 0;
-		this.frict = 0.3;
 		up = false;
 		down = false;
 		left = false;
@@ -27,7 +25,6 @@ public class Player extends GameEntity
 		time = 0;
 	}
 
-	
 	public void draw(PApplet drawer) {
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)getX(), (int)getY());
@@ -41,9 +38,32 @@ public class Player extends GameEntity
 //		else {  //DOWN
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)getX(), (int)getY());
 //		}		
+		
+		drawer.pushStyle();
+		drawer.fill(255);
+		drawer.rect(0,921, 919, 60);
+		drawer.fill(0);
+		drawer.textSize(25);
+		drawer.textSize(25);
+		drawer.text("Health", 100, 960);
+		drawer.fill(255,0,0);
+		drawer.rect(200,940,300,20,75);
+		drawer.fill(255);
+		
+		if(health != 100) {
+			if(health < 0) {
+				drawer.fill(255);
+				drawer.rect(200,940,(float)300,20,75,75,75,75);
+			}
+			else {
+				drawer.rect(500,940,(float)(health/100)*300 - 300,20,0,75,75,0);
+			}
+		}
+		
+		drawer.popStyle();
+		
 		drawer.noFill();
 		drawer.strokeWeight(5);
-		//drawer.rect((int)getX(),(int) getY(), (int)getRect().getWidth(), (int)getRect().getHeight());
 		getRect().draw(drawer);
 	}
 
@@ -137,7 +157,12 @@ public class Player extends GameEntity
 			setxVel(-5);
 		
 		boolean colDetected = false;
-		Rectangle struc = null;
+		Rectangle struc = getRect();
+		
+		if(this.getRoomStat() == false && this.getX() >= 900) {
+				colDetected = false;
+			}
+		
  		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
@@ -157,6 +182,8 @@ public class Player extends GameEntity
  			setyVel(getyVel()*-1);
  			setX(getX() + getxVel());
  			setY(getY() + getyVel());*/
+
+ 			
  			if(up)
  			{
  				if(getY() < struc.getY())
@@ -188,8 +215,7 @@ public class Player extends GameEntity
 			
  		}
  		getRect().move(getX(), getY());
-		setxVel(getxVel() * frict); //slow down
-		setyVel(getyVel() * frict);
+ 		setVelocity(getxVel()*0.3, getyVel()*0.3);
 		
 		if(getxVel() > 0) 
 		{
