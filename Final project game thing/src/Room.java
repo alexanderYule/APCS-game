@@ -23,11 +23,18 @@ public class Room
 		setRoom();
 		setEnemies();
 	}
-	
+	/**
+	 * 
+	 * @return all the structures in the room
+	 */
 	public ArrayList<Structure> getStructures()
 	{
 		return structures;
 	}
+	/**
+	 * 
+	 * @return a number representing the room
+	 */
 	public int getRoomID()
 	{
 		return roomID;
@@ -45,10 +52,18 @@ public class Room
 
 //		}
 	}
+	/**
+	 * 
+	 * @return all alive ranged enemies in the room as an arrrayList
+	 */
 	public ArrayList<RangedEnemy> getRangedEnemies()
 	{
 		return rangedEnemies;
 	}
+	/**
+	 * 
+	 * @return returns all alive enemies in the room as an arrrayList
+	 */
 	public ArrayList<Enemy> getAllEnemies()
 	{
 		return allEnemies;
@@ -85,7 +100,18 @@ public class Room
 			}
 		}
 	}
-	
+	/**
+	 * draws the floor, the structures, the enemies, and the bullets
+	 * 
+	 * @param drawer the drawer object that draws everything
+	 * @param floor the image of the floor to be drawn
+	 * @param obstacle the image of the obstacles to be drawn
+	 * @param rEUp the image of the enemy when facing up to be drawn
+	 * @param rEDown the image of the enemy when facing down to be drawn
+	 * @param rERight the image of the enemy when facing right to be drawn
+	 * @param rELeft the image of the enemy when facing left to be drawn
+	 * @param eBullet the image of the enemies bullets to be drawn
+	 */
 	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet)
 	{
 		for(int x = 0; x < 920; x+=40) 
@@ -93,25 +119,35 @@ public class Room
 			for(int y = 0; y < 920; y+=40) 
 			{
 				drawer.image(floor, x, y);
-				for( Structure s : structures)
-					s.draw(drawer, obstacle ,x , y);	
+				
 			}
 		}
+		for( Structure s : structures)
+			s.draw(drawer, obstacle);	
 
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
 	}
-	
+	/**
+	 * 
+	 * @param enemy adds a ranged enemy to the room
+	 */
 	public void addRangedEnemy(RangedEnemy enemy) {
 		rangedEnemies.add(enemy);
 		allEnemies.add(enemy);
 	}
-	
+	/**
+	 * 
+	 * @param enemy adds a melee enemy to the room.
+	 */
 	public void addMeleeEnemy(MeleeEnemy enemy) {
 		this.meleeEnemies.add(enemy);
 		allEnemies.add(enemy);
 	}
-	
+	/**
+	 * 
+	 * @param stuct adds a structure to the room
+	 */
 	public void addStructure(Structure stuct) {
 		structures.add(stuct);
 	}

@@ -103,7 +103,13 @@ public class Bullet
 			 return true;	
 		return false;
 	}
-	
+	/**
+	 * draws the bullet on the plane
+	 * 
+	 * @param drawer object used to draw the bullet
+	 * @param Bullet the image of the bullet being drawn
+	 * @post a bullet will be drawn on the plane
+	 */
 	public void draw(PApplet drawer, PImage Bullet)
 	{
 		drawer.image(Bullet,(int)x,(int)y);

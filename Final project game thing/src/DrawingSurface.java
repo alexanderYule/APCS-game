@@ -31,7 +31,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
 	 */
 	public DrawingSurface() {
-		m = new Map();
+		m = new Map(0);
 		p = new Player(250, 200);
 		interval = 1000;
 		timeCheck = millis();

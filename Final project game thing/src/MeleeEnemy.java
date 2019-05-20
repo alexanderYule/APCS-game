@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 /**
@@ -30,19 +32,27 @@ public class MeleeEnemy extends Enemy
 	 */
 	public MeleeEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
-		this.axe = new Weapon(1,400,1);
+		axe = new Weapon(1,400,1);
 		super.setVelocity(xVel, yVel);
 		this.canAttack = true;
 	}
-	
-	public void attack() {
-		this.canAttack = true;
+	/**
+	 *  @param a the new state of whether the enemy can attack or not
+	 */
+	public void canAttack( boolean a) 
+	{
+		canAttack = a;
 	}
 	
 	public void draw(PApplet drawer) {
-		if(canAttack) {
+		if(canAttack) 
+		{
 			
 		}
+	}
+	public void move(Player p, ArrayList<Structure> s)
+	{
+		
 	}
 	
 }

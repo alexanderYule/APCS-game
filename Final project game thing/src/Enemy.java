@@ -6,6 +6,7 @@ import adsouza.shapes.Rectangle;
  * 
  * @author ayule801
  *
+ *super class that represents the enemies that the player needs to fight
  */
 public class Enemy extends GameEntity
 {

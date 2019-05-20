@@ -2,16 +2,24 @@ import java.util.ArrayList;
 
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
-
+/**
+ * 
+ * @author alex Y
+ * The class that represents the player of the game.
+ */
 public class Player extends GameEntity
 {
-	private double damage;
 	private double health;
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
 	private int time;
-	
+	private boolean canLeaveRoom;
+	/**
+	 * creates a player object with a Gun, at location x,y with 100 health
+	 * @param x the x coordinate of the player.
+	 * @param y the y coordiante of the player.
+	 */
 	public Player(double x, double y)
 	{
 		super(x,y,0,0,30,30);
@@ -23,8 +31,14 @@ public class Player extends GameEntity
 		right = false;
 		health = 100;
 		time = 0;
+		canLeaveRoom = false;
+		
+		
 	}
-
+	/**
+	 * draws the player
+	 * @param drawer - object that draws the player
+	 */
 	public void draw(PApplet drawer) {
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)getX(), (int)getY());
@@ -66,7 +80,12 @@ public class Player extends GameEntity
 		drawer.strokeWeight(5);
 		getRect().draw(drawer);
 	}
-
+	/**
+	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
+	 * @param targetX the x coordinate of where the weapon is to be fired
+	 * @param targetY the y coordinate of where the weapon is to be fired
+	 * @param millis the amount of time has passed since the program has begin in milliseconds.
+	 */
 	public void fireWeapon(int targetX, int targetY, int millis)
 	{
 		if((millis - time)/1000.0 >g.getAttackSpeed())
@@ -82,55 +101,88 @@ public class Player extends GameEntity
 			g.fireBullet(getX()-20, getY()-20, angle, true);
 		}
 	}
+	/**
+	 * The player takes damage
+	 * @param dmg the amount of heath the player is to take.
+	 */
 	public void takeDamage(double dmg)
 	{
 		health -= dmg;
 	}
+	/**
+	 * 
+	 * @return the existing bullets that has been fired from the gun the player has
+	 */
 	public ArrayList<Bullet> getExistingBullets()
 	{		
 		return g.getExistingBullets();
 	}
+	/**
+	 * 
+	 * @return the gun object the player has
+	 */
 	public Gun getGun()
 	{
 		return g;
 	}
-	public double getDmg()
-	{
-		return damage;
-	}
-	
+	/**
+	 * 
+	 * @return the amount of health the player has.
+	 */
 	public double getHealth()
 	{
 		return health;
 	}
-	
+	/**
+	 * 
+	 * @return the direction the player is facing where 1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
+	 */
 	public int getDir() {
 		return dir;
 	}
+	/**
+	 * 
+	 * @param x if x is true the player is to move up, otherwise the player is no longer moving up.
+	 */
 	public void setup(boolean x)
 	{
 		up = x;
 		if(x && down)
 			down = false;
 	}
+	/**
+	 * 
+	 * @param x if x is true the player is to move down, otherwise the player is no longer moving down.
+	 */
 	public void setdown(boolean x)
 	{
 		down = x;
 		if(x && up)
 			up = false;
 	}
+	/**
+	 * 
+	 * @param x if x is true the player is to move left, otherwise the player is no longer moving left.
+	 */
 	public void setleft(boolean x)
 	{
 		left = x;
 		if(x && right)
 			right = false;
 	}
+	/**
+	 * 
+	 * @param x if x is true the player is to move right, otherwise the player is no longer moving right.
+	 */
 	public void setright(boolean x)
 	{
 		right = x;
 		if(x && left)
 			left = false;
 	}
+	/**
+	 * stops the player from moving entirely
+	 */
 	public void notMoving()
 	{
 		up = false;
@@ -139,12 +191,29 @@ public class Player extends GameEntity
 		left = false;
 				
 	}
-	
 	public void setVelocity(double xVel, double yVel) {
 		setxVel(xVel);
 		setyVel(yVel);
 	}
+	/**
+	 * 
+	 * @param canLeave whether the player can or can't leave the current room.
+	 */
+	public void setRoomStat(boolean canLeave) {
+		this.canLeaveRoom = canLeave;
+	}
+	/**
+	 * 
+	 * @return whether the player can or can't leave the current room.
 
+	 */
+	public boolean getRoomStat() {
+		return this.canLeaveRoom;
+	}
+	/**
+	 * moves the player and stops him if he hits an obstruction
+	 * @param structures - the structures in the room that the player is in.
+	 */
 	public void move(ArrayList<Structure> structures) 
 	{
 		if(up)
@@ -178,10 +247,6 @@ public class Player extends GameEntity
 			setY(getY() + getyVel());
  		}
  		else {
- 			/*setxVel(getxVel()*-1);
- 			setyVel(getyVel()*-1);
- 			setX(getX() + getxVel());
- 			setY(getY() + getyVel());*/
 
  			
  			if(up)

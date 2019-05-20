@@ -16,9 +16,13 @@ public class Map
 
 	private Room[][] rooms;
 	private int level;
-	
-	public Map()
+	/**
+	 * creates a map object
+	 * @param level the level this map is played on.
+	 */
+	public Map(int level)
 	{
+		this.level = level;
 		rooms = new Room[4][4];		
 		
 		for(int row = 0; row < rooms.length; row++) {
@@ -30,12 +34,20 @@ public class Map
 		}
 		
 	}
-	
+	/**
+	 * 
+	 * @param x the x position of the room
+	 * @param y the y position of the room
+	 * @return the room at x,y in the array of rooms.
+	 */
 	public Room getRoom(int x, int y)
 	{
 		return rooms[x][y];
 	}
-	
+	/**
+	 * 
+	 * @return the level the map is made at
+	 */
 	public int getLevel() {
 		return this.level;
 	}
