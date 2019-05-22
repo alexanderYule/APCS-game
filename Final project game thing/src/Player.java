@@ -110,6 +110,7 @@ public class Player extends GameEntity
 			g.fireBullet(getX(), getY(), angle, true);
 		}
 	}
+	
 	/**
 	 * The player takes damage
 	 * @param dmg the amount of heath the player is to take.

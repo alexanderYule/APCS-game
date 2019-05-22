@@ -107,7 +107,7 @@ public class Room
 	
 	private void setRoom()
 	{
-		for(int x = 0 , y = 0 ; x < 960 ; x += 40) {
+		for(int x = 0 , y = 0 ; x < 960 ; x += 40) {  //BORDERS
 			structures.add(new Structure(x,y));
 		}
 

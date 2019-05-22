@@ -16,7 +16,6 @@ public class Map
 
 	
 	
-	private Room[][] rooms;
 	private int level;
 	/**
 	 * creates a map object

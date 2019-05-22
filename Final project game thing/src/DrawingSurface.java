@@ -91,8 +91,8 @@ public class DrawingSurface extends PApplet {
 		
 
 		if(currentRoom.getAllEnemies().size() <= 0) {
-			p.setRoomStat(true);  //CAN GO OUT OF THIS ROOM 
-			//thisRoom =  m.getRoom(1, 0);
+
+			currentRoom = m.getRoom(1, 0);
 		}
 		
 		/*
