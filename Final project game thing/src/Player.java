@@ -13,7 +13,6 @@ public class Player extends GameEntity
 	private Gun g;
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
-	private int time;
 	private boolean canLeaveRoom;
 	/**
 	 * creates a player object with a Gun, at location x,y with 100 health
@@ -30,7 +29,6 @@ public class Player extends GameEntity
 		left = false;
 		right = false;
 		health = 100;
-		time = 0;
 		canLeaveRoom = false;
 		
 		
@@ -84,13 +82,13 @@ public class Player extends GameEntity
 	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
 	 * @param targetX the x coordinate of where the weapon is to be fired
 	 * @param targetY the y coordinate of where the weapon is to be fired
-	 * @param millis the amount of time has passed since the program has begin in milliseconds.
+	 * @param millis the amount of getTimeSinceFire() has passed since the program has begin in milliseconds.
 	 */
 	public void fireWeapon(int targetX, int targetY, int millis)
 	{
-		if((millis - time)/1000.0 >g.getAttackSpeed())
+		if((millis - getTimeSinceFire())/1000.0 >g.getAttackSpeed())
 		{
-			time = millis;
+			setTimeSinceFire(millis);
 			double vx = targetX - getX();
 			double vy = targetY - getY();
 	
@@ -98,7 +96,7 @@ public class Player extends GameEntity
 	
 			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
 			
-			g.fireBullet(getX()-20, getY()-20, angle, true);
+			g.fireBullet(getX(), getY(), angle, true);
 		}
 	}
 	/**
@@ -226,8 +224,9 @@ public class Player extends GameEntity
 			setxVel(-5);
 		
 		boolean colDetected = false;
-		Rectangle struc = getRect();
-		
+		Rectangle struc = null;
+		Rectangle h = getRect();
+		Rectangle potentialHitBox = new Rectangle(h.getX() + getxVel(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
 		if(this.getRoomStat() == false && this.getX() >= 900) {
 				colDetected = false;
 			}
@@ -235,7 +234,8 @@ public class Player extends GameEntity
  		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(getRect())) {
+			if(str.getHitBox().intersects(getRect())) 
+			{
 				colDetected = true;
 				struc = str.getHitBox();
 			}

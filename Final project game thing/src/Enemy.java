@@ -14,6 +14,7 @@ public class Enemy extends GameEntity
 	private double health;
 	private int dir; //1=left, 2=up, 3=right, 4=down
 	private boolean isAlive;
+
 	 
 	/**
 	 * Creates an enemy object that has velocity,

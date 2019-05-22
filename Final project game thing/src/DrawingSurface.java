@@ -76,7 +76,6 @@ public class DrawingSurface extends PApplet {
 
 		if(thisRoom.getAllEnemies().size() <= 0) {
 			p.setRoomStat(true);  //CAN GO OUT OF THIS ROOM 
-			System.out.println("fas");
 			//thisRoom =  m.getRoom(1, 0);
 		}
 		
@@ -98,7 +97,7 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 		
-		for(int y = 0; y < thisRoom.getRangedEnemies().size(); y++)
+		for(int y = 0; y < thisRoom.getRangedEnemies().size() ; y++)
 		{
 			RangedEnemy r = thisRoom.getRangedEnemies().get(y);
 			if(!r.isAlive())
@@ -116,23 +115,26 @@ public class DrawingSurface extends PApplet {
 				}
 					
 				b.draw(this, eBullet);
-			}
-				
-		    if(millis() > interval + timeCheck) {  //LATER MAKE IT DEPENDENT ON EACH ENEMY RATE
-		    	r.fireToPlayer(p);
-		    	timeCheck = millis();
-			}
+			}		
+		    r.fireToPlayer(p,millis());
 		}
 		
 //		if(millis() > interval + timeCheck ) {
 //
 //			timeCheck = millis();
 
-			for(Enemy r : thisRoom.getAllEnemies()) //Changes direction of enemies
+			for(RangedEnemy r : thisRoom.getRangedEnemies()) //Changes direction of enemies
 			{
 				//if(millis() > interval + timeCheck ) {
 	
 					r.move(structures);
+				//}
+			}
+			for(MeleeEnemy r : thisRoom.getMeleeEnemies()) //Changes direction of enemies
+			{
+				//if(millis() > interval + timeCheck ) {
+	
+					r.move(p, structures);
 				//}
 			}
 	

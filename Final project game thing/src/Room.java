@@ -19,6 +19,7 @@ public class Room
 		this.roomID = roomID;
 		structures  = new ArrayList<Structure>();
 		rangedEnemies = new ArrayList<RangedEnemy>();
+		meleeEnemies = new ArrayList<MeleeEnemy>();
 		allEnemies = new ArrayList<Enemy>();
 		setRoom();
 		setEnemies();
@@ -47,8 +48,9 @@ public class Room
 //		}
 //		else
 //		{
-			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
-			addRangedEnemy(new RangedEnemy(Math.random()*300, Math.random()*300, 3,3));
+			addRangedEnemy(new RangedEnemy(500,500, 3,3));
+			addRangedEnemy(new RangedEnemy(300,300, 3,3));
+			addMeleeEnemy(new MeleeEnemy(Math.random()*300, Math.random()*300, 2.5));
 
 //		}
 	}
@@ -59,6 +61,14 @@ public class Room
 	public ArrayList<RangedEnemy> getRangedEnemies()
 	{
 		return rangedEnemies;
+	}
+	/**
+	 * 
+	 * @return all alive melee enemies in the room as an arrrayList
+	 */
+	public ArrayList<MeleeEnemy> getMeleeEnemies()
+	{
+		return meleeEnemies;
 	}
 	/**
 	 * 
@@ -127,6 +137,8 @@ public class Room
 
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
+		for(MeleeEnemy e: meleeEnemies)
+			e.draw(drawer,rEUp, rEDown, rERight, rELeft);
 	}
 	/**
 	 * 
@@ -151,4 +163,5 @@ public class Room
 	public void addStructure(Structure stuct) {
 		structures.add(stuct);
 	}
+	
 }

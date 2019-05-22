@@ -16,7 +16,7 @@ public class RangedEnemy extends Enemy
 	public RangedEnemy() {
 		super();
 		this.eGun = new Gun(1,100,1,1,150,150);
-		super.setVelocity(Math.random()*5, Math.random()*5);
+		setVelocity(Math.random()*5, Math.random()*5);
 	}
 	
 	/**
@@ -29,23 +29,29 @@ public class RangedEnemy extends Enemy
 	 */
 	public RangedEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
-		this.eGun = new Gun(1,400,1,1,50,150);
-		super.setVelocity(xVel, yVel);
+		eGun = new Gun(1,400,1,1,50,150);
+		setVelocity(xVel, yVel);
+		setTimeSinceFire((int)(1000 * Math.random()));
 	}
 	
 	/**
 	 * Fires a bullet to the location of player
 	 * @param player the player object this RangedEnemy has to shoot/target
 	 */
-	public void fireToPlayer(Player player) {
-		double vx = player.getX() - this.getX();
-		double vy = player.getY() - this.getY();
-
-		double angle = 0;
-		
-		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+	public void fireToPlayer(Player player, int millis) 
+	{
+		if((millis - getTimeSinceFire())/1000.0 > eGun.getAttackSpeed())
+		{
+			setTimeSinceFire(millis);
+			double vx = player.getX() - getX();
+			double vy = player.getY() - getY();
 	
-		this.getGun().fireBullet(this.getX(), this.getY(), angle, false);
+			double angle = 0;
+			
+			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+		
+			getGun().fireBullet(getX(), getY(), angle, false);
+		}
 	}
 	
 	/**
@@ -79,7 +85,7 @@ public class RangedEnemy extends Enemy
 				drawer.image(eDown,  (int)getX(), (int)getY());
 			}
 			getRect().move(getX(), getY());		
-			drawer.rect((float)this.getX() + 20, (float)this.getY()+10, 10f, 50f);
+			drawer.rect((float)getX() + 20, (float)getY()+10, 10f, 50f);
 		}
 	}
 }
