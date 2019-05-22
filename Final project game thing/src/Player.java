@@ -224,21 +224,14 @@ public class Player extends GameEntity
 			setxVel(-5);
 		
 		boolean colDetected = false;
-		Rectangle struc = null;
 		Rectangle h = getRect();
 		Rectangle potentialHitBox = new Rectangle(h.getX() + getxVel(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
-		if(this.getRoomStat() == false && this.getX() >= 900) {
-				colDetected = false;
-			}
 		
  		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 
-			{
 				colDetected = true;
-				struc = str.getHitBox();
-			}
  		}
 		
 		
@@ -246,39 +239,8 @@ public class Player extends GameEntity
 			setX(getX() + getxVel());
 			setY(getY() + getyVel());
  		}
- 		else {
-
+ 		else 
  			notMoving();
- 			/*if(up)
- 			{
- 				if(getY() < struc.getY())
- 				{
- 					setY(getY() + getyVel());
- 				}
- 			}
- 			if(down)
- 			{
- 				if(getY() > struc.getY())
- 				{
- 					setY(getY() + getyVel());
- 				}
- 			}
- 			if(left)
- 			{
- 				if(getX() < struc.getX())
- 				{
- 					setX(getX() + getxVel());
- 				}
- 			}
- 			if(right)
- 			{	
- 				if(getX() > struc.getX())
-				{
- 					setX(getX() + getxVel());
-				}
- 			}*/
-			
- 		}
  		getRect().move(getX(), getY());
  		setVelocity(getxVel()*0.3, getyVel()*0.3);
 		

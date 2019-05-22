@@ -87,16 +87,6 @@ public class MeleeEnemy extends Enemy
 		
 		setyVel(Math.cos(Math.toRadians(angle)) * speed);
 		setxVel(Math.sin(Math.toRadians(angle)) * speed);
-		
-	/*	double xDis = p.getX() - getX();
-		double yDis = p.getY() - getY();
-		double sum = xDis + yDis;
-		
-		double percentX = xDis/sum;
-		double percentY = yDis/sum;
-		
-		setxVel(percentX * speed);
-		setyVel(percentY * speed);*/
 		step();
 		
 	}

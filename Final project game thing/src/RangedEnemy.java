@@ -61,6 +61,43 @@ public class RangedEnemy extends Enemy
 	public Gun getGun() {
 		return eGun;
 	}
+	public void move( ArrayList<Structure> structures)
+	{
+		
+		boolean colDetected = false;
+		if(this.getX() >= 900) {
+			colDetected = true;
+		}
+		
+		for(int x = 0; x < structures.size(); x++)
+ 		{
+ 			Structure str  = structures.get(x);
+			if(str.getHitBox().intersects(getRect())) 
+				colDetected = true;
+ 		}
+ 		
+		if(!colDetected) {
+			
+			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
+			double tempYVel = this.getyVel();
+			if(Math.random()*6 >= 3) {
+				tempXVel*=-1;
+			}
+			else{
+				tempYVel*=-1;
+			}
+			
+			setX(getX() + tempXVel);
+			setY(getY() + tempYVel);
+ 		}
+ 		else
+ 		{
+ 			setyVel(getyVel() * -1);
+			setY(getY() + getyVel());
+ 			setxVel(getxVel() * -1);
+			setX(getX() + getxVel());
+ 		}
+	}
 	
 
 	/**

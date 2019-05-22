@@ -10,7 +10,7 @@ import adsouza.shapes.Rectangle;
  */
 public class Enemy extends GameEntity
 {
-	private double damage; //WHAT DOES DAMAGE EXACTLY STAND FOR?
+	private double damage; 
 	private double health;
 	private int dir; //1=left, 2=up, 3=right, 4=down
 	private boolean isAlive;
@@ -111,43 +111,6 @@ public class Enemy extends GameEntity
 		return dir;
 	}
 
-	public void move( ArrayList<Structure> structures)
-	{
-		
-		boolean colDetected = false;
-		if(this.getX() >= 900) {
-			colDetected = true;
-		}
-		
-		for(int x = 0; x < structures.size(); x++)
- 		{
- 			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(getRect())) 
-				colDetected = true;
- 		}
- 		
-		if(!colDetected) {
-			
-			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
-			double tempYVel = this.getyVel();
-			if(Math.random()*6 >= 3) {
-				tempXVel*=-1;
-			}
-			else{
-				tempYVel*=-1;
-			}
-			
-			setX(getX() + tempXVel);
-			setY(getY() + tempYVel);
- 		}
- 		else
- 		{
- 			setyVel(getyVel() * -1);
-			setY(getY() + getyVel());
- 			setxVel(getxVel() * -1);
-			setX(getX() + getxVel());
- 		}
-	}
 	/**
 	 * Sets the direction of this enemy to direction that could
 	 * either be 1,2,3,4
