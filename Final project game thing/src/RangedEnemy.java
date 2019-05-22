@@ -8,6 +8,7 @@ import processing.core.PImage;
 public class RangedEnemy extends Enemy
 {
 	private Gun eGun;
+	private int timeSinceChanged;
 	
 	
 	/**
@@ -17,6 +18,7 @@ public class RangedEnemy extends Enemy
 		super();
 		this.eGun = new Gun(1,100,1,1,150,150);
 		setVelocity(Math.random()*5, Math.random()*5);
+		timeSinceChanged = (int)(1000 * Math.random());
 	}
 	
 	/**
@@ -29,9 +31,10 @@ public class RangedEnemy extends Enemy
 	 */
 	public RangedEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
-		eGun = new Gun(1,400,1,1,50,150);
+		eGun = new Gun(1,400,1,3,50,150);
 		setVelocity(xVel, yVel);
 		setTimeSinceFire((int)(1000 * Math.random()));
+		timeSinceChanged = (int)(1000 * Math.random());
 	}
 	
 	/**
@@ -63,7 +66,7 @@ public class RangedEnemy extends Enemy
 	}
 	public void move( ArrayList<Structure> structures)
 	{
-		
+		changeDirection();
 		boolean colDetected = false;
 		if(this.getX() >= 900) {
 			colDetected = true;
@@ -76,7 +79,7 @@ public class RangedEnemy extends Enemy
 				colDetected = true;
  		}
  		
-		if(!colDetected) {
+		if(colDetected) /*{
 			
 			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
 			double tempYVel = this.getyVel();
@@ -90,15 +93,40 @@ public class RangedEnemy extends Enemy
 			setX(getX() + tempXVel);
 			setY(getY() + tempYVel);
  		}
- 		else
+ 		else*/
  		{
  			setyVel(getyVel() * -1);
 			setY(getY() + getyVel());
  			setxVel(getxVel() * -1);
 			setX(getX() + getxVel());
  		}
+		else
+		{
+			setY(getY() + getyVel());
+			setX(getX() + getxVel());
+		}
 	}
 	
+
+	private void changeDirection() {
+		if(timeSinceChanged >= 180)
+		{
+			timeSinceChanged = 0;
+			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
+			double tempYVel = this.getyVel();
+			if(Math.random()*6 >= 3) {
+				tempXVel*=-1;
+			}
+			else{
+				tempYVel*=-1;
+			}
+			
+			setxVel(tempXVel);
+			setyVel(tempYVel);
+		}
+		timeSinceChanged++;
+		
+	}
 
 	/**
 	 *  Draws a graphical representation of this RangedEnemy at its respective location 
@@ -122,7 +150,8 @@ public class RangedEnemy extends Enemy
 				drawer.image(eDown,  (int)getX(), (int)getY());
 			}
 			getRect().move(getX(), getY());		
-			drawer.rect((float)getX() + 20, (float)getY()+10, 10f, 50f);
+			getRect().draw(drawer);
 		}
 	}
+	
 }

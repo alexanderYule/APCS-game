@@ -58,7 +58,7 @@ public class Rectangle extends Shape2D{
 	 * 	@param height is the height of the rectangle
 	*/
 	public Rectangle(double x, double y, double width, double height) {
-		super(x,y);
+		super(x ,y);
 		this.width = width;
 		this.height = height;
 	}
@@ -150,6 +150,7 @@ public class Rectangle extends Shape2D{
 			drawer.fill(getFillR(), getFillG(), getFillB());
 			drawer.rect((float)x, (float)y, (float)width, (float)height);
 		}
+		drawer.ellipse((float)x,(float) y, 5f, 5f);
 		drawer.popStyle();
 	}
 

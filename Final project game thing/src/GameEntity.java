@@ -48,7 +48,7 @@ public abstract class GameEntity {
 	public GameEntity(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.rect = new Rectangle(x, y, 50, 50);
+		this.rect = new Rectangle(x + 25, y + 25, 50, 50);
 		rect.setNoFill();
 		rect.setStrokeWeight(5);
 		this.xVel = 0;

@@ -54,7 +54,17 @@ public class Circle extends Shape2D{
 		this.radius = width/2;
 		this.centerX = (height-radius);
 		this.centerY = (width-radius);
-	}                                          
+	}    
+	public Circle(double x, double y, double width, double height){
+		super(Math.abs(x), Math.abs(y), 0 , 0, 0);
+		setStrokeWeight(1);
+		setStrokeColor(0 , 0, 0);
+		this.width = Math.abs(width);
+		this.height = Math.abs(height);
+		this.radius = width/2;
+		this.centerX = (x-radius);
+		this.centerY = (y-radius);
+	}       
 
 	/**
 	 *  Calculates and returns the area of this circle
@@ -81,15 +91,19 @@ public class Circle extends Shape2D{
 	 * 	@param y is the y-coordinate of the point to check for inclusion
 	 * 	@return true is the point is inside this circle or false otherwise
 	*/
-	public boolean isPointInside(double x, double y){
-		if(Math.pow(x-centerX, 2) + Math.pow(y-centerY, 2) == Math.pow(radius,2)) { //Equation of a circle
+	public boolean isPointInside(double pointX, double pointY)
+	{
+		double distance = Math.sqrt((pointX - x) + (pointY - y));
+		if(distance > radius)
+		{
 			return true;
 		}
-		else {
+		if(distance <= radius)
+		{
 			return false;
 		}
-	}
-	
+		return false;
+	}	
 	/**
 	 *  Sets the width and height of the circle to width and height
 	 *  @param width is the value that will be copied into the Circle object's
@@ -131,7 +145,14 @@ public class Circle extends Shape2D{
 	public double getRadius() {
 		return this.radius;
 	}
-	
+	public double getCenterX()
+	{
+		return centerX;
+	}
+	public double getCenterY()
+	{
+		return centerY;
+	}
 	/**
 	 * @return The x-coordinate of this Circle
 	 */
