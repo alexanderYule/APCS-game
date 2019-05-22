@@ -17,12 +17,14 @@ public class Map
 	
 	
 	private int level;
+	private RoomSchema r;
 	/**
 	 * creates a map object
 	 * @param level the level this map is played on.
 	 */
 	public Map(int level)
 	{
+		
 		/*
 		this.level = level;
 		rooms = new Room[4][4];		
@@ -44,7 +46,7 @@ public class Map
 	 */
 	public Room getRoom(int x, int y)
 	{
-		return RoomSchema.getRoom(x, y);
+		return r.getRoom(x, y);
 		//return rooms[x][y];
 	}
 	/**

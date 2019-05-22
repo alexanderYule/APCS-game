@@ -55,10 +55,11 @@ public class Player extends GameEntity
 			Rectangle r = getRect() ;
 			int xoffset = (int) (r.getWidth()) ;
 			int yoffset = (int) (r.getHeight()/2) ;
-			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"),  (int)getX()-xoffset, (int)getY()-yoffset);
+			drawer.image(drawer.loadImage(/*"Resorces/hero_sprites/standingDown.png"*/"Resorces/Hero dude.png"),  (int)getX()/*+xoffset*/, (int)getY()-yoffset);
 
 		
 		drawer.pushStyle();
+		drawer.strokeWeight(3);
 		drawer.fill(255);
 		drawer.rect(0,921, 919, 60);
 		drawer.fill(0);
@@ -83,7 +84,7 @@ public class Player extends GameEntity
 		
 		//drawer.noFill();
 		//drawer.strokeWeight(5);
-		//getRect().draw(drawer);
+		getRect().draw(drawer);
 	}
 	/**
 	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
@@ -93,9 +94,6 @@ public class Player extends GameEntity
 	 */
 	public void fireWeapon(int targetX, int targetY, int millis)
 	{
-		if(!DrawingSurface.getCurrentRoom().playerInSight(getRect())) {
-			return ;
-		}
 
 		if((millis - getTimeSinceFire())/1000.0 >g.getAttackSpeed())
 		{
@@ -244,11 +242,6 @@ public class Player extends GameEntity
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 
 				colDetected = true;
- 		}
-		
- 		Room room = DrawingSurface.getCurrentRoom() ;
- 		if(!colDetected) {
- 			colDetected = room.findCollison(potentialHitBox) ;
  		}
  		
 		

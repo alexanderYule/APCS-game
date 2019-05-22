@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 
 /**
@@ -110,7 +111,23 @@ public class Enemy extends GameEntity
 	public int getDir() {
 		return dir;
 	}
-
+	public boolean canSeePlayer(Player p, ArrayList<Structure> s)
+	{
+		int rx = (int) (getRect().getX() + getRect().getWidth()/2) ;
+		int ry = (int) (getRect().getY() + getRect().getHeight()/2) ;
+		Rectangle prect = p.getRect() ;
+		int px = (int) (prect.getX() + prect.getWidth()/2) ;
+		int py = (int) (prect.getY() + prect.getHeight()/2) ;
+		
+		Line l = new Line(rx,ry,px,py);
+		boolean move = true;
+		for(Structure r : s) {
+			if(r.getHitBox().intersects(l)) {
+				move = false;
+			}
+		}
+		return move;
+	}
 	/**
 	 * Sets the direction of this enemy to direction that could
 	 * either be 1,2,3,4

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import adsouza.shapes.Circle;
+import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -72,40 +73,42 @@ public class MeleeEnemy extends Enemy
 			getRect().move(getX(), getY());		
 			//getRect().draw(drawer);
 		}
-//		if(damageArea != null)
-//			damageArea.draw(drawer);
+		if(damageArea != null)
+			damageArea.draw(drawer);
 		//drawer.ellipse((float)getX(), (float)getY(), 4, 4);
 	}
 	public void move(Player p, ArrayList<Structure> s)
 	{
-		if(!DrawingSurface.getCurrentRoom().playerInSight(getRect())) {
-			return ;
-		}
-
-		double vx = p.getX() - this.getX();
-		double vy = p.getY() - this.getY();
-		if(Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2)) >= 30 && !isAttacking)
+		if(isAlive())
 		{
-			double angle = 0;
-			
-			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));	
-			
-			setyVel(Math.cos(Math.toRadians(angle)) * speed);
-			setxVel(Math.sin(Math.toRadians(angle)) * speed);
-			step();
+			if(canSeePlayer(p, s))
+			{
+				double vx = p.getX() - this.getX();
+				double vy = p.getY() - this.getY();
+				if(Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2)) >= 30 && !isAttacking)
+				{
+					double angle = 0;
+					
+					angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));	
+					
+					setyVel(Math.cos(Math.toRadians(angle)) * speed);
+					setxVel(Math.sin(Math.toRadians(angle)) * speed);
+					step();
+				}
+				else
+					attack(p);
+			}
 		}
-		else
-			attack(p);
 		
 	}
 	private void attack(Player p)
 	{
 		isAttacking = true;
-		if(windUpTime >= 30)
+		if(windUpTime >= 60)
 		{
 			damageArea = new Circle(getX(), getY(), 60, 60);	
-			if(damageArea.isPointInside(p.getX(), p.getY()))
-				p.takeDamage(30);
+			if(damageArea.isPointInside(p.getX(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()+ p.getRect().getHeight()) || damageArea.isPointInside(p.getX(), p.getY()+ p.getRect().getHeight()))
+				p.takeDamage(10);
 			windUpTime = 0;
 			isAttacking = false;
 		}

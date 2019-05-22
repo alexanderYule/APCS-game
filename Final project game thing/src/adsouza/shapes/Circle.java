@@ -57,8 +57,6 @@ public class Circle extends Shape2D{
 	}    
 	public Circle(double x, double y, double width, double height){
 		super(Math.abs(x), Math.abs(y), 0 , 0, 0);
-		setStrokeWeight(1);
-		setStrokeColor(0 , 0, 0);
 		this.width = Math.abs(width);
 		this.height = Math.abs(height);
 		this.radius = width/2;
@@ -87,18 +85,18 @@ public class Circle extends Shape2D{
 	// Determines whether the point x,y is contained inside this Circle
 	/**
 	 *  Checks whether the point (x,y) is inside this circle 
-	 * 	@param x is the x-coordinate of the point to check for inclusion
-	 * 	@param y is the y-coordinate of the point to check for inclusion
+	 * 	@param pointX is the x-coordinate of the point to check for inclusion
+	 * 	@param pointY is the y-coordinate of the point to check for inclusion
 	 * 	@return true is the point is inside this circle or false otherwise
 	*/
 	public boolean isPointInside(double pointX, double pointY)
 	{
-		double distance = Math.sqrt((pointX - x) + (pointY - y));
-		if(distance > radius)
+		double distance = Math.pow(Math.sqrt((pointX - x) + (pointY - y)),2);
+		if(distance <= radius)
 		{
 			return true;
 		}
-		if(distance <= radius)
+		if(distance > radius)
 		{
 			return false;
 		}
@@ -126,7 +124,9 @@ public class Circle extends Shape2D{
 	 *  @pre drawer must not be be null
 	 *  @post the drawer will alter the Circle object's ellipse mode to drawer.CORNER
 	*/
-	public void draw(PApplet drawer){
+	public void draw(PApplet drawer)
+	{
+		drawer.pushStyle();
 		drawer.ellipseMode(drawer.CORNER);
 		super.draw(drawer);
 		if(getFillState()) {
@@ -137,6 +137,7 @@ public class Circle extends Shape2D{
 			drawer.fill(getFillR(), getFillG(), getFillB());
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
+		drawer.popStyle();
 	}
 	
 	/**

@@ -30,7 +30,7 @@ public class DrawingSurface extends PApplet {
 	private PImage hDown;
 	private PImage hRight;
 	private PImage hLeft;
-	private static Room currentRoom ;
+	private Room currentRoom;
 
 	/**
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
@@ -64,7 +64,7 @@ public class DrawingSurface extends PApplet {
 		hLeft = loadImage("Resorces/hero_sprites/left.png");
 	}
 
-	public static Room getCurrentRoom() {
+	public Room getCurrentRoom() {
 		return currentRoom ;
 	}
 	
@@ -113,7 +113,7 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 		
-		for(int y = 0; y < currentRoom.getRangedEnemies().size() ; y++)
+		for(int y = 0;y < currentRoom.getRangedEnemies().size() ; y++)
 		{
 			RangedEnemy r = currentRoom.getRangedEnemies().get(y);
 			if(!r.isAlive())
@@ -132,7 +132,7 @@ public class DrawingSurface extends PApplet {
 					
 				b.draw(this, eBullet);
 			}		
-		    r.fireToPlayer(p,millis());
+		    r.fireToPlayer(p,millis(),structures);
 		    
 		}
 		

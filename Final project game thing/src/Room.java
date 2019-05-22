@@ -14,7 +14,7 @@ public class Room
 	private ArrayList<MeleeEnemy> meleeEnemies;
 	private ArrayList<Enemy> allEnemies;
 	private Player player ;
-	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 AND Room ID = 3 is BOSS
+	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 
 	
 	private Rectangle[] walls ;
 
@@ -123,7 +123,10 @@ public class Room
 		for(int x = 0 , y = 880 ; x < 960 ; x += 40) {
 			structures.add(new Structure(x,y));
 		}
-		
+		for(Rectangle r : walls)
+		{
+			structures.add(new Structure(r));
+		}
 		entryDoor = new Rectangle(0,410,40,100,255,255,255);
 		exitDoor = new Rectangle(880,410,40,120,165,42,42);
 

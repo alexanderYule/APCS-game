@@ -12,6 +12,7 @@ public class Structure
 	private int x;
 	private int y;
 	private Rectangle hitBox;
+	public boolean isWall;
 	/**
 	 *  creates a structure at the given spot x,y in the 23 by 23 array that represents the room, the object also has a Rectangle that acts as the structure's hit box
 	 * @param x the x coordinate of the structure in an 23 by 23 array that is the room
@@ -22,6 +23,14 @@ public class Structure
 		this.x = x;
 		this.y = y;
 		hitBox = new Rectangle(x,y,40,40);
+		isWall = true;
+	}
+	public Structure(Rectangle r)
+	{
+		x = (int) r.getX();
+		y = (int) r.getY();
+		hitBox = r;
+		isWall = false;
 	}
 	/**
 	 * 
@@ -54,7 +63,7 @@ public class Structure
 	 */
 	public void draw(PApplet drawer, PImage obstacle)
 	{
-		//if(this.x* 40 == x && this.y * 40 == y)
+		if(isWall)
 			drawer.image(obstacle, x, y);
 	}
 	
