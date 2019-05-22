@@ -234,7 +234,7 @@ public class Player extends GameEntity
  		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(getRect())) 
+			if(str.getHitBox().intersects(potentialHitBox)) 
 			{
 				colDetected = true;
 				struc = str.getHitBox();
@@ -248,8 +248,8 @@ public class Player extends GameEntity
  		}
  		else {
 
- 			
- 			if(up)
+ 			notMoving();
+ 			/*if(up)
  			{
  				if(getY() < struc.getY())
  				{
@@ -276,7 +276,7 @@ public class Player extends GameEntity
 				{
  					setX(getX() + getxVel());
 				}
- 			}
+ 			}*/
 			
  		}
  		getRect().move(getX(), getY());
