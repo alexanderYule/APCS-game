@@ -31,6 +31,7 @@ public class DrawingSurface extends PApplet {
 	private PImage hRight;
 	private PImage hLeft;
 	private Room currentRoom;
+	private CutsceneDrawer cutscene;
 
 	/**
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
@@ -40,8 +41,9 @@ public class DrawingSurface extends PApplet {
 		p = new Player(50, 460);
 		interval = 1000;
 		timeCheck = millis();
-		currentRoom = null ;
+		currentRoom = null;
 		RoomSchema.create();
+		cutscene = new CutsceneDrawer();
 	}
 
 	/**
@@ -65,110 +67,114 @@ public class DrawingSurface extends PApplet {
 	}
 
 	public Room getCurrentRoom() {
-		return currentRoom ;
+		return currentRoom;
 	}
-	
+
 	/**
-	 *  Draws the the particular Shape instances on DrawingSurface using 
-	 *  Processing PApplet.
-	 *  @post will move the player if "w","a","s","d" or any of the arrow keys are pressed.
-	*/
-	public void draw() { 
-		if(keyPressed)
-		{
+	 * Draws the the particular Shape instances on DrawingSurface using Processing
+	 * PApplet.
+	 * 
+	 * @post will move the player if "w","a","s","d" or any of the arrow keys are
+	 *       pressed.
+	 */
+	public void draw() {
+
+		if (keyPressed) {
 			kPressed();
-		}
-		else
-		{
+		} else {
 			p.notMoving();
 		}
-		
-		
+
 		currentRoom = m.getRoom(0, 0);
 		currentRoom.setPlayer(p);
-		currentRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
+		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet);
 		ArrayList<Structure> structures = currentRoom.getStructures();
-		
 
-		if(currentRoom.getAllEnemies().size() <= 0) {
+//		if (currentRoom.getAllEnemies().size() <= 0) {
+//
+//			currentRoom = m.getRoom(1, 0);
+//		}
 
-			currentRoom = m.getRoom(1, 0);
-		}
-		
 		/*
 		 * 
 		 * when the player exits a room
 		 * 
 		 * 
 		 */
-		
-		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
+
+		for (int x = 0; x < p.getExistingBullets().size(); x++) // INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-			if(b.move(p, structures, currentRoom.getAllEnemies()))
-			{
+			if (b.move(p, structures, currentRoom.getAllEnemies())) {
 				p.getExistingBullets().remove(x);
 				x--;
 			}
 			b.draw(this, pBullet);
 		}
-		
-		for(int y = 0;y < currentRoom.getRangedEnemies().size() ; y++)
-		{
+
+		for (int y = 0; y < currentRoom.getRangedEnemies().size(); y++) {
 			RangedEnemy r = currentRoom.getRangedEnemies().get(y);
-			if(!r.isAlive())
-			{
+			if (!r.isAlive()) {
 				currentRoom.getRangedEnemies().remove(y);
 				y--;
 			}
-			for(int x = 0; x < r.getGun().getExistingBullets().size(); x++) 
-			{
-				Bullet b =  r.getGun().getExistingBullets().get(x);
-				if(b.move(p, structures, currentRoom.getAllEnemies()))
-				{
+			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
+				Bullet b = r.getGun().getExistingBullets().get(x);
+				if (b.move(p, structures, currentRoom.getAllEnemies())) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
-					
+
 				b.draw(this, eBullet);
-			}		
-		    r.fireToPlayer(p,millis(),structures);
-		    
+			}
+			r.fireToPlayer(p, millis(), structures);
+
 		}
-		
-//		if(millis() > interval + timeCheck ) {
-//
-//			timeCheck = millis();
 
-			for(RangedEnemy r : currentRoom.getRangedEnemies()) //Changes direction of enemies
-			{
-				//if(millis() > interval + timeCheck ) {
-	
-					r.move(structures);
-				//}
-			}
+		// if(millis() > interval + timeCheck ) {
+		//
+		// timeCheck = millis();
 
-			for(MeleeEnemy r : currentRoom.getMeleeEnemies()) //Changes direction of enemies
-			{
-				//if(millis() > interval + timeCheck ) {
-	
-					r.move(p, structures);
-				//}
+		for (RangedEnemy r : currentRoom.getRangedEnemies()) // Changes direction of enemies
+		{
+			// if(millis() > interval + timeCheck ) {
+
+			r.move(structures);
+			// }
+		}
+
+		for (MeleeEnemy r : currentRoom.getMeleeEnemies()) // Changes direction of enemies
+		{
+			// if(millis() > interval + timeCheck ) {
+
+			r.move(p, structures);
+			// }
+		}
+		if(currentRoom.getAllEnemies().size() == 0)
+			p.setRoomStat(true);
+		p.draw(this); // draws this player
+		if (p.move(structures)) 
+		{
+			System.out.println("xd");
+			startCutscene();
+		}
+	}
+
+	private void startCutscene() {
+		int timeSince = millis();
+		for (int x = 0; x < 23; x++) {
+			for (int y = 0; y < 23; y++) {
+
 			}
-	
-			p.draw(this); //draws this player
-			p.move(structures);
-	
+		}
 	}
 
 	/**
 	 * Makes this player shoot a bullet from his/her weapon on a mouse click
 	 */
-	public void mousePressed() 
-	{
-		if (mouseButton == LEFT) 
-		{
-			p.fireWeapon(mouseX, mouseY,millis());
+	public void mousePressed() {
+		if (mouseButton == LEFT) {
+			p.fireWeapon(mouseX, mouseY, millis());
 		}
 	}
 

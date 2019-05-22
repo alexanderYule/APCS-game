@@ -222,7 +222,7 @@ public class Player extends GameEntity
 	 * moves the player and stops him if he hits an obstruction
 	 * @param structures - the structures in the room that the player is in.
 	 */
-	public void move(ArrayList<Structure> structures) 
+	public boolean move(ArrayList<Structure> structures) 
 	{
 		if(up)
 			setyVel(-5);
@@ -241,7 +241,12 @@ public class Player extends GameEntity
  		{
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 
-				colDetected = true;
+			{
+				if(str.getClass() == TransportPad.class && canLeaveRoom)
+					return true;
+				else
+					colDetected = true;
+			}
  		}
  		
 		
@@ -280,6 +285,7 @@ public class Player extends GameEntity
 		else {
 			dir = 7;
 		}
+		return false;
 	}
 
 	

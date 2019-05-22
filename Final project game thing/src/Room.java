@@ -8,7 +8,6 @@ import processing.core.PImage;
 public class Room 
 {
 	private Rectangle entryDoor ;
-	private Rectangle exitDoor ;
 	private ArrayList<Structure> structures; 
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
@@ -30,10 +29,17 @@ public class Room
 		allEnemies = new ArrayList<Enemy>();
 		player = null ;
 		entryDoor = null ;
-		exitDoor = null ;
+		addExit();
 		this.walls = walls ;
 		setRoom();
 		setEnemies(rangedEnemies,meleeEnemies);
+	}
+	private void addExit() {
+		for(int x = 0; x < 3; x ++)
+		{
+			structures.add(new TransportPad(880, 410 + 40*x));
+		}
+		
 	}
 	/**
 	 * 
@@ -128,7 +134,6 @@ public class Room
 			structures.add(new Structure(r));
 		}
 		entryDoor = new Rectangle(0,410,40,100,255,255,255);
-		exitDoor = new Rectangle(880,410,40,120,165,42,42);
 
 		
 		/*
@@ -189,10 +194,14 @@ public class Room
 		}
 		
 		for( Structure s : structures)
-			s.draw(drawer, obstacle);	
+		{
+			if(s.getClass() != TransportPad.class)
+				s.draw(drawer, obstacle);	
+			else
+				s.draw(drawer, obstacle);
+		}
 		
 		entryDoor.draw(drawer);
-		exitDoor.draw(drawer);
 
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
@@ -216,7 +225,7 @@ public class Room
 		allEnemies.add(enemy);
 	}
 	/**
-	 * 
+	 *     
 	 * @param stuct adds a structure to the room
 	 */
 	public void addStructure(Structure stuct) {
@@ -229,11 +238,6 @@ public class Room
 				return true ;
 			}
 		}
-
-		if(enemyCount() > 0 && exitDoor.intersects(rect)) {
-			return true ;
-		}
-
 		return false ;
 	}
 	
