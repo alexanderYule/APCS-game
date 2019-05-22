@@ -73,7 +73,13 @@ public class Bullet
 			if(s.getHitBox().isPointInside(x,y))
 				return true;
 		}
-	//	new Circle(this.x+10, this.y+10, 20,20,14,14,14) USE THIS FOR ACCURACY COLLISSION
+
+		Room room = DrawingSurface.getCurrentRoom() ;
+		if(room.findCollison(x,y)) {
+			return true ;
+		}
+		
+		//	new Circle(this.x+10, this.y+10, 20,20,14,14,14) USE THIS FOR ACCURACY COLLISSION
 		
 		if(isGood)
 		{
@@ -84,7 +90,7 @@ public class Bullet
 				{
 					if(target.takeDmg(damage))
 					{
-						enemies.remove(x);
+						DrawingSurface.getCurrentRoom().removeEnemy(target);
 						target.die();
 					}
 					return true;

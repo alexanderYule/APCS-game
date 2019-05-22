@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
+import processing.core.PImage;
 /**
  * 
  * @author alex Y
@@ -51,6 +52,12 @@ public class Player extends GameEntity
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)getX(), (int)getY());
 //		}		
 		
+			Rectangle r = getRect() ;
+			int xoffset = (int) (r.getWidth()) ;
+			int yoffset = (int) (r.getHeight()/2) ;
+			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"),  (int)getX()-xoffset, (int)getY()-yoffset);
+
+		
 		drawer.pushStyle();
 		drawer.fill(255);
 		drawer.rect(0,921, 919, 60);
@@ -74,9 +81,9 @@ public class Player extends GameEntity
 		
 		drawer.popStyle();
 		
-		drawer.noFill();
-		drawer.strokeWeight(5);
-		getRect().draw(drawer);
+		//drawer.noFill();
+		//drawer.strokeWeight(5);
+		//getRect().draw(drawer);
 	}
 	/**
 	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
@@ -86,6 +93,10 @@ public class Player extends GameEntity
 	 */
 	public void fireWeapon(int targetX, int targetY, int millis)
 	{
+		if(!DrawingSurface.getCurrentRoom().playerInSight(getRect())) {
+			return ;
+		}
+
 		if((millis - getTimeSinceFire())/1000.0 >g.getAttackSpeed())
 		{
 			setTimeSinceFire(millis);
@@ -234,15 +245,22 @@ public class Player extends GameEntity
 				colDetected = true;
  		}
 		
+ 		Room room = DrawingSurface.getCurrentRoom() ;
+ 		if(!colDetected) {
+ 			colDetected = room.findCollison(potentialHitBox) ;
+ 		}
+ 		
 		
  		if(!colDetected) {
 			setX(getX() + getxVel());
 			setY(getY() + getyVel());
  		}
- 		else 
+ 		else {
  			notMoving();
+ 		}
+ 		
  		getRect().move(getX(), getY());
- 		setVelocity(getxVel()*0.3, getyVel()*0.3);
+ 		setVelocity(getxVel()*0.3*-1, getyVel()*0.3*-1);
 		
 		if(getxVel() > 0) 
 		{

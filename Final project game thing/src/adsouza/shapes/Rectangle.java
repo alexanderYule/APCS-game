@@ -150,10 +150,35 @@ public class Rectangle extends Shape2D{
 			drawer.fill(getFillR(), getFillG(), getFillB());
 			drawer.rect((float)x, (float)y, (float)width, (float)height);
 		}
-		drawer.ellipse((float)x,(float) y, 5f, 5f);
+		//drawer.ellipse((float)x,(float) y, 5f, 5f);
 		drawer.popStyle();
 	}
 
+	
+	public boolean intersects(Line other) {
+		Line l = new Line(x,y,x+width,y);
+		if(l.intersects(other)){
+			return true ;
+		}
+		
+		l = new Line(x,y,x,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		l = new Line(x+width,y,x+width,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		l = new Line(x,y+height,x+width,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		return false ;
+	}
+	
 	/**
 	 * Checks and returns whether Rectangle other intersects this rectangle
 	 * @param other Rectangle object that is used to check for intersection with

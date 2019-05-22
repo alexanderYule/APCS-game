@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import adsouza.shapes.Circle;
+import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -15,7 +16,8 @@ public class MeleeEnemy extends Enemy
 	private double speed;
 	private int windUpTime;
 	private boolean isAttacking;
-	private Circle damageArea;
+	private Circle damageArea ;
+	
 	/**
 	 * Creates a default MeleeEnemy object with a Gun
 	 */
@@ -52,28 +54,34 @@ public class MeleeEnemy extends Enemy
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		if(isAlive())
 		{			
+			Rectangle r = getRect() ;
+			int xoffset = (int) (r.getWidth()) ;
+			int yoffset = (int) (r.getHeight()/2) ;
 			if(getDir() == 1) { //LEFT
-				drawer.image(eLeft, (int)getX(), (int)getY());
+				drawer.image(eLeft, (int)(getX()-xoffset), (int)(getY()-yoffset));
 			}
 			else if(getDir() == 2) { //UP
-				drawer.image(eUp, (int)getX(), (int)getY());
+				drawer.image(eUp, (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else if(getDir() == 3) { //RIGHT
-				drawer.image(eRight,  (int)getX(), (int)getY());
+				drawer.image(eRight,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else {  //DOWN
-				drawer.image(eDown,  (int)getX(), (int)getY());
+				drawer.image(eDown,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			getRect().move(getX(), getY());		
-			getRect().draw(drawer);
+			//getRect().draw(drawer);
 		}
 //		if(damageArea != null)
 //			damageArea.draw(drawer);
-		drawer.ellipse((float)getX(), (float)getY(), 4, 4);
+		//drawer.ellipse((float)getX(), (float)getY(), 4, 4);
 	}
 	public void move(Player p, ArrayList<Structure> s)
 	{
-		
+		if(!DrawingSurface.getCurrentRoom().playerInSight(getRect())) {
+			return ;
+		}
+
 		double vx = p.getX() - this.getX();
 		double vy = p.getY() - this.getY();
 		if(Math.sqrt(Math.pow(vx,2)+Math.pow(vy,2)) >= 30 && !isAttacking)

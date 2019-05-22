@@ -3,6 +3,7 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -14,7 +15,6 @@ import processing.core.PImage;
  *         Class that draws things and allows for images to be on the screen.
  */
 public class DrawingSurface extends PApplet {
-
 	private Player p;
 	private Map m;
 	private PImage back;
@@ -26,15 +26,22 @@ public class DrawingSurface extends PApplet {
 	private PImage eDown;
 	private PImage eRight;
 	private PImage eLeft;
+	private PImage hUp;
+	private PImage hDown;
+	private PImage hRight;
+	private PImage hLeft;
+	private static Room currentRoom ;
 
 	/**
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
 	 */
 	public DrawingSurface() {
 		m = new Map(0);
-		p = new Player(250, 200);
+		p = new Player(50, 460);
 		interval = 1000;
 		timeCheck = millis();
+		currentRoom = null ;
+		RoomSchema.create();
 	}
 
 	/**
@@ -51,8 +58,16 @@ public class DrawingSurface extends PApplet {
 		eDown = loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
 		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
+		hUp = loadImage("Resorces/hero_sprites/up.png");
+		hDown = loadImage("Resorces/hero_sprites/standingDown.png");
+		hRight = loadImage("Resorces/hero_sprites/right.png");
+		hLeft = loadImage("Resorces/hero_sprites/left.png");
 	}
 
+	public static Room getCurrentRoom() {
+		return currentRoom ;
+	}
+	
 	/**
 	 *  Draws the the particular Shape instances on DrawingSurface using 
 	 *  Processing PApplet.
@@ -69,12 +84,13 @@ public class DrawingSurface extends PApplet {
 		}
 		
 		
-		Room thisRoom = m.getRoom(0, 0);
-		thisRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
-		ArrayList<Structure> structures = thisRoom.getStructures();
+		currentRoom = m.getRoom(0, 0);
+		currentRoom.setPlayer(p);
+		currentRoom.draw(this, backBeta, obstacle,eUp, eDown, eRight, eLeft, eBullet);
+		ArrayList<Structure> structures = currentRoom.getStructures();
 		
 
-		if(thisRoom.getAllEnemies().size() <= 0) {
+		if(currentRoom.getAllEnemies().size() <= 0) {
 			p.setRoomStat(true);  //CAN GO OUT OF THIS ROOM 
 			//thisRoom =  m.getRoom(1, 0);
 		}
@@ -89,7 +105,7 @@ public class DrawingSurface extends PApplet {
 		for(int x = 0; x < p.getExistingBullets().size(); x++)  //INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-			if(b.move(p, structures, thisRoom.getAllEnemies()))
+			if(b.move(p, structures, currentRoom.getAllEnemies()))
 			{
 				p.getExistingBullets().remove(x);
 				x--;
@@ -97,18 +113,18 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 		
-		for(int y = 0; y < thisRoom.getRangedEnemies().size() ; y++)
+		for(int y = 0; y < currentRoom.getRangedEnemies().size() ; y++)
 		{
-			RangedEnemy r = thisRoom.getRangedEnemies().get(y);
+			RangedEnemy r = currentRoom.getRangedEnemies().get(y);
 			if(!r.isAlive())
 			{
-				thisRoom.getRangedEnemies().remove(y);
+				currentRoom.getRangedEnemies().remove(y);
 				y--;
 			}
 			for(int x = 0; x < r.getGun().getExistingBullets().size(); x++) 
 			{
 				Bullet b =  r.getGun().getExistingBullets().get(x);
-				if(b.move(p, structures, thisRoom.getAllEnemies()))
+				if(b.move(p, structures, currentRoom.getAllEnemies()))
 				{
 					r.getGun().getExistingBullets().remove(x);
 					x--;
@@ -117,20 +133,22 @@ public class DrawingSurface extends PApplet {
 				b.draw(this, eBullet);
 			}		
 		    r.fireToPlayer(p,millis());
+		    
 		}
 		
 //		if(millis() > interval + timeCheck ) {
 //
 //			timeCheck = millis();
 
-			for(RangedEnemy r : thisRoom.getRangedEnemies()) //Changes direction of enemies
+			for(RangedEnemy r : currentRoom.getRangedEnemies()) //Changes direction of enemies
 			{
 				//if(millis() > interval + timeCheck ) {
 	
 					r.move(structures);
 				//}
 			}
-			for(MeleeEnemy r : thisRoom.getMeleeEnemies()) //Changes direction of enemies
+
+			for(MeleeEnemy r : currentRoom.getMeleeEnemies()) //Changes direction of enemies
 			{
 				//if(millis() > interval + timeCheck ) {
 	

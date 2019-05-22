@@ -14,6 +14,8 @@ public class Map
 //	[][][][][Rest Room]   --> Level 4
 //	[][][][][Rest Room]   --> Level 5
 
+	
+	
 	private Room[][] rooms;
 	private int level;
 	/**
@@ -22,6 +24,7 @@ public class Map
 	 */
 	public Map(int level)
 	{
+		/*
 		this.level = level;
 		rooms = new Room[4][4];		
 		
@@ -32,7 +35,7 @@ public class Map
 			
 			rooms[row][rooms[row].length-1] = new Room(2); //Non-Fight Room
 		}
-		
+		*/
 	}
 	/**
 	 * 
@@ -42,7 +45,8 @@ public class Map
 	 */
 	public Room getRoom(int x, int y)
 	{
-		return rooms[x][y];
+		return RoomSchema.getRoom(x, y);
+		//return rooms[x][y];
 	}
 	/**
 	 * 

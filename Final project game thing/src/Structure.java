@@ -21,7 +21,7 @@ public class Structure
 	{
 		this.x = x;
 		this.y = y;
-		hitBox = new Rectangle(x*40,y*40,40,40);
+		hitBox = new Rectangle(x,y,40,40);
 	}
 	/**
 	 * 
@@ -55,7 +55,7 @@ public class Structure
 	public void draw(PApplet drawer, PImage obstacle)
 	{
 		//if(this.x* 40 == x && this.y * 40 == y)
-			drawer.image(obstacle, x*40, y*40);
+			drawer.image(obstacle, x, y);
 	}
 	
 }

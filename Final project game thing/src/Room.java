@@ -1,28 +1,39 @@
 import java.util.ArrayList;
 
+import adsouza.shapes.Line;
+import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Room 
 {
+	private Rectangle entryDoor ;
+	private Rectangle exitDoor ;
 	private ArrayList<Structure> structures; 
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
 	private ArrayList<Enemy> allEnemies;
+	private Player player ;
 	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 AND Room ID = 3 is BOSS
+	
+	private Rectangle[] walls ;
 
 	/**
 	 * Creates a default Room object that contains structures in the room
 	 */
-	public Room(int roomID)
+	public Room(int roomID,Rectangle[] walls,RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies)
 	{
 		this.roomID = roomID;
 		structures  = new ArrayList<Structure>();
-		rangedEnemies = new ArrayList<RangedEnemy>();
-		meleeEnemies = new ArrayList<MeleeEnemy>();
+		this.rangedEnemies = new ArrayList<RangedEnemy>();
+		this.meleeEnemies = new ArrayList<MeleeEnemy>();
 		allEnemies = new ArrayList<Enemy>();
+		player = null ;
+		entryDoor = null ;
+		exitDoor = null ;
+		this.walls = walls ;
 		setRoom();
-		setEnemies();
+		setEnemies(rangedEnemies,meleeEnemies);
 	}
 	/**
 	 * 
@@ -40,20 +51,19 @@ public class Room
 	{
 		return roomID;
 	}
-	private void setEnemies()
-	{
-//		if(roomID == 0)
-//		{
-//			
-//		}
-//		else
-//		{
-			addRangedEnemy(new RangedEnemy(500,500, 3,3));
-			addRangedEnemy(new RangedEnemy(300,300, 3,3));
-			addMeleeEnemy(new MeleeEnemy(Math.random()*300, Math.random()*300, 2.5));
-
-//		}
+	
+	public void setPlayer(Player p) {
+		player = p ;
 	}
+	
+	private void setEnemies(RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies)
+	{
+		for(RangedEnemy r : rangedEnemies)
+			addRangedEnemy(r);
+		for(MeleeEnemy m : meleeEnemies)
+			addMeleeEnemy(m);
+	}
+
 	/**
 	 * 
 	 * @return all alive ranged enemies in the room as an arrrayList
@@ -78,8 +88,47 @@ public class Room
 	{
 		return allEnemies;
 	}
+	
+	public int enemyCount() {
+		return getAllEnemies().size() ;
+	}
+	
+	public void removeEnemy(Enemy e) {
+		if(rangedEnemies.contains(e)) {
+			rangedEnemies.remove(e);
+			allEnemies.remove(e);
+		}
+
+		if(meleeEnemies.contains(e)) {
+			meleeEnemies.remove(e);
+			allEnemies.remove(e);
+		}
+	}
+	
 	private void setRoom()
 	{
+		for(int x = 0 , y = 0 ; x < 960 ; x += 40) {
+			structures.add(new Structure(x,y));
+		}
+
+		for(int x = 0 , y = 0 ; y < 960 ; y += 40) {
+			structures.add(new Structure(x,y));
+		}
+
+		for(int x = 880 , y = 0 ; y < 960 ; y += 40) {
+			if(y < 410 || y > 510)
+				structures.add(new Structure(x,y));
+		}
+
+		for(int x = 0 , y = 880 ; x < 960 ; x += 40) {
+			structures.add(new Structure(x,y));
+		}
+		
+		entryDoor = new Rectangle(0,410,40,100,255,255,255);
+		exitDoor = new Rectangle(880,410,40,120,165,42,42);
+
+		
+		/*
 		if(roomID == 1)
 		{
 			for(int x = 0; x < 23; x++)
@@ -91,8 +140,6 @@ public class Room
 						if(x != 22 || (y != 11 && y != 12 && y != 10))
 						structures.add(new Structure(x,y));
 					}
-					if(x == 15 && y == 15)
-						structures.add(new Structure(x,y));
 				}
 			}
 		}
@@ -109,6 +156,7 @@ public class Room
 				}
 			}
 		}
+		*/
 	}
 	/**
 	 * draws the floor, the structures, the enemies, and the bullets
@@ -132,8 +180,16 @@ public class Room
 				
 			}
 		}
+		
+		for(Rectangle r : walls) {
+			r.draw(drawer);
+		}
+		
 		for( Structure s : structures)
 			s.draw(drawer, obstacle);	
+		
+		entryDoor.draw(drawer);
+		exitDoor.draw(drawer);
 
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
@@ -162,6 +218,47 @@ public class Room
 	 */
 	public void addStructure(Structure stuct) {
 		structures.add(stuct);
+	}
+
+	public boolean findCollison(Rectangle rect) {
+		for(Rectangle r : walls) {
+			if(r.intersects(rect)) {
+				return true ;
+			}
+		}
+
+		if(enemyCount() > 0 && exitDoor.intersects(rect)) {
+			return true ;
+		}
+
+		return false ;
+	}
+	
+	public boolean findCollison(double x , double y) {
+		for(Rectangle r : walls) {
+			if(r.isPointInside(x, y)) {
+				return true ;
+			}
+		}
+		return false ;
+	}
+	
+	public boolean playerInSight(Rectangle rect) {
+		int rx = (int) (rect.getX() + rect.getWidth()/2) ;
+		int ry = (int) (rect.getY() + rect.getHeight()/2) ;
+		Rectangle prect = player.getRect() ;
+		int px = (int) (prect.getX() + prect.getWidth()/2) ;
+		int py = (int) (prect.getY() + prect.getHeight()/2) ;
+		
+		Line l = new Line(rx,ry,px,py);
+	
+		for(Rectangle r : walls) {
+			if(r.intersects(l)) {
+				return false ;
+			}
+		}
+		
+		return true;
 	}
 	
 }

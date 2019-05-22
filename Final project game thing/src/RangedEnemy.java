@@ -43,6 +43,9 @@ public class RangedEnemy extends Enemy
 	 */
 	public void fireToPlayer(Player player, int millis) 
 	{
+		if(!DrawingSurface.getCurrentRoom().playerInSight(getRect())) {
+			return ;
+		}
 		if((millis - getTimeSinceFire())/1000.0 > eGun.getAttackSpeed())
 		{
 			setTimeSinceFire(millis);
@@ -66,7 +69,7 @@ public class RangedEnemy extends Enemy
 	}
 	public void move( ArrayList<Structure> structures)
 	{
-		changeDirection();
+		//changeDirection();
 		boolean colDetected = false;
 		if(this.getX() >= 900) {
 			colDetected = true;
@@ -78,6 +81,9 @@ public class RangedEnemy extends Enemy
 			if(str.getHitBox().intersects(getRect())) 
 				colDetected = true;
  		}
+		
+		colDetected = DrawingSurface.getCurrentRoom().findCollison(getRect());
+		
  		
 		if(colDetected) /*{
 			
@@ -95,9 +101,10 @@ public class RangedEnemy extends Enemy
  		}
  		else*/
  		{
- 			setyVel(getyVel() * -1);
+			this.setVelocity(getxVel() * -1,getyVel() * -1);
+ 			//setyVel(getyVel() * -1);
 			setY(getY() + getyVel());
- 			setxVel(getxVel() * -1);
+ 			//setxVel(getxVel() * -1);
 			setX(getX() + getxVel());
  		}
 		else
@@ -136,21 +143,24 @@ public class RangedEnemy extends Enemy
 	*/
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		if(isAlive())
-		{			
+		{
+			Rectangle r = getRect() ;
+			int xoffset = (int) (r.getWidth()) ;
+			int yoffset = (int) (r.getHeight()/2) ;
 			if(getDir() == 1) { //LEFT
-				drawer.image(eLeft, (int)getX(), (int)getY());
+				drawer.image(eLeft, (int)(getX()-xoffset), (int)(getY()-yoffset));
 			}
 			else if(getDir() == 2) { //UP
-				drawer.image(eUp, (int)getX(), (int)getY());
+				drawer.image(eUp, (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else if(getDir() == 3) { //RIGHT
-				drawer.image(eRight,  (int)getX(), (int)getY());
+				drawer.image(eRight,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else {  //DOWN
-				drawer.image(eDown,  (int)getX(), (int)getY());
+				drawer.image(eDown,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			getRect().move(getX(), getY());		
-			getRect().draw(drawer);
+			//getRect().draw(drawer);
 		}
 	}
 	
