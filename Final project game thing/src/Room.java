@@ -36,6 +36,10 @@ public class Room
 		player = null ;
 		entryDoor =null;
 		exitDoor = null ;
+		for(Rectangle r : walls)
+		{
+			structures.add(new Structure(r,false));
+		}
 		this.walls = walls;
 		setRoom();
 		setEnemies(rangedEnemies,meleeEnemies,stationEnemies);
@@ -168,6 +172,7 @@ public class Room
 		
 		entryDoor = new Rectangle(0,400,40,120,255,255,255);
 		exitDoor = new Rectangle(885,400,40,120,165,42,42);
+		structures.add(new Structure(exitDoor, true));
 
 		
 		/*
@@ -235,9 +240,9 @@ public class Room
 		
 		for( Structure s : structures)
 		{
-			if(s.getClass() != TransportPad.class)
+			/*if(s.getClass() != TransportPad.class)
 				s.draw(drawer, obstacle);	
-			else
+			else*/
 				s.draw(drawer, obstacle);
 		}
 		

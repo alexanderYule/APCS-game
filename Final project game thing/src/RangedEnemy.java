@@ -41,16 +41,16 @@ public class RangedEnemy extends Enemy
 	 * Fires a bullet to the location of player
 	 * @param player the player object this RangedEnemy has to shoot/target
 	 */
-	public void fireToPlayer(Player player, int millis) 
+	public void fireToPlayer(Player player, ArrayList<Structure> s, int millis) 
 	{
-		if(!canSeePlayer(player)) {
+		if(!canSeePlayer(player, s)) {
 			return ;
 		}
 		if((millis - getTimeSinceFire())/1000.0 > eGun.getAttackSpeed())
 		{
 			setTimeSinceFire(millis);
-			double vx = player.getX() - getX();
-			double vy = player.getY() - getY();
+			double vx = player.getX() + player.getRect().getWidth()/2 - getX();
+			double vy = player.getY() + player.getRect().getHeight()/2 - getY();
 	
 			double angle = 0;
 			
@@ -67,7 +67,7 @@ public class RangedEnemy extends Enemy
 	public Gun getGun() {
 		return eGun;
 	}
-	public void move()
+	public void move(ArrayList<Structure> s)
 	{
 		//changeDirection();
 		boolean colDetected = false;
@@ -75,26 +75,10 @@ public class RangedEnemy extends Enemy
 			colDetected = true;
 		}
 		
-		if(!colDetected) {
-			colDetected = DrawingSurface.getCurrentRoom().findCollison(getRect());
-		}
+	
 		
  		
-		if(colDetected) /*{
-			
-			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
-			double tempYVel = this.getyVel();
-			if(Math.random()*6 >= 3) {
-				tempXVel*=-1;
-			}
-			else{
-				tempYVel*=-1;
-			}
-			
-			setX(getX() + tempXVel);
-			setY(getY() + tempYVel);
- 		}
- 		else*/
+		if(colDetected) 
  		{
 			this.setVelocity(getxVel() * -1,getyVel() * -1);
  			//setyVel(getyVel() * -1);
@@ -107,26 +91,6 @@ public class RangedEnemy extends Enemy
 			setY(getY() + getyVel());
 			setX(getX() + getxVel());
 		}
-	}
-
-	private void changeDirection() {
-		if(timeSinceChanged >= 180)
-		{
-			timeSinceChanged = 0;
-			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
-			double tempYVel = this.getyVel();
-			if(Math.random()*6 >= 3) {
-				tempXVel*=-1;
-			}
-			else{
-				tempYVel*=-1;
-			}
-			
-			setxVel(tempXVel);
-			setyVel(tempYVel);
-		}
-		timeSinceChanged++;
-		
 	}
 
 	/**

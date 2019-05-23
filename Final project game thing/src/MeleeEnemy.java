@@ -86,11 +86,11 @@ public class MeleeEnemy extends Enemy
 		//drawer.((float)getX(), (float)getY(), 4, 4);
 	}
 
-	public void move(Player p)
+	public void move(Player p,  ArrayList<Structure> s)
 	{
 		if(isAlive())
 		{
-			if(canSeePlayer(p))
+			if(canSeePlayer(p,s))
 			{
 				double vx = p.getX() - this.getX();
 				double vy = p.getY() - this.getY();

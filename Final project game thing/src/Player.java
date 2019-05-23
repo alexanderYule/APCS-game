@@ -18,7 +18,9 @@ public class Player extends GameEntity
 	private boolean up,down,left,right;
 	private boolean canLeaveRoom;
 	private DrawingSurface d ;
-	private PImage image ;
+	private PImage image;
+	private int hardDir;
+	private int counter;
 	/**
 	 * creates a player object with a Gun, at location x,y with 100 health
 	 * @param x the x coordinate of the player.
@@ -26,9 +28,9 @@ public class Player extends GameEntity
 	 */
 	public Player(double x, double y)
 	{
-		super(x,y,0,0,30,30);
+		super(x,y,0,0,25,45);
 		g = new Gun(50,400,1,1,400,150);
-		dir = 0;
+		dir = 1;
 		up = false;
 		down = false;
 		left = false;
@@ -37,34 +39,59 @@ public class Player extends GameEntity
 		canLeaveRoom = false;
 		d = null ;
 		image = null ;
+		hardDir = 0;
+		counter = 0;
 	}
 	
 	/**
 	 * draws the player
 	 * @param drawer - object that draws the player
 	 */
-	public void draw(DrawingSurface drawer) {
-//		if(dir == 1) { //LEFT
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)getX(), (int)getY());
-//		}
-//		else if(dir == 2) { //UP
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/up.png"), (int)getX(), (int)getY());
-//		}
-//		else if(dir == 3) { //RIGHT
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/right.png"), (int)getX(), (int)getY());
-//		}
-//		else {  //DOWN
-//			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)getX(), (int)getY());
-//		}		
-		d = drawer ;
-		if(image == null) {
-			image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
+	public void draw(DrawingSurface drawer, PImage up, PImage down, PImage right, PImage left)
+	{
+		if(hardDir == 0)
+		{
+			if(dir == 1 || dir == 2 || dir == 8)  //LEFT
+				drawer.image(left, (int)getX(), (int)getY());
+			
+			else if(dir == 4 || dir == 5 || dir == 6)  //right
+				drawer.image(right, (int)getX(), (int)getY());	
+			else if(dir == 3)  //up
+				drawer.image(up, (int)getX(), (int)getY());
+			
+			else if (dir == 7)  //DOWN
+				drawer.image(down, (int)getX(), (int)getY());
+				
 		}
+		else
+		{
+			counter++;
+			if(hardDir == 1)  //LEFT
+				drawer.image(left, (int)getX(), (int)getY());
+			
+			else if(hardDir == 2)  //right
+				drawer.image(up, (int)getX(), (int)getY());
+			
+			else if(hardDir == 3)  //up
+				drawer.image(right, (int)getX(), (int)getY());
+			
+			else if (hardDir == 4)  //DOWN
+				drawer.image(down, (int)getX(), (int)getY());
+			if(counter == 20)
+			{
+				counter = 0; 
+				hardDir = 0;
+			}
+		}
+		d = drawer;
+		/*if(image == null) {
+			image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
+		}*/
 
 		Rectangle r = getRect() ;
 		int xoffset = (int) (r.getWidth()) ;
 		int yoffset = (int) (r.getHeight()/2) ;
-		drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
+		//drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
 
 		
 		drawer.pushStyle();
@@ -114,8 +141,15 @@ public class Player extends GameEntity
 			double angle = 0;
 	
 			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
-			
 			g.fireBullet(getX(), getY(), angle, true);
+			if(angle > 45 && angle <= 135)
+				hardDir = 3;
+			else if (angle > 135 && angle <= 205)
+				hardDir = 2;
+			else if (angle > 205 || angle <= -45)
+				hardDir = 1;
+			else if(angle > -45 && angle <= 45)
+				hardDir = 4;
 		}
 	}
 	
@@ -132,8 +166,8 @@ public class Player extends GameEntity
 			return ;
 		}
 		
-		image = d.loadImage("Resorces/hero_sprites/left.png") ;
-		TimerTask tt = new TimerTask() {
+		//image = d.loadImage("Resorces/hero_sprites/left.png") ;
+/*		TimerTask tt = new TimerTask() {
 
 			@Override
 			public void run() {
@@ -144,7 +178,7 @@ public class Player extends GameEntity
 		};
 		Timer t = new Timer() ;
 		t.schedule(tt, 500);
-		draw(d);
+		//draw(d);*/
 	}
 	/**
 	 * 
@@ -251,9 +285,9 @@ public class Player extends GameEntity
 	 * moves the player and stops him if he hits an obstruction
 	 * @param structures - the structures in the room that the player is in.
 	 */
-	public boolean move(ArrayList<Structure> structures) 
+	public void move(ArrayList<Structure> structures) 
 	{
-		Room room = DrawingSurface.getCurrentRoom() ;
+		//Room room = DrawingSurface.getCurrentRoom() ;
 		if(up)
 			setyVel(-5);
 		if(down)
@@ -267,11 +301,10 @@ public class Player extends GameEntity
 		Rectangle h = getRect();
 		Rectangle potentialHitBox = new Rectangle(h.getX() + getxVel(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
 		
-		colDetected = room.findCollison(potentialHitBox);
+		/*colDetected = room.findCollison(potentialHitBox);
 		if(room.enemyCount() <= 0 && room.canExit()) {
 			notMoving();
-			return true ;
-		}
+		}*/
 		
 
 		for(int x = 0; x < structures.size(); x++)
@@ -279,10 +312,7 @@ public class Player extends GameEntity
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 
 			{
-				if(str.getClass() == TransportPad.class && canLeaveRoom)
-					return true;
-				else
-					colDetected = true;
+				colDetected = true;
 			}
  		}
  		
@@ -295,10 +325,10 @@ public class Player extends GameEntity
  			notMoving();
  		}
  		
- 		getRect().move(getX(), getY());
+ 		getRect().move(getX() + 5, getY());
  		setVelocity(getxVel()*0.3*-1, getyVel()*0.3*-1);
 		
-		if(getxVel() > 0) 
+		if(getxVel() < -1) 
 		{
 			if(Math.abs(getyVel()) < 0.05)
 				dir = 5; // only right
@@ -307,22 +337,21 @@ public class Player extends GameEntity
 			else
 				dir = 6; // right and down
 		}
-		else if (getxVel() < 0)
+		else if (getxVel() > 1)
 		{
 			if(Math.abs(getyVel()) < 0.05)
 				dir = 1; // only left
 			else if(getyVel() < 0) 
-				dir = 4; //left and up
+				dir = 2; //left and up
 			else
-				dir = 6; //left and down
+				dir = 8; //left and down
 		}
-		else if(getyVel() < 0) {
-			dir = 3;
-		}
-		else {
+		else if(getyVel() < -1) {
 			dir = 7;
 		}
-		return false;
+		else if(getyVel() > 1){
+			dir = 3;
+		}
 	}
 
 	

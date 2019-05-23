@@ -50,10 +50,10 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies00 = {
-			new RangedEnemy(175,175,1,0) ,
-			new RangedEnemy(595,175,1,0) ,
-			new RangedEnemy(175,615,1,0) ,
-			new RangedEnemy(595,615,1,0) 
+			new RangedEnemy(175 + 70 * Math.random(),175,1,0) ,
+			new RangedEnemy(595 + 70 * Math.random(),175,1,0) ,
+			new RangedEnemy(175 + 70 * Math.random(),607,1,0) ,
+			new RangedEnemy(595 + 70 * Math.random(),607,1,0) 
 		} ;
 
 		MeleeEnemy[] meleeEnemies00 = {

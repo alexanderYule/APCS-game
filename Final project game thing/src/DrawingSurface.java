@@ -21,7 +21,7 @@ public class DrawingSurface extends PApplet {
 	private PImage backBeta;
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
-	private double interval, timeCheck;
+	private PImage gun;
 	private PImage eUp;
 	private PImage eDown;
 	private PImage eRight;
@@ -31,12 +31,13 @@ public class DrawingSurface extends PApplet {
 	private PImage hRight;
 	private PImage hLeft;
 	private PImage attackHurt;
-	private CutsceneDrawer cutscene;
-	private static Room currentRoom;
+	private Room currentRoom;
+	private double interval, timeCheck;
 	private int levelNumber = 0 ;
 	private int roomNumber = 0 ;
 	private boolean levelComplete ;
 	private boolean gameOver ;
+
 
 	/**
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
@@ -48,7 +49,6 @@ public class DrawingSurface extends PApplet {
 		timeCheck = millis();
 		currentRoom = null;
 		RoomSchema.create();
-		cutscene = new CutsceneDrawer();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 		levelComplete = false ;
@@ -69,16 +69,17 @@ public class DrawingSurface extends PApplet {
 		eDown = loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
 		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
-		hUp = loadImage("Resorces/hero_sprites/up.png");
+		/*hUp = loadImage("Resorces/hero_sprites/up.png");
 		hDown = loadImage("Resorces/hero_sprites/standingDown.png");
 		hRight = loadImage("Resorces/hero_sprites/right.png");
-		hLeft = loadImage("Resorces/hero_sprites/left.png");
+		hLeft = loadImage("Resorces/hero_sprites/left.png");*/
+		hUp = loadImage("Resorces/test/up.png");
+		hDown = loadImage("Resorces/test/down.png");
+		hRight = loadImage("Resorces/test/right.png");
+		hLeft = loadImage("Resorces/test/left.png");
 		attackHurt = loadImage("Resorces/attackBlood.png");
 	}
 
-	public static Room getCurrentRoom() {
-		return currentRoom;
-	}
 
 	public void transportToNextRoom() {
 		if(getRoomNumber() < RoomSchema.ROOMS - 1) {
@@ -157,6 +158,7 @@ public class DrawingSurface extends PApplet {
 		}
 
 		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt);
+		
 		ArrayList<Structure> structures = currentRoom.getStructures();
 
 
@@ -192,7 +194,7 @@ public class DrawingSurface extends PApplet {
 
 				b.draw(this, eBullet);
 			}
-			r.fireToPlayer(p, millis());
+			r.fireToPlayer(p, structures, millis());
 		}
 		
 		for (int y = 0; y < currentRoom.getStationEnemies().size(); y++) {
@@ -220,32 +222,19 @@ public class DrawingSurface extends PApplet {
 		for (RangedEnemy r : currentRoom.getRangedEnemies()) // Changes direction of enemies
 		{
 
-			r.move();
+			r.move(structures);
 		}
 
 		for (MeleeEnemy r : currentRoom.getMeleeEnemies()) // Changes direction of enemies
 		{
-			r.move(p);
+			r.move(p, structures);
 		}
 		
 		
 		if(currentRoom.getAllEnemies().size() == 0) //ROOM CHANGE
 			p.setRoomStat(true);
-		p.draw(this); // draws this player
-		if (p.move(structures)) 
-		{
-			System.out.println("xd");
-			startCutscene();
-		}
-	}
-
-	private void startCutscene() {
-		int timeSince = millis();
-		for (int x = 0; x < 23; x++) {
-			for (int y = 0; y < 23; y++) {
-
-			}
-		}
+		p.draw(this,hUp,hDown,hRight,hLeft); // draws this player
+		p.move(structures);
 	}
 
 	/**

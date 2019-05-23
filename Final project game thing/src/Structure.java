@@ -13,6 +13,7 @@ public class Structure
 	private int y;
 	private Rectangle hitBox;
 	public boolean isWall;
+	private boolean isExit;
 	/**
 	 *  creates a structure at the given spot x,y in the 23 by 23 array that represents the room, the object also has a Rectangle that acts as the structure's hit box
 	 * @param x the x coordinate of the structure in an 23 by 23 array that is the room
@@ -25,12 +26,13 @@ public class Structure
 		hitBox = new Rectangle(x,y,40,40);
 		isWall = true;
 	}
-	public Structure(Rectangle r)
+	public Structure(Rectangle r, boolean isExit)
 	{
 		x = (int) r.getX();
 		y = (int) r.getY();
 		hitBox = r;
 		isWall = false;
+		this.isExit = isExit;
 	}
 	/**
 	 * 
@@ -39,6 +41,10 @@ public class Structure
 	public int getX()
 	{
 		return x;
+	}
+	public boolean isExit()
+	{
+		return isExit;
 	}
 	/**
 	 * 
