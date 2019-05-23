@@ -24,7 +24,7 @@ public class Enemy extends GameEntity
 	 * @param y the y coordinate of this enemy
 	 */
 	public Enemy(double x, double y) {
-		super(x,y,0,0,20,30);
+		super(x,y,0,0,20,40);
 		this.health = 100;
 		this.damage = 0; 
 		this.dir = 4;

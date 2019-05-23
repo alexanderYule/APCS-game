@@ -1,5 +1,7 @@
 
     
+import java.util.ArrayList;
+
 import adsouza.shapes.Rectangle;
 
 
@@ -29,7 +31,10 @@ public class RoomSchema {
 		int room = 0 ;
 		
 		//Level 0 - Room 0
-		int roomID = 1 ;
+		
+		
+		
+	/*	int roomID = 1 ;
 		Rectangle[] walls = {
 			new Rectangle(150,150,20,70,211,211,211),
 			new Rectangle(150,150,200,20,211,211,211),
@@ -43,20 +48,36 @@ public class RoomSchema {
 			new Rectangle(570,600,20,70,211,211,211),
 			new Rectangle(570,650,200,20,211,211,211),
 			new Rectangle(750,600,20,70,211,211,211)
+		};*/
+		
+		
+		
+		Rectangle[] walls = {
+				new Rectangle(150,40,50,600,211,211,211),
+				new Rectangle(150,640,150,50,211,211,211),
+				new Rectangle(450,360,50,520,211,211,211),
+				new Rectangle(370,310,130,50,211,211,211),
+				new Rectangle(670,40,80,350,211,211,211),
+				new Rectangle(687,687,200,200,211,211,211),
+
 		};
 		
 		RangedEnemy[] rangedEnemies = {
-			new RangedEnemy(175,175,1,0) ,
-			new RangedEnemy(595,175,1,0) ,
+			new RangedEnemy(50,80,1,0) ,
+			new RangedEnemy(500,175,1,0) ,
 			new RangedEnemy(175,615,1,0) ,
 			new RangedEnemy(595,615,1,0) 
 		} ;
 
 		MeleeEnemy[] meleeEnemies = {
-			new MeleeEnemy(460,100,2) 
+			new MeleeEnemy(800,100,4) 
 		} ;
 		
-		rooms[level][room++] = new Room(roomID,walls,rangedEnemies,meleeEnemies);
+		StationEnemy[] stationEnemies = {
+				new StationEnemy(380,820,1) 
+		} ;
+		
+		rooms[level][room++] = new Room(1,walls,rangedEnemies,meleeEnemies, stationEnemies);
 
 	}
 	

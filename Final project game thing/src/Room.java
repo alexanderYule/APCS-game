@@ -11,6 +11,7 @@ public class Room
 	private ArrayList<Structure> structures; 
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
+	private ArrayList<StationEnemy> stationEnemies;
 	private ArrayList<Enemy> allEnemies;
 	private Player player ;
 	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 
@@ -20,24 +21,25 @@ public class Room
 	/**
 	 * Creates a default Room object that contains structures in the room
 	 */
-	public Room(int roomID,Rectangle[] walls,RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies)
+	public Room(int roomID,Rectangle[] walls,RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies, StationEnemy[] stationEnemies)
 	{
 		this.roomID = roomID;
 		structures  = new ArrayList<Structure>();
 		this.rangedEnemies = new ArrayList<RangedEnemy>();
 		this.meleeEnemies = new ArrayList<MeleeEnemy>();
+		this.stationEnemies = new ArrayList<StationEnemy>();
 		allEnemies = new ArrayList<Enemy>();
 		player = null ;
-		entryDoor = null ;
+		entryDoor =null;
 		addExit();
-		this.walls = walls ;
+		this.walls = walls;
 		setRoom();
-		setEnemies(rangedEnemies,meleeEnemies);
+		setEnemies(rangedEnemies,meleeEnemies, stationEnemies);
 	}
 	private void addExit() {
 		for(int x = 0; x < 3; x ++)
 		{
-			structures.add(new TransportPad(880, 410 + 40*x));
+		//	structures.add(new TransportPad(880, 410 + 40*x));
 		}
 		
 	}
@@ -62,12 +64,20 @@ public class Room
 		player = p ;
 	}
 	
-	private void setEnemies(RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies)
+	private void setEnemies(RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies, StationEnemy[] stationEnemies)
 	{
-		for(RangedEnemy r : rangedEnemies)
+		for(RangedEnemy r : rangedEnemies) {
 			addRangedEnemy(r);
-		for(MeleeEnemy m : meleeEnemies)
+		}
+		for(MeleeEnemy m : meleeEnemies) {
 			addMeleeEnemy(m);
+		}
+		for(StationEnemy m : stationEnemies) {
+			addStationEnemy(m);
+			m.getGun().setBulletSpeed(150);
+		}
+	
+		
 	}
 
 	/**
@@ -77,6 +87,14 @@ public class Room
 	public ArrayList<RangedEnemy> getRangedEnemies()
 	{
 		return rangedEnemies;
+	}
+	/**
+	 * 
+	 * @return all alive stationary enemies in the room as an arrrayList
+	 */
+	public ArrayList<StationEnemy> getStationEnemies()
+	{
+		return stationEnemies;
 	}
 	/**
 	 * 
@@ -98,7 +116,12 @@ public class Room
 	public int enemyCount() {
 		return getAllEnemies().size() ;
 	}
-	
+	/**
+	 * Removes the Enemy e from the rangedEnemy, 
+	 * meleeEnemy, and/or staionEnemy lists
+	 * @param e The enemy to check for existence in current
+	 * enemy lists
+	 */
 	public void removeEnemy(Enemy e) {
 		if(rangedEnemies.contains(e)) {
 			rangedEnemies.remove(e);
@@ -109,6 +132,11 @@ public class Room
 			meleeEnemies.remove(e);
 			allEnemies.remove(e);
 		}
+		
+		if(stationEnemies.contains(e)) {
+			stationEnemies.remove(e);
+			allEnemies.remove(e);
+		}
 	}
 	
 	private void setRoom()
@@ -117,23 +145,24 @@ public class Room
 			structures.add(new Structure(x,y));
 		}
 
-		for(int x = 0 , y = 0 ; y < 960 ; y += 40) {
-			structures.add(new Structure(x,y));
+		for(int x = 0 , y = 0 ; y < 960 ; y += 40) {  //BORDERS
+			if((y < 410 || y > 510))
+				structures.add(new Structure(x,y));
 		}
 
-		for(int x = 880 , y = 0 ; y < 960 ; y += 40) {
+		for(int x = 880 , y = 0 ; y < 960 ; y += 40) {  //BORDERS
 			if(y < 410 || y > 510)
 				structures.add(new Structure(x,y));
 		}
 
-		for(int x = 0 , y = 880 ; x < 960 ; x += 40) {
+		for(int x = 0 , y = 880 ; x < 960 ; x += 40) {  //BORDERS
 			structures.add(new Structure(x,y));
 		}
 		for(Rectangle r : walls)
 		{
 			structures.add(new Structure(r));
 		}
-		entryDoor = new Rectangle(0,410,40,100,255,255,255);
+		entryDoor = new Rectangle(0,410,40,110,255,255,255);
 
 		
 		/*
@@ -178,7 +207,7 @@ public class Room
 	 * @param rELeft the image of the enemy when facing left to be drawn
 	 * @param eBullet the image of the enemies bullets to be drawn
 	 */
-	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet)
+	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet, PImage attack)
 	{
 		for(int x = 0; x < 920; x+=40) 
 		{         
@@ -206,7 +235,9 @@ public class Room
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
 		for(MeleeEnemy e: meleeEnemies)
-			e.draw(drawer,rEUp, rEDown, rERight, rELeft);
+			e.draw(drawer,rEUp, rEDown, rERight, rELeft, attack);
+		for(StationEnemy e: stationEnemies)
+			e.draw(drawer, rEDown);
 	}
 	/**
 	 * 
@@ -222,6 +253,14 @@ public class Room
 	 */
 	public void addMeleeEnemy(MeleeEnemy enemy) {
 		this.meleeEnemies.add(enemy);
+		allEnemies.add(enemy);
+	}
+	/**
+	 * 
+	 * @param enemy adds a stationary enemy to the room.
+	 */
+	public void addStationEnemy(StationEnemy enemy) {
+		this.stationEnemies.add(enemy);
 		allEnemies.add(enemy);
 	}
 	/**

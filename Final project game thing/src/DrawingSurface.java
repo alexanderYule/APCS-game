@@ -30,6 +30,7 @@ public class DrawingSurface extends PApplet {
 	private PImage hDown;
 	private PImage hRight;
 	private PImage hLeft;
+	private PImage attackHurt;
 	private Room currentRoom;
 	private CutsceneDrawer cutscene;
 
@@ -64,6 +65,7 @@ public class DrawingSurface extends PApplet {
 		hDown = loadImage("Resorces/hero_sprites/standingDown.png");
 		hRight = loadImage("Resorces/hero_sprites/right.png");
 		hLeft = loadImage("Resorces/hero_sprites/left.png");
+		attackHurt = loadImage("Resorces/attackBlood.png");
 	}
 
 	public Room getCurrentRoom() {
@@ -87,7 +89,7 @@ public class DrawingSurface extends PApplet {
 
 		currentRoom = m.getRoom(0, 0);
 		currentRoom.setPlayer(p);
-		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet);
+		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt);
 		ArrayList<Structure> structures = currentRoom.getStructures();
 
 //		if (currentRoom.getAllEnemies().size() <= 0) {
@@ -112,7 +114,7 @@ public class DrawingSurface extends PApplet {
 			b.draw(this, pBullet);
 		}
 
-		for (int y = 0; y < currentRoom.getRangedEnemies().size(); y++) {
+		for (int y = 0; y < currentRoom.getRangedEnemies().size(); y++) { //Adjust rANGEDeNEMIES
 			RangedEnemy r = currentRoom.getRangedEnemies().get(y);
 			if (!r.isAlive()) {
 				currentRoom.getRangedEnemies().remove(y);
@@ -128,7 +130,24 @@ public class DrawingSurface extends PApplet {
 				b.draw(this, eBullet);
 			}
 			r.fireToPlayer(p, millis(), structures);
+		}
+		
+		for (int y = 0; y < currentRoom.getStationEnemies().size(); y++) {
+			StationEnemy r = currentRoom.getStationEnemies().get(y);
+			if (!r.isAlive()) {
+				currentRoom.getStationEnemies().remove(y);
+				y--;
+			}
+			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
+				Bullet b = r.getGun().getExistingBullets().get(x);
+				if (b.move(p, structures, currentRoom.getAllEnemies())) {
+					r.getGun().getExistingBullets().remove(x);
+					x--;
+				}
 
+				b.draw(this, eBullet);
+			}
+			r.fireAllDir(millis(), structures);
 		}
 
 		// if(millis() > interval + timeCheck ) {
@@ -137,20 +156,17 @@ public class DrawingSurface extends PApplet {
 
 		for (RangedEnemy r : currentRoom.getRangedEnemies()) // Changes direction of enemies
 		{
-			// if(millis() > interval + timeCheck ) {
 
 			r.move(structures);
-			// }
 		}
 
 		for (MeleeEnemy r : currentRoom.getMeleeEnemies()) // Changes direction of enemies
 		{
-			// if(millis() > interval + timeCheck ) {
-
 			r.move(p, structures);
-			// }
 		}
-		if(currentRoom.getAllEnemies().size() == 0)
+		
+		
+		if(currentRoom.getAllEnemies().size() == 0) //ROOM CHANGE
 			p.setRoomStat(true);
 		p.draw(this); // draws this player
 		if (p.move(structures)) 

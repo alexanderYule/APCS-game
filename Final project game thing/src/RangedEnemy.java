@@ -31,7 +31,7 @@ public class RangedEnemy extends Enemy
 	 */
 	public RangedEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
-		eGun = new Gun(1,400,1,3,50,150);
+		eGun = new Gun(1,400,1,3,60,150);
 		setVelocity(xVel, yVel);
 		setTimeSinceFire((int)(1000 * Math.random()));
 		timeSinceChanged = (int)(1000 * Math.random());
@@ -111,7 +111,6 @@ public class RangedEnemy extends Enemy
 			setX(getX() + getxVel());
 		}
 	}
-	
 
 	private void changeDirection() {
 		if(timeSinceChanged >= 180)
@@ -142,23 +141,21 @@ public class RangedEnemy extends Enemy
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		if(isAlive())
 		{
-			Rectangle r = getRect() ;
-			int xoffset = (int) (r.getWidth()) ;
-			int yoffset = (int) (r.getHeight()/2) ;
+			
 			if(getDir() == 1) { //LEFT
-				drawer.image(eLeft, (int)(getX()-xoffset), (int)(getY()-yoffset));
+				drawer.image(eLeft, (int)(getX()), (int)getY());
 			}
 			else if(getDir() == 2) { //UP
-				drawer.image(eUp, (int)getX()-xoffset, (int)getY()-yoffset);
+				drawer.image(eUp, (int)getX(), (int)getY());
 			}
 			else if(getDir() == 3) { //RIGHT
-				drawer.image(eRight,  (int)getX()-xoffset, (int)getY()-yoffset);
+				drawer.image(eRight,  (int)getX(), (int)getY());
 			}
 			else {  //DOWN
-				drawer.image(eDown,  (int)getX()-xoffset, (int)getY()-yoffset);
+				drawer.image(eDown,  (int)getX(), (int)getY());
 			}
 			getRect().move(getX(), getY());		
-			//getRect().draw(drawer);
+			getRect().draw(drawer);
 		}
 	}
 	

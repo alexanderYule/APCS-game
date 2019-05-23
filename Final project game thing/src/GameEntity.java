@@ -20,6 +20,7 @@ public abstract class GameEntity {
 		rect = new Rectangle();
 		xVel = 0;
 		yVel = 0;
+		this.time = 0;
 	}
 	/**
 	 * 
