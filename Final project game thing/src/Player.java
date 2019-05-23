@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
@@ -15,6 +17,8 @@ public class Player extends GameEntity
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
 	private boolean canLeaveRoom;
+	private DrawingSurface d ;
+	private PImage image ;
 	/**
 	 * creates a player object with a Gun, at location x,y with 100 health
 	 * @param x the x coordinate of the player.
@@ -31,14 +35,15 @@ public class Player extends GameEntity
 		right = false;
 		health = 100;
 		canLeaveRoom = false;
-		
-		
+		d = null ;
+		image = null ;
 	}
+	
 	/**
 	 * draws the player
 	 * @param drawer - object that draws the player
 	 */
-	public void draw(PApplet drawer) {
+	public void draw(DrawingSurface drawer) {
 //		if(dir == 1) { //LEFT
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/left.png"), (int)getX(), (int)getY());
 //		}
@@ -51,32 +56,37 @@ public class Player extends GameEntity
 //		else {  //DOWN
 //			drawer.image(drawer.loadImage("Resorces/hero_sprites/standingDown.png"), (int)getX(), (int)getY());
 //		}		
-		
-			Rectangle r = getRect() ;
-			int xoffset = (int) (r.getWidth()) ;
-			int yoffset = (int) (r.getHeight()/2) ;
-			drawer.image(drawer.loadImage(/*"Resorces/hero_sprites/standingDown.png"*/"Resorces/Hero dude.png"),  (int)getX()/*+xoffset*/, (int)getY()-yoffset);
+		d = drawer ;
+		if(image == null) {
+			image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
+		}
+
+		Rectangle r = getRect() ;
+		int xoffset = (int) (r.getWidth()) ;
+		int yoffset = (int) (r.getHeight()/2) ;
+		drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
 
 		
 		drawer.pushStyle();
 		drawer.strokeWeight(3);
 		drawer.fill(255);
-		drawer.rect(0,921, 919, 60);
 		drawer.fill(0);
-		drawer.textSize(25);
-		drawer.textSize(25);
-		drawer.text("Health", 100, 960);
+		drawer.textSize(20);
+
+		drawer.text("Level " + (d.getRoomNumber()+1), 20, 28);
+
+		drawer.text("Health", 530, 28);
 		drawer.fill(255,0,0);
-		drawer.rect(200,940,300,20,75);
+		drawer.rect(600,10,300,20,30);
 		drawer.fill(255);
 		
 		if(health != 100) {
 			if(health < 0) {
 				drawer.fill(255);
-				drawer.rect(200,940,(float)300,20,75,75,75,75);
+				drawer.rect(200,10,(float)300,20,75,75,75,75);
 			}
 			else {
-				drawer.rect(500,940,(float)(health/100)*300 - 300,20,0,75,75,0);
+				drawer.rect(900,10,(float)(health/100)*300 - 300,20,0,75,75,0);
 			}
 		}
 		
@@ -116,6 +126,25 @@ public class Player extends GameEntity
 	public void takeDamage(double dmg)
 	{
 		health -= dmg;
+		
+		if(health <= 0) {
+			d.setGameOver();
+			return ;
+		}
+		
+		image = d.loadImage("Resorces/hero_sprites/left.png") ;
+		TimerTask tt = new TimerTask() {
+
+			@Override
+			public void run() {
+				image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
+				draw(d);				
+			}
+			
+		};
+		Timer t = new Timer() ;
+		t.schedule(tt, 500);
+		draw(d);
 	}
 	/**
 	 * 
@@ -224,6 +253,7 @@ public class Player extends GameEntity
 	 */
 	public boolean move(ArrayList<Structure> structures) 
 	{
+		Room room = DrawingSurface.getCurrentRoom() ;
 		if(up)
 			setyVel(-5);
 		if(down)
@@ -237,7 +267,14 @@ public class Player extends GameEntity
 		Rectangle h = getRect();
 		Rectangle potentialHitBox = new Rectangle(h.getX() + getxVel(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
 		
- 		for(int x = 0; x < structures.size(); x++)
+		colDetected = room.findCollison(potentialHitBox);
+		if(room.enemyCount() <= 0 && room.canExit()) {
+			notMoving();
+			return true ;
+		}
+		
+
+		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 

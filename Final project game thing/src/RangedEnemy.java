@@ -41,9 +41,9 @@ public class RangedEnemy extends Enemy
 	 * Fires a bullet to the location of player
 	 * @param player the player object this RangedEnemy has to shoot/target
 	 */
-	public void fireToPlayer(Player player, int millis, ArrayList<Structure> structures) 
+	public void fireToPlayer(Player player, int millis) 
 	{
-		if(canSeePlayer(player, structures)) {
+		if(!canSeePlayer(player)) {
 			return ;
 		}
 		if((millis - getTimeSinceFire())/1000.0 > eGun.getAttackSpeed())
@@ -67,7 +67,7 @@ public class RangedEnemy extends Enemy
 	public Gun getGun() {
 		return eGun;
 	}
-	public void move( ArrayList<Structure> structures)
+	public void move()
 	{
 		//changeDirection();
 		boolean colDetected = false;
@@ -75,12 +75,9 @@ public class RangedEnemy extends Enemy
 			colDetected = true;
 		}
 		
-		for(int x = 0; x < structures.size(); x++)
- 		{
- 			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(getRect())) 
-				colDetected = true;
- 		}
+		if(!colDetected) {
+			colDetected = DrawingSurface.getCurrentRoom().findCollison(getRect());
+		}
 		
  		
 		if(colDetected) /*{

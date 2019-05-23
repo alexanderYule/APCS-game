@@ -8,13 +8,17 @@ import processing.core.PImage;
 public class Room 
 {
 	private Rectangle entryDoor ;
+	private Rectangle exitDoor ;
 	private ArrayList<Structure> structures; 
 	private ArrayList<RangedEnemy> rangedEnemies;
 	private ArrayList<MeleeEnemy> meleeEnemies;
 	private ArrayList<StationEnemy> stationEnemies;
 	private ArrayList<Enemy> allEnemies;
 	private Player player ;
-	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 
+	private int roomID; //Fight Room ID = 1 AND Rest Room ID = 2 AND Room ID = 3 is BOSS
+	private boolean exiting ;
+	private PImage wall ;
+	private PImage door ;
 	
 	private Rectangle[] walls ;
 
@@ -31,17 +35,13 @@ public class Room
 		allEnemies = new ArrayList<Enemy>();
 		player = null ;
 		entryDoor =null;
-		addExit();
+		exitDoor = null ;
 		this.walls = walls;
 		setRoom();
-		setEnemies(rangedEnemies,meleeEnemies, stationEnemies);
-	}
-	private void addExit() {
-		for(int x = 0; x < 3; x ++)
-		{
-		//	structures.add(new TransportPad(880, 410 + 40*x));
-		}
-		
+		setEnemies(rangedEnemies,meleeEnemies,stationEnemies);
+		exiting = false ;
+		wall = null ;
+		door = null ;
 	}
 	/**
 	 * 
@@ -62,6 +62,12 @@ public class Room
 	
 	public void setPlayer(Player p) {
 		player = p ;
+		player.setX(50);
+		player.setY(460);
+	}
+	
+	public Player getPlayer() {
+		return player ;
 	}
 	
 	private void setEnemies(RangedEnemy[] rangedEnemies,MeleeEnemy[] meleeEnemies, StationEnemy[] stationEnemies)
@@ -104,6 +110,7 @@ public class Room
 	{
 		return meleeEnemies;
 	}
+
 	/**
 	 * 
 	 * @return returns all alive enemies in the room as an arrrayList
@@ -150,19 +157,17 @@ public class Room
 				structures.add(new Structure(x,y));
 		}
 
-		for(int x = 880 , y = 0 ; y < 960 ; y += 40) {  //BORDERS
-			if(y < 410 || y > 510)
+		for(int x = 885 , y = 0 ; y < 960 ; y += 40) {
+			if(y < 400 || y > 510)
 				structures.add(new Structure(x,y));
 		}
 
 		for(int x = 0 , y = 880 ; x < 960 ; x += 40) {  //BORDERS
 			structures.add(new Structure(x,y));
 		}
-		for(Rectangle r : walls)
-		{
-			structures.add(new Structure(r));
-		}
-		entryDoor = new Rectangle(0,410,40,110,255,255,255);
+		
+		entryDoor = new Rectangle(0,400,40,120,255,255,255);
+		exitDoor = new Rectangle(885,400,40,120,165,42,42);
 
 		
 		/*
@@ -207,19 +212,25 @@ public class Room
 	 * @param rELeft the image of the enemy when facing left to be drawn
 	 * @param eBullet the image of the enemies bullets to be drawn
 	 */
-	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet, PImage attack)
+	public void draw(DrawingSurface drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, PImage rERight, PImage rELeft, PImage eBullet,PImage attack)
 	{
-		for(int x = 0; x < 920; x+=40) 
+		if(wall == null) {
+	 		wall = drawer.loadImage("Resorces/tiles/brickwall.jpg");
+	 		door = drawer.loadImage("Resorces/tiles/door.jpg");
+		}
+		for(int x = 40; x < 1000; x += 300) 
 		{         
-			for(int y = 0; y < 920; y+=40) 
+			for(int y = 40; y < 1100; y += 300) 
 			{
-				drawer.image(floor, x, y);
+				drawer.image(floor, x , y);
 				
 			}
 		}
 		
 		for(Rectangle r : walls) {
-			r.draw(drawer);
+			wall.resize((int)r.getWidth(), (int)r.getHeight());
+			drawer.image(wall, (int)r.getX(), (int)r.getY());
+			//r.draw(drawer);
 		}
 		
 		for( Structure s : structures)
@@ -230,7 +241,21 @@ public class Room
 				s.draw(drawer, obstacle);
 		}
 		
-		entryDoor.draw(drawer);
+		door.resize((int)entryDoor.getWidth(), (int)entryDoor.getHeight());
+		drawer.image(door, (int)entryDoor.getX(), (int)entryDoor.getY());
+		if(!exiting || enemyCount() > 0) {
+			door.resize((int)exitDoor.getWidth(), (int)exitDoor.getHeight());
+			drawer.image(door, (int)exitDoor.getX(), (int)exitDoor.getY());
+		} else if(exitDoor.getHeight() > 0) {
+			door.resize((int)exitDoor.getWidth(), (int)exitDoor.getHeight());
+			drawer.image(door, (int)exitDoor.getX(), (int)exitDoor.getY());
+			double h = exitDoor.getHeight() ;
+			exitDoor.setHeight((int)(h-2)) ;
+			if(exitDoor.getHeight() <= 0) {
+				drawer.transportToNextRoom() ;
+				return ;
+			}
+		}
 
 		for(RangedEnemy e : rangedEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, rELeft);
@@ -264,32 +289,68 @@ public class Room
 		allEnemies.add(enemy);
 	}
 	/**
+<<<<<<< Updated upstream
 	 *     
+=======
+	 * 
+>>>>>>> Stashed changes
 	 * @param stuct adds a structure to the room
 	 */
 	public void addStructure(Structure stuct) {
 		structures.add(stuct);
 	}
 
+	public boolean canExit() {
+		Rectangle rect = player.getRect() ;
+		if(enemyCount() == 0 && exitDoor.intersects(rect)) {
+			exiting = true ;
+			return true ;
+		}		
+		return false ;
+	}
+	
 	public boolean findCollison(Rectangle rect) {
+		boolean found = false ;
+
 		for(Rectangle r : walls) {
 			if(r.intersects(rect)) {
-				return true ;
+				found = true ;
 			}
 		}
-		return false ;
+
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(rect)) {
+				found = true ;
+			}
+		}
+
+		if(enemyCount() > 0 && exitDoor.intersects(rect)) {
+			found = true ;
+		}
+
+		return found ;
 	}
 	
 	public boolean findCollison(double x , double y) {
+		boolean found = false ;
+		
 		for(Rectangle r : walls) {
 			if(r.isPointInside(x, y)) {
-				return true ;
+				found = true ;
 			}
 		}
-		return false ;
+
+		for(Structure r : structures) {
+			if(r.getHitBox().isPointInside(x, y)) {
+				found = true ;
+			}
+		}
+
+		return found ;
 	}
 	
-	public boolean playerInSight(Rectangle rect) {
+	public boolean playerInSight(Enemy e) {
+		Rectangle rect = e.getRect() ;
 		int rx = (int) (rect.getX() + rect.getWidth()/2) ;
 		int ry = (int) (rect.getY() + rect.getHeight()/2) ;
 		Rectangle prect = player.getRect() ;
@@ -298,13 +359,20 @@ public class Room
 		
 		Line l = new Line(rx,ry,px,py);
 	
+		boolean found = true ;
 		for(Rectangle r : walls) {
 			if(r.intersects(l)) {
-				return false ;
+				found = false ;
 			}
 		}
 		
-		return true;
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(l)) {
+				found = false ;
+			}
+		}
+
+		return found ;
 	}
 	
 }

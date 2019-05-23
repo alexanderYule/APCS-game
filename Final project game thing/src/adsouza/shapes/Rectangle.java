@@ -225,4 +225,12 @@ public class Rectangle extends Shape2D{
 	public double getHeight() {
 		return this.height;
 	}
+
+	public void setWidth(double w) {
+		this.width = w ;
+	}
+	
+	public void setHeight(double h) {
+		this.height = h ;
+	}
 }
