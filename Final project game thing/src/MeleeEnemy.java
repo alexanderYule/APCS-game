@@ -21,10 +21,10 @@ public class MeleeEnemy extends Enemy
 	private int damageaAreaCounter;
 	/**
 	 * Creates a custom MeleeEnemy object with a weapon, specific velocity
-	 * at location x,y
-	 * @param x the x coordinate of this enemy
-	 * @param y the x coordinate of this enemy
-	 * @param speed how fast the enemy can move
+	 * at location x,y.
+	 * @param x the x coordinate of this enemy.
+	 * @param y the x coordinate of this enemy.
+	 * @param speed how fast the enemy can move.
 	 */
 	public MeleeEnemy(double x, double y, double speed, int maxHealth)
 	{
@@ -38,15 +38,30 @@ public class MeleeEnemy extends Enemy
 		damageArea.setOpacity(200);
 		damageaAreaCounter = 0;
 	}
+	/**
+	 * 
+	 * @return how fast the enemy moves.
+	 */
 	public double getSpeed()
 	{
 		return speed;
 	}
+	/**
+	 * 
+	 * @param speed the new value for how fast the enemy should move.
+	 */
 	public void setSpeed(double speed)
 	{
 		this.speed = speed;
 	}
-	
+	/**
+	 * 
+	 * @param drawer the object used to draw the melee enemy on the screen
+	 * @param eUp
+	 * @param eDown
+	 * @param eRight
+	 * @param eLeft
+	 */
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		
 		if(isAlive())

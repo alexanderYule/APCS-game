@@ -57,8 +57,7 @@ public class Enemy extends GameEntity
 			super.drawHitBox(drawer);
 	}
 	/**
-	 * Creates a default enemy object that has velocity,
-	 * health, damage, direction at a random location
+	 * Creates a default enemy object that has velocity,health, damage, direction at a random location.
 	 * @param x the x coordinate of this enemy
 	 * @param y the y coordinate of this enemy
 	 */
