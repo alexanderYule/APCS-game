@@ -18,19 +18,7 @@ public class MeleeEnemy extends Enemy
 	private int windUpTime;
 	private boolean isAttacking;
 	private Circle damageArea ;
-	
-	/**
-	 * Creates a default MeleeEnemy object with a Weapon
-	 */
-	public MeleeEnemy() {
-		super();
-		this.axe = new Weapon(1,100,1);
-		super.setVelocity(Math.random()*5, Math.random()*5);
-		setDir(1);
-		windUpTime = 0;
-		speed = 0;
-	}
-	
+	private int damageaAreaCounter;
 	/**
 	 * Creates a custom MeleeEnemy object with a weapon, specific velocity
 	 * at location x,y
@@ -45,6 +33,10 @@ public class MeleeEnemy extends Enemy
 		this.speed = speed;
 		isAttacking = false;
 		setDir(1);
+		damageArea = new Circle(0,0,0,0,240,255,255);
+		damageArea.setFill();
+		damageArea.setOpacity(200);
+		damageaAreaCounter = 0;
 	}
 	public double getSpeed()
 	{
@@ -54,43 +46,42 @@ public class MeleeEnemy extends Enemy
 	{
 		this.speed = speed;
 	}
-	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft, PImage attack) {
+	
+	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
+		
 		if(isAlive())
 		{			
+			Rectangle r = getRect() ;
+			int xoffset = (int) (r.getWidth()) ;
+			int yoffset = (int) (r.getHeight()/2) ;
 			if(getDir() == 1) { //LEFT
-				drawer.image(eLeft, (int)(getX()), (int)(getY()));
+				drawer.image(eLeft, (int)(getX()-xoffset), (int)(getY()-yoffset));
 			}
 			else if(getDir() == 2) { //UP
-				drawer.image(eUp, (int)getX(), (int)getY());
+				drawer.image(eUp, (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else if(getDir() == 3) { //RIGHT
-				drawer.image(eRight,  (int)getX(), (int)getY());
+				drawer.image(eRight,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			else {  //DOWN
-				drawer.image(eDown,  (int)getX(), (int)getY());
+				drawer.image(eDown,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			getRect().move(getX(), getY());		
-			//getRect().draw(drawer);
-		}
-		if(damageArea != null)
-		damageArea.draw(drawer);
-		
-		if(isAttacking && isAlive()) {
-			drawer.image(attack, (float)(getX()-(getRect().getWidth())), (float)(getY()-(getRect().getHeight()/2)));
+			if(damageArea != null && damageaAreaCounter <= 30)
+			{			
+				damageArea.draw(drawer);
+				damageaAreaCounter++;
+			}
 		}
 		
-		drawer.noFill();
-		drawer.strokeWeight(3f);
-		drawer.rect((float)this.getRect().getX(),(float) getRect().getY(), (float)getRect().getWidth(), (float)getRect().getHeight());
-
-		//drawer.((float)getX(), (float)getY(), 4, 4);
+		
+		//drawer.ellipse((float)getX(), (float)getY(), 4, 4);
 	}
-
-	public void move(Player p)
+	public void move(Player p, ArrayList<Structure> s)
 	{
 		if(isAlive())
 		{
-			if(canSeePlayer(p))
+			if(canSeePlayer(p, s))
 			{
 				double vx = p.getX() - this.getX();
 				double vy = p.getY() - this.getY();
@@ -113,15 +104,23 @@ public class MeleeEnemy extends Enemy
 	private void attack(Player p)
 	{
 		isAttacking = true;
-		if(windUpTime >= 20)
+		if(windUpTime >= 45)
 		{
-			damageArea = new Circle(getX()-(getRect().getWidth()), getY()-(getRect().getHeight()/2), 60, 60);	
-			if(damageArea.isPointInside(p.getX(), p.getY()) || p.getRect().isCircleInside(damageArea))
-				p.takeDamage(10);
+			damageArea = new Circle(getX() + getRect().getWidth()/2, getY() + getRect().getHeight()/2, 110, 110);	
+			if(damageArea.isPointInside(p.getX(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()+ p.getRect().getHeight()) || damageArea.isPointInside(p.getX(), p.getY()+ p.getRect().getHeight()))
+				p.takeDamage(axe.getDamage());
 			windUpTime = 0;
 			isAttacking = false;
+			damageaAreaCounter = 0;
 		}
 		windUpTime++;
+	}
+	
+	/**
+	 * @return the axe weapon of this enemy
+	 */
+	public Weapon getAxe() {
+		return axe;
 	}
 	
 }

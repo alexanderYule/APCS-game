@@ -3,6 +3,7 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import adsouza.shapes.Circle;
 import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
@@ -17,26 +18,22 @@ import processing.core.PImage;
 public class DrawingSurface extends PApplet {
 	private Player p;
 	private Map m;
-	private PImage back;
 	private PImage backBeta;
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
-	private double interval, timeCheck;
-	private PImage eUp;
-	private PImage eDown;
-	private PImage eRight;
-	private PImage eLeft;
-	private PImage hUp;
-	private PImage hDown;
-	private PImage hRight;
-	private PImage hLeft;
+	private PImage gun;
+	private PImage eUp, eDown ,eRight ,eLeft;
+	private PImage hUp, hDown, hRight, hLeft;
 	private PImage attackHurt;
-	private CutsceneDrawer cutscene;
-	private static Room currentRoom;
+	private Room currentRoom;
+	private PImage leftMeleeGoblin;
+	private double interval, timeCheck;
 	private int levelNumber = 0 ;
 	private int roomNumber = 0 ;
 	private boolean levelComplete ;
 	private boolean gameOver ;
+	private boolean drawHitBox;
+
 
 	/**
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
@@ -48,11 +45,11 @@ public class DrawingSurface extends PApplet {
 		timeCheck = millis();
 		currentRoom = null;
 		RoomSchema.create();
-		cutscene = new CutsceneDrawer();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 		levelComplete = false ;
 		gameOver = false ;
+		drawHitBox = true;
 	}
 
 	/**
@@ -61,24 +58,26 @@ public class DrawingSurface extends PApplet {
 	public void setup() {
 		pBullet = loadImage("Resorces/bullettt.png");
 		eBullet = loadImage("Resorces/bulletE.png");
-		back = loadImage("Resorces/tiles/tileBlock.png");
+		gun = loadImage("Resorces/test/gun.png");
 		// backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
 		backBeta = loadImage("Resorces/tiles/stones.jpg");
 		obstacle = loadImage("Resorces/brick.jpg");
 		eUp = loadImage("Resorces/enemy_sprites/upGoblin.png");
 		eDown = loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		eRight = loadImage("Resorces/enemy_sprites/rightGoblin.png");
+		leftMeleeGoblin = loadImage("Resorces/test/axeGoblinLeft.png");
 		eLeft = loadImage("Resorces/enemy_sprites/leftGoblin.png");
-		hUp = loadImage("Resorces/hero_sprites/up.png");
+		/*hUp = loadImage("Resorces/hero_sprites/up.png");
 		hDown = loadImage("Resorces/hero_sprites/standingDown.png");
 		hRight = loadImage("Resorces/hero_sprites/right.png");
-		hLeft = loadImage("Resorces/hero_sprites/left.png");
+		hLeft = loadImage("Resorces/hero_sprites/left.png");*/
+		hUp = loadImage("Resorces/test/up.png");
+		hDown = loadImage("Resorces/test/down.png");
+		hRight = loadImage("Resorces/test/right.png");
+		hLeft = loadImage("Resorces/test/left.png");
 		attackHurt = loadImage("Resorces/attackBlood.png");
 	}
 
-	public static Room getCurrentRoom() {
-		return currentRoom;
-	}
 
 	public void transportToNextRoom() {
 		if(getRoomNumber() < RoomSchema.ROOMS - 1) {
@@ -155,22 +154,17 @@ public class DrawingSurface extends PApplet {
 		} else {
 			p.notMoving();
 		}
-
-		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt);
+		
+		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt, leftMeleeGoblin);
+		
 		ArrayList<Structure> structures = currentRoom.getStructures();
-
-
-		/*
-		 * 
-		 * when the player exits a room
-		 * 
-		 * 
-		 */
-
+		ArrayList<HealthBooster> boosters = currentRoom.getHealthBoosters();
+		
+		
 		for (int x = 0; x < p.getExistingBullets().size(); x++) // INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-			if (b.move(p, currentRoom.getAllEnemies())) {
+		if (b.move(p, currentRoom.getAllEnemies(), structures)) {
 				p.getExistingBullets().remove(x);
 				x--;
 			}
@@ -185,14 +179,19 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (b.move(p, currentRoom.getAllEnemies())) {
+				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
 
 				b.draw(this, eBullet);
 			}
-			r.fireToPlayer(p, millis());
+			r.fireToPlayer(p, structures, millis());
+			r.move(structures);
+			if(drawHitBox)
+			{
+				r.drawHitBox(this);
+			}
 		}
 		
 		for (int y = 0; y < currentRoom.getStationEnemies().size(); y++) {
@@ -203,7 +202,7 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (b.move(p, currentRoom.getAllEnemies())) {
+				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
@@ -216,36 +215,39 @@ public class DrawingSurface extends PApplet {
 		// if(millis() > interval + timeCheck ) {
 		//
 		// timeCheck = millis();
-
-		for (RangedEnemy r : currentRoom.getRangedEnemies()) // Changes direction of enemies
+		if(drawHitBox)
 		{
-
-			r.move();
+			p.drawHitBox(this);
 		}
-
 		for (MeleeEnemy r : currentRoom.getMeleeEnemies()) // Changes direction of enemies
 		{
-			r.move(p);
+			if(drawHitBox)
+			{
+				r.drawHitBox(this);
+			}
+			r.move(p, structures);
 		}
 		
 		
 		if(currentRoom.getAllEnemies().size() == 0) //ROOM CHANGE
 			p.setRoomStat(true);
-		p.draw(this); // draws this player
-		if (p.move(structures)) 
+		p.draw(this,hUp,hDown,hRight,hLeft); // draws this player
+		if(p.move(structures,boosters,currentRoom))
 		{
-			System.out.println("xd");
-			startCutscene();
+			currentRoom.canExit(true);		
 		}
-	}
-
-	private void startCutscene() {
-		int timeSince = millis();
-		for (int x = 0; x < 23; x++) {
-			for (int y = 0; y < 23; y++) {
-
-			}
+		if(currentRoom.canSendPlayer())		
+		{
+			transportToNextRoom();
+			p.setRoomStat(false);
+			currentRoom.canExit(false);
 		}
+		image(gun, 50,930);
+		pushStyle();
+		ellipseMode(CENTER);
+		fill(0,0,0,255);
+		//ellipse(50,930,50,50);
+			arc(50,930,50,50,0, (float)(2*PI -(2*PI * (p.getTimeSinceFire()*1000)/p.getGun().getAttackSpeed())), PIE);
 	}
 
 	/**
@@ -259,6 +261,13 @@ public class DrawingSurface extends PApplet {
 
 	// 1=left, 2=left & up, 3=up, 4= right & up
 	// 5 = right 6 = right & down 7 = down 8 = left & down
+	
+	public void keyTyped()
+	{
+		if (key == 'p') {
+			drawHitBox = !drawHitBox;
+		}
+	}
 	/**
 	 * Uses Processing PApplet to check when a keyboard key is pressed
 	 * 
@@ -267,62 +276,60 @@ public class DrawingSurface extends PApplet {
 	private void kPressed() {
 		if (key == CODED) {
 			if (keyCode == UP)
-				p.setup(true);
+				p.setUp(true);
 			if (keyCode == DOWN)
-				p.setdown(true);
+				p.setDown(true);
 			if (keyCode == LEFT)
-				p.setleft(true);
+				p.setLeft(true);
 			if (keyCode == RIGHT)
-				p.setright(true);
+				p.setRight(true);
 		}
 		if (key == 'w') // UP
 		{
-			p.setup(true);
+			p.setUp(true);
 		}
 		if (key == 'a') // LEFT
 		{
-			p.setleft(true);
+			p.setLeft(true);
 		}
 		if (key == 'd') // RIGHT
 		{
-			p.setright(true);
+			p.setRight(true);
 		}
 		if (key == 's') // DOWN
 		{
-			p.setdown(true);
+			p.setDown(true);
 		}
-		if (key == 'p') {
-			p.takeDamage(1.0);
-		}
+		
 	}
 
 	public void keyReleased() {
 		if (key == CODED) {
 			if (keyCode == UP)
-				p.setup(false);
+				p.setUp(false);
 			if (keyCode == DOWN)
-				p.setdown(false);
+				p.setDown(false);
 			if (keyCode == LEFT)
-				p.setleft(false);
+				p.setLeft(false);
 			if (keyCode == RIGHT)
-				p.setright(false);
+				p.setRight(false);
 			levelComplete = false ;
 		}
 		if (key == 'w') // UP
 		{
-			p.setup(false);
+			p.setUp(false);
 		}
 		if (key == 'a') // LEFT
 		{
-			p.setleft(false);
+			p.setLeft(false);
 		}
 		if (key == 'd') // RIGHT
 		{
-			p.setright(false);
+			p.setRight(false);
 		}
 		if (key == 's') // DOWN
 		{
-			p.setdown(false);
+			p.setDown(false);
 		}
 	}
 
@@ -336,6 +343,10 @@ public class DrawingSurface extends PApplet {
 
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
+	}
+
+	public int getLevelNumber() {
+		return levelNumber;
 	}
 
 }

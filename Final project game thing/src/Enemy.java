@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 
 /**
  * 
@@ -30,7 +31,11 @@ public class Enemy extends GameEntity
 		this.dir = 4;
 		isAlive = true;
 	}
-	
+	public void drawHitBox(PApplet drawer)
+	{
+		if(isAlive())
+			super.drawHitBox(drawer);
+	}
 	/**
 	 * Creates a default enemy object that has velocity,
 	 * health, damage, direction at a random location
@@ -111,9 +116,36 @@ public class Enemy extends GameEntity
 	public int getDir() {
 		return dir;
 	}
-	public boolean canSeePlayer(Player p)
+	public boolean findCollitions(ArrayList<Structure> structures)
 	{
-		return DrawingSurface.getCurrentRoom().playerInSight(this);
+		boolean found = false ;
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(getRect())) 
+			{
+				found = true;
+			}
+		}
+
+		return found ;
+	}
+	public boolean canSeePlayer(Player p, ArrayList<Structure> structures)
+	{
+		Rectangle rect = getRect() ;
+		int rx = (int) (rect.getX() + rect.getWidth()/2) ;
+		int ry = (int) (rect.getY() + rect.getHeight()/2) ;
+		Rectangle prect = p.getRect() ;
+		int px = (int) (prect.getX() + prect.getWidth()/2) ;
+		int py = (int) (prect.getY() + prect.getHeight()/2) ;
+		
+		Line l = new Line(rx,ry,px,py);
+	
+		boolean found = true ;
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(l)) {
+				found = false ;
+			}
+		}
+		return found;
 	}
 
 	/**

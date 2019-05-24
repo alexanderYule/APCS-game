@@ -15,6 +15,7 @@ public class Circle extends Shape2D{
 	private double height;
 	private double radius;
 	private double centerX;
+	private double opacity;
 	private double centerY;
 	
 	/**
@@ -31,6 +32,7 @@ public class Circle extends Shape2D{
 		this.radius = 0;
 		this.centerX = 0;
 		this.centerY = 0;
+		opacity = 0;
 	}
 
 	/**
@@ -48,20 +50,22 @@ public class Circle extends Shape2D{
 	public Circle(double x, double y, double width, double height, int r, int g, int b){
 		super(Math.abs(x), Math.abs(y), r, g, b);
 		setStrokeWeight(1);
-		setStrokeColor(r , g, b);
+		setStrokeColor(255, 255, 255);
 		this.width = Math.abs(width);
 		this.height = Math.abs(height);
 		this.radius = width/2;
 		this.centerX = (height-radius);
 		this.centerY = (width-radius);
+		opacity = 0;
 	}    
 	public Circle(double x, double y, double width, double height){
-		super(Math.abs(x), Math.abs(y), 0 , 0, 0);
+		super(Math.abs(x), Math.abs(y), 255 , 255, 255);
 		this.width = Math.abs(width);
 		this.height = Math.abs(height);
 		this.radius = width/2;
 		this.centerX = (x-radius);
 		this.centerY = (y-radius);
+		opacity = 0;
 	}       
 
 	/**
@@ -102,6 +106,10 @@ public class Circle extends Shape2D{
 		}
 		return false;
 	}	
+	public void setOpacity(int x)
+	{
+		opacity = x;
+	}
 	/**
 	 *  Sets the width and height of the circle to width and height
 	 *  @param width is the value that will be copied into the Circle object's
@@ -127,14 +135,14 @@ public class Circle extends Shape2D{
 	public void draw(PApplet drawer)
 	{
 		drawer.pushStyle();
-		drawer.ellipseMode(drawer.CORNER);
+		drawer.ellipseMode(drawer.CENTER);
 		super.draw(drawer);
 		if(getFillState()) {
 			drawer.noFill();
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
 		else {
-			drawer.fill(getFillR(), getFillG(), getFillB());
+			drawer.fill(getFillR(), getFillG(), getFillB(), 200);
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
 		drawer.popStyle();
