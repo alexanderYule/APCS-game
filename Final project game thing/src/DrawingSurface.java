@@ -49,7 +49,7 @@ public class DrawingSurface extends PApplet {
 		currentRoom.setPlayer(p);
 		levelComplete = false ;
 		gameOver = false ;
-		drawHitBox = true;
+		drawHitBox = false;
 	}
 
 	/**
