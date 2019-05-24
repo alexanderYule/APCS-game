@@ -19,6 +19,7 @@ public class Room {
 	private boolean exiting;
 	private PImage wall;
 	private PImage door;
+	private PImage lock;
 
 	private Rectangle[] walls;
 

@@ -30,8 +30,8 @@ public class Player extends GameEntity
 	public Player(double x, double y)
 	{
 		super(x,y,0,0,25,45);
-		g = new Gun(50,400,1,1,400,150);
-		//g = new Gun(100,400,1,0.1,400,150); // damage, range (WIP), number of bullets (WIP), fire rate(fires per second), bullet speed, ID
+		g = new Gun(50,400,1,400,150);
+		//g = new Gun(100,400,0.1,400,150,30,5); // damage, range (WIP), fire rate(fires per second), bullet speed, ID,sprayRange, number of bullets
 		dir = 1;
 		up = false;
 		down = false;

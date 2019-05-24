@@ -14,7 +14,7 @@ public class StationEnemy extends Enemy
 	 */
 	public StationEnemy() {
 		super();
-		this.eGun = new Gun(1,100,1,1,150,150);
+		this.eGun = new Gun(1,100,1,150,150);
 		setTimeSinceFire((int)(1000 * Math.random()));
 	}
 	
@@ -28,7 +28,7 @@ public class StationEnemy extends Enemy
 	 */
 	public StationEnemy(double x, double y, int fireRate, int maxHealth) {
 		super(x, y, maxHealth);
-		eGun = new Gun(1,400,2,fireRate,60,150);
+		eGun = new Gun(1,400,fireRate,60,150);
 		setTimeSinceFire((int)(1000 * Math.random()));
 	}
 	

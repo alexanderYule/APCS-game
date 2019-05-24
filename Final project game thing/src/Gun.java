@@ -6,6 +6,7 @@ public class Gun extends Weapon
 	private int bulletCount;//number of bullets per shot
 	private ArrayList<Bullet> bullets;
 	private double bulletSpeed;
+	private double sprayRange;
 	
 	/**
 	 * Creates a custom Gun object that deals certain damage, can fire
@@ -17,18 +18,36 @@ public class Gun extends Weapon
 	 * @param speed the speed the bullet travels
 	 * @param ID the ID of the weapon
 	 */
-	public Gun(double damage, int range, int bulletCount, double fireRate, double speed, int ID)
+	public Gun(double damage, int range, double fireRate, double speed, int ID, int sprayRange, int bulletCount)
 	{		
 		super(damage, fireRate, ID);
 		bullets = new ArrayList<Bullet>();
 		this.range = range;
 		this.bulletCount = bulletCount;
 		this.bulletSpeed = speed;
+		this.sprayRange = sprayRange;
+	}
+	/**
+	 * 
+	 * @param damage
+	 * @param range
+	 * @param fireRate
+	 * @param speed
+	 * @param ID
+	 */
+	public Gun(double damage, int range, double fireRate, double speed, int ID)
+	{
+		super(damage, fireRate, ID);
+		bullets = new ArrayList<Bullet>();
+		this.range = range;
+		this.bulletSpeed = speed;
+		bulletCount = 1;
+		sprayRange = 0;
 	}
 	
 	
 	/**
-	 * Fires a bullet from this weapon that travels across the screen
+	 * Fires a bullet from this weapon that travels across the screens
 	 * @param x the x coordinate of this weapon
 	 * @param y the y coordinate of this weapon
 	 * @param direction the direction of this weapon
@@ -36,7 +55,15 @@ public class Gun extends Weapon
 	 */
 	public void fireBullet(double x, double y, double direction, boolean isGood)
 	{
-		bullets.add(new Bullet(x,y,direction,bulletSpeed,getDamage(),isGood));
+		if(bulletCount == 1)
+			bullets.add(new Bullet(x,y,direction,bulletSpeed,getDamage(),isGood));
+		else
+		{
+			for(int i = 0; i < bulletCount; i++)
+			{
+				bullets.add(new Bullet(x,y,(direction - sprayRange/2) + (sprayRange * i/(bulletCount-1)),bulletSpeed,getDamage(),isGood));
+			}
+		}
 	}
 	
 	/**
