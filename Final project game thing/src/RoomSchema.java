@@ -11,7 +11,7 @@ public class RoomSchema {
 	public static int wallColorG = 153 ;
 	public static int wallColorB = 102 ;
 
-	private static Room[][] rooms= new Room[LEVELS][ROOMS] ;
+	private static Room[][] rooms= new Room[LEVELS][ROOMS];
 	
 	private static RoomSchema self = null ;
 		
@@ -32,7 +32,7 @@ public class RoomSchema {
 		int level = 0 ;
 		int room = 0 ;
 		
-		//Level 0 - Room 0
+	/*	//Level 0 - Room 0
 		int roomID = 1 ;
 		Rectangle[] walls00 = {
 			new Rectangle(150,150,20,70,wallColorR,wallColorG,wallColorB),
@@ -130,6 +130,7 @@ public class RoomSchema {
 		rooms[level++][room] = new Room(roomID,walls02,rangedEnemies02,meleeEnemies02,stationEnemies02);
 		room = 0 ;
 		
+		//Level 1- Room 0
 		Rectangle[] walls10 = {
 				new Rectangle(150,40,50,600,211,211,211),
 				new Rectangle(150,640,150,50,211,211,211),
@@ -137,7 +138,6 @@ public class RoomSchema {
 				new Rectangle(370,310,130,50,211,211,211),
 				new Rectangle(670,40,80,350,211,211,211),
 				new Rectangle(687,687,200,200,211,211,211),
-
 		};
 		
 		RangedEnemy[] rangedEnemies10 = {
@@ -156,6 +156,81 @@ public class RoomSchema {
 		} ;
 		
 		rooms[level][room++] = new Room(1,walls10,rangedEnemies10,meleeEnemies10, stationEnemies10);
+		*/
+		//Level 1- Room 1
+	/*	Rectangle[] walls11 = {
+				new Rectangle(150,40,50,600,211,211,211),
+				new Rectangle(150,640,150,50,211,211,211),
+				new Rectangle(450,360,50,520,211,211,211),
+				new Rectangle(370,310,130,50,211,211,211),
+				new Rectangle(670,40,80,350,211,211,211),
+				new Rectangle(687,687,200,200,211,211,211),
+		};
+		
+		RangedEnemy[] rangedEnemies11 = {
+			new RangedEnemy(50,80,1,0),
+			new RangedEnemy(500,175,1,0),
+			new RangedEnemy(595,615,1,0) 
+		} ;
+		rangedEnemies11[0].getGun().setDamage(3);
+		rangedEnemies11[1].getGun().setDamage(3);
+		rangedEnemies11[2].getGun().setDamage(3);
+
+
+		MeleeEnemy[] meleeEnemies11 = {
+			new MeleeEnemy(800,100,4),
+		} ;
+		
+		StationEnemy[] stationEnemies11 = {
+				new StationEnemy(380,820,1),
+				new StationEnemy(260,45,1) 
+		} ;
+		stationEnemies11[0].getGun().setDamage(3);
+		stationEnemies11[2].getGun().setDamage(3);
+		
+		rooms[level][room++] = new Room(1,walls11,rangedEnemies11,meleeEnemies11, stationEnemies11);
+		*/
+		
+		//Level 1- Room 2
+		Rectangle[] walls12 = {
+				new Rectangle(200,40,50,350,211,211,211),
+				new Rectangle(200,550,50,350,211,211,211),
+				new Rectangle(110,460,40,40,211,211,211),
+
+				new Rectangle(430,310,50,350,211,211,211),
+
+				new Rectangle(670,40,215,350,211,211,211),
+				new Rectangle(670,530,215,350,211,211,211),
+
+
+		};
+		
+		RangedEnemy[] rangedEnemies12 = {
+			new RangedEnemy(50,80,1,0),
+			new RangedEnemy(100,810,1,0),
+
+		} ;
+		rangedEnemies12[0].getGun().setAttackSpeed(1);
+		rangedEnemies12[1].getGun().setAttackSpeed(1);
+		rangedEnemies12[0].getGun().setDamage(2);
+		rangedEnemies12[1].getGun().setDamage(2);
+
+
+		MeleeEnemy[] meleeEnemies12 = {
+			new MeleeEnemy(480,500,4),
+		} ;
+		
+		StationEnemy[] stationEnemies12 = {
+				new StationEnemy(360,820,1),
+				new StationEnemy(260,45,1),
+				new StationEnemy(700,490,1) 
+		} ;
+		stationEnemies12[0].getGun().setDamage(5);
+		stationEnemies12[1].getGun().setDamage(5);
+		stationEnemies12[0].getGun().setAttackSpeed(1);
+		stationEnemies12[1].getGun().setAttackSpeed(1);
+		
+		rooms[level][room++] = new Room(1,walls12,rangedEnemies12,meleeEnemies12, stationEnemies12);
 		
 	}
 }
