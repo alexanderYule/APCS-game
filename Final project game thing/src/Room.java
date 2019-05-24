@@ -44,7 +44,6 @@ public class Room {
 		setRoom();
 		setEnemies(rangedEnemies, meleeEnemies, stationEnemies);
 		setBoosters(boosters);
-		
 		exiting = false;
 		wall = null;
 		door = null;
@@ -89,7 +88,6 @@ public class Room {
 			addStationEnemy(m);
 			m.getGun().setBulletSpeed(150);
 		}
-
 	}
 	
 	private void setBoosters(HealthBooster[] boosters) {
@@ -286,6 +284,14 @@ public class Room {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * <<<<<<< Updated upstream
+	 * 
+	 * =======
+	 * 
+	 * >>>>>>> Stashed changes
+>>>>>>> origin/master
 	 * 
 	 * @param stuct adds a structure to the room
 	 */

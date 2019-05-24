@@ -31,7 +31,6 @@ public class RoomSchema {
 	private static void setupRooms() {
 		int level = 0 ;
 		int room = 0 ;
-
 		//Level 0 - Room 0
 		int roomID = 1 ;
 
@@ -429,6 +428,5 @@ public class RoomSchema {
 		} ;
 
 		rooms[level][room] = new Room(roomID++,walls23,rangedEnemies23,meleeEnemies23, stationEnemies23,boosters23);
-		
 	}
 }

@@ -21,7 +21,7 @@ public class Player extends GameEntity
 	private PImage image;
 	private int hardDir;
 	private int counter;
-	
+
 	/**
 	 * creates a player object with a Gun, at location x,y with 100 health
 	 * @param x the x coordinate of the player.
@@ -61,8 +61,7 @@ public class Player extends GameEntity
 				drawer.image(up, (int)getX(), (int)getY());
 			
 			else if (dir == 7)  //DOWN
-				drawer.image(down, (int)getX(), (int)getY());
-				
+				drawer.image(down, (int)getX(), (int)getY());				
 		}
 		else
 		{
@@ -290,6 +289,7 @@ public class Player extends GameEntity
 	 */
 	public boolean move(ArrayList<Structure> structures, ArrayList<HealthBooster> boosters,Room room) 
 	{
+		//Room room = DrawingSurface.getCurrentRoom() ;
 		if(up)
 			setyVel(-4);
 		if(down)
@@ -333,6 +333,14 @@ public class Player extends GameEntity
  		{
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialXHitBox)) 
+			{
+				if(str.isExit() && canLeaveRoom)
+				{
+					return true;
+				}
+				xColDetected = true;
+			}
+			if(str.getHitBox().intersects(potentialYHitBox)) 
 			{
 				if(str.isExit() && canLeaveRoom)
 				{
