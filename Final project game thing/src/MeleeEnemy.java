@@ -29,7 +29,7 @@ public class MeleeEnemy extends Enemy
 	public MeleeEnemy(double x, double y, double speed, int maxHealth)
 	{
 		super(x, y,maxHealth);
-		axe = new Weapon(1,1,1);
+		axe = new Weapon(10,1,1);
 		this.speed = speed;
 		isAttacking = false;
 		setDir(1);
