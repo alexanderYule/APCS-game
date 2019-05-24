@@ -36,10 +36,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
 	 */
 	public DrawingSurface() {
-<<<<<<< HEAD
 		home = new Home();
-=======
->>>>>>> origin/master
 		p = new Player(50, 460);
 		currentRoom = null;
 		RoomSchema.create();
@@ -106,8 +103,6 @@ public class DrawingSurface extends PApplet {
 	 *       pressed.
 	 */
 	public void draw() {
-		
-<<<<<<< HEAD
 		if(!home.isStarted()) {
 			home.draw(this);
 			return ;
@@ -115,8 +110,6 @@ public class DrawingSurface extends PApplet {
 		this.strokeWeight(1);
 		this.stroke(0,0,0);
 		
-=======
->>>>>>> origin/master
 		if(levelComplete ) {
 			background(0,0,0);
 			this.strokeWeight(1);
@@ -303,12 +296,8 @@ public class DrawingSurface extends PApplet {
 				if(x >= 650 && x <= 725 && y <= 500 && y>= 575)
 					p.getNewGun(3);
 			}
-<<<<<<< HEAD
 			if(!home.isPaused())
 				p.fireWeapon(x, y, millis());
-=======
-			p.fireWeapon(x, y, millis());
->>>>>>> origin/master
 		}
 	}
 
