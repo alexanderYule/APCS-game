@@ -1,12 +1,9 @@
-import java.awt.Color;
-import java.awt.Window;
-import java.awt.event.KeyEvent;
+
 import java.util.ArrayList;
 
-import adsouza.shapes.Circle;
-import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 /**
@@ -16,9 +13,7 @@ import processing.core.PImage;
  *         Class that draws things and allows for images to be on the screen.
  */
 public class DrawingSurface extends PApplet {
-	private Home home ;
 	private Player p;
-	private Map m;
 	private PImage backBeta;
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
@@ -26,9 +21,9 @@ public class DrawingSurface extends PApplet {
 	private PImage eUp, eDown ,eRight ,eLeft;
 	private PImage hUp, hDown, hRight, hLeft;
 	private PImage attackHurt;
+	private PImage portal;
 	private Room currentRoom;
 	private PImage leftMeleeGoblin;
-	private double interval, timeCheck;
 	private int levelNumber = 0 ;
 	private int roomNumber = 0 ;
 	private boolean levelComplete ;
@@ -40,11 +35,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
 	 */
 	public DrawingSurface() {
-		home = new Home();
-		m = new Map(0);
 		p = new Player(50, 460);
-		interval = 1000;
-		timeCheck = millis();
 		currentRoom = null;
 		RoomSchema.create();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
@@ -78,6 +69,7 @@ public class DrawingSurface extends PApplet {
 		hRight = loadImage("Resorces/test/right.png");
 		hLeft = loadImage("Resorces/test/left.png");
 		attackHurt = loadImage("Resorces/attackBlood.png");
+		portal = loadImage("Resorces/test/Portal.png");
 	}
 
 
@@ -97,10 +89,6 @@ public class DrawingSurface extends PApplet {
 		currentRoom.setPlayer(player);
 	}
 
-	public void mouseClicked() {
-		home.mouseClicked(this);
-	}
-	
 	/**
 	 * Draws the the particular Shape instances on DrawingSurface using Processing
 	 * PApplet.
@@ -110,30 +98,42 @@ public class DrawingSurface extends PApplet {
 	 */
 	public void draw() {
 		
-		if(!home.isStarted()) {
-			home.draw(this);
-			return ;
-		} else {
-			strokeWeight(0);
-		}
-		
-		if(levelComplete) {
-			this.fill(255,255,255);
-			
-			for(int x = 40; x < 1000; x += 300) 
-			{         
-				for(int y = 40; y < 1100; y += 300) 
-				{
-					image(backBeta, x , y);
-				}
-			}
-			
+		if(levelComplete ) {
+			background(0,0,0);
 			this.strokeWeight(1);
 			this.stroke(0,0,0);
 			this.fill(0,0,0);
 			this.textSize(40);
-			String str = "Level " + (levelNumber+1) + " Complete, \nPress Enter to continue.." ;
-			
+			portal.resize(400, 400);
+			image(portal, 250,50);
+			if(levelNumber == 0)
+			{
+				fill(0,0,0);
+				Rectangle r1 = new Rectangle(200, 500, 75,75);
+				Rectangle r2 = new Rectangle(425, 500, 75,75);
+				Rectangle r3 = new Rectangle(650, 500, 75,75);
+				r1.draw(this);
+				r2.draw(this);
+				r3.draw(this);
+				textFont(createFont("Impact", 32));
+				textAlign(CENTER);
+				if(r1.isPointInside(mouseX, mouseY))
+				{
+					fill(255,255,255);
+					text("Increase attack speed, but decrease damage.",463, 650);
+				}
+				if(r2.isPointInside(mouseX, mouseY))
+				{
+					fill(255,255,255);
+					text("Increase attack speed slightly, same damage.",463, 650);
+				}
+				if(r3.isPointInside(mouseX, mouseY))
+				{
+					fill(255,255,255);
+					text("Have a spray of bullets, but slow attack speed.",463, 650);
+				}
+			}
+			String str = "";
 			if(gameOver) {
 				str = "Game Over" ;
 				if(levelComplete)
@@ -177,7 +177,7 @@ public class DrawingSurface extends PApplet {
 		for (int x = 0; x < p.getExistingBullets().size(); x++) // INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-			if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(), structures)) {
+		if (b.move(p, currentRoom.getAllEnemies(), structures)) {
 				p.getExistingBullets().remove(x);
 				x--;
 			}
@@ -192,17 +192,15 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(),structures)) {
+				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
 
 				b.draw(this, eBullet);
 			}
-			if(!home.isPaused()) {
-				r.fireToPlayer(p, structures, millis());
-				r.move(structures);
-			}
+			r.fireToPlayer(p, structures, millis());
+			r.move(structures);
 			if(drawHitBox)
 			{
 				r.drawHitBox(this);
@@ -217,15 +215,14 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(),structures)) {
+				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
 
 				b.draw(this, eBullet);
 			}
-			if(!home.isPaused())
-				r.fireAllDir(millis(), structures);
+			r.fireAllDir(millis(), structures);
 		}
 
 		// if(millis() > interval + timeCheck ) {
@@ -241,15 +238,14 @@ public class DrawingSurface extends PApplet {
 			{
 				r.drawHitBox(this);
 			}
-			if(!home.isPaused())
-				r.move(p, structures);
+			r.move(p, structures);
 		}
 		
 		
 		if(currentRoom.getAllEnemies().size() == 0) //ROOM CHANGE
 			p.setRoomStat(true);
 		p.draw(this,hUp,hDown,hRight,hLeft); // draws this player
-		if(!home.isPaused() && p.move(structures,boosters,currentRoom))
+		if(p.move(structures,boosters,currentRoom))
 		{
 			currentRoom.canExit(true);		
 		}
@@ -264,15 +260,28 @@ public class DrawingSurface extends PApplet {
 		ellipseMode(CENTER);
 		fill(0,0,0,255);
 		//ellipse(50,930,50,50);
-			arc(50,930,50,50,0, (float)(2*PI -(2*PI * (p.getTimeSinceFire()*1000)/p.getGun().getAttackSpeed())), PIE);
+			//arc(50,930,50,50,0, (float)(2*PI -(2*PI * (p.getTimeSinceFire()*1000)/p.getGun().getAttackSpeed())), PIE);
 	}
 
 	/**
 	 * Makes this player shoot a bullet from his/her weapon on a mouse click
 	 */
 	public void mousePressed() {
-		if (mouseButton == LEFT) {
-			p.fireWeapon(mouseX, mouseY, millis());
+		int x = mouseX;
+		int y = mouseY;
+		if (mouseButton == LEFT) 
+		{
+			if(levelComplete)
+			{
+				System.out.println(x + "  " + y);
+				if(x >= 200 && x <= 275 && y <= 500 && y>= 575)
+					p.getNewGun(1);
+				if(x >= 425 && x <= 500 && y <= 500 && y>= 575)
+					p.getNewGun(2);
+				if(x >= 650 && x <= 725 && y <= 500 && y>= 575)
+					p.getNewGun(3);
+			}
+			p.fireWeapon(x, y, millis());
 		}
 	}
 
@@ -281,9 +290,10 @@ public class DrawingSurface extends PApplet {
 	
 	public void keyTyped()
 	{
-		if (key == 'p' || key == 'P') {
+		if (key == 'p' || key == 'P') 
 			drawHitBox = !drawHitBox;
-		}
+		if(key == 'l')
+			levelComplete = !levelComplete;
 	}
 	/**
 	 * Uses Processing PApplet to check when a keyboard key is pressed
@@ -347,10 +357,6 @@ public class DrawingSurface extends PApplet {
 		if (key == 's' || key == 'S') // DOWN
 		{
 			p.setDown(false);
-		}
-		if (key == 'f' || key == 'F') // DOWN
-		{
-			home.pause();
 		}
 	}
 

@@ -30,8 +30,8 @@ public class Player extends GameEntity
 	public Player(double x, double y)
 	{
 		super(x,y,0,0,25,45);
-		//g = new Gun(50,400,1,400,150);
-		g = new Gun(100,400,0.1,400,150,30,5); // damage, range (WIP), fire rate(fires per second), bullet speed, ID,sprayRange, number of bullets
+		getNewGun(0);
+		//getNewGun(100);
 		dir = 1;
 		up = false;
 		down = false;
@@ -44,7 +44,6 @@ public class Player extends GameEntity
 		hardDir = 0;
 		counter = 0;
 	}
-	
 	/**
 	 * draws the player
 	 * @param drawer - object that draws the player
@@ -124,6 +123,28 @@ public class Player extends GameEntity
 		
 		//drawer.noFill();
 		//drawer.strokeWeight(5);
+	}
+	public void getNewGun(int ID)
+	{
+		//damage, range (WIP), fire rate(fires per second), bullet speed, ID (doesn't do anything),sprayRange, number of bullets
+		switch(ID)
+		{
+			case 0:
+				g = new Gun(25,0,1,400,150);// default gun
+				break;
+			case 1:   // 1-3 is first wave
+				g = new Gun(25,0,0.75,400,ID);
+				break;
+			case 2:
+				g = new Gun(5,0,0.05,400,ID);
+				break;
+			case 3:
+				g = new Gun(25,0,1.25,400,ID, 60,3);
+				break;
+			case 100:
+				g = new Gun(100,0,0.1,400,150,30,5); //op gun
+				break;
+		}
 	}
 	/**
 	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
@@ -346,14 +367,6 @@ public class Player extends GameEntity
  		{
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialXHitBox)) 
-			{
-				if(str.isExit() && canLeaveRoom)
-				{
-					return true;
-				}
-				xColDetected = true;
-			}
-			if(str.getHitBox().intersects(potentialYHitBox)) 
 			{
 				if(str.isExit() && canLeaveRoom)
 				{
