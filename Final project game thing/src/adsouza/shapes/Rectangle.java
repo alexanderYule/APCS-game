@@ -58,7 +58,7 @@ public class Rectangle extends Shape2D{
 	 * 	@param height is the height of the rectangle
 	*/
 	public Rectangle(double x, double y, double width, double height) {
-		super(x,y);
+		super(x ,y);
 		this.width = width;
 		this.height = height;
 	}
@@ -86,7 +86,7 @@ public class Rectangle extends Shape2D{
 	 * @param x is the x-coordinate of the point to check
 	 * @param y is the y-coordinate of the point to check
 	 * @return true if the point (x, y) is inside this rectangle,
-	 * false otherwise
+	 * false otherwiseww
 	*/
 	public boolean isPointInside(double x, double y){
 		if((x <= (this.x+width)  && x >= this.x) && 
@@ -150,9 +150,35 @@ public class Rectangle extends Shape2D{
 			drawer.fill(getFillR(), getFillG(), getFillB());
 			drawer.rect((float)x, (float)y, (float)width, (float)height);
 		}
+		//drawer.ellipse((float)x,(float) y, 5f, 5f);
 		drawer.popStyle();
 	}
 
+	
+	public boolean intersects(Line other) {
+		Line l = new Line(x,y,x+width,y);
+		if(l.intersects(other)){
+			return true ;
+		}
+		
+		l = new Line(x,y,x,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		l = new Line(x+width,y,x+width,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		l = new Line(x,y+height,x+width,y+height);
+		if(l.intersects(other)){
+			return true ;
+		}
+
+		return false ;
+	}
+	
 	/**
 	 * Checks and returns whether Rectangle other intersects this rectangle
 	 * @param other Rectangle object that is used to check for intersection with
@@ -198,5 +224,13 @@ public class Rectangle extends Shape2D{
 	
 	public double getHeight() {
 		return this.height;
+	}
+
+	public void setWidth(double w) {
+		this.width = w ;
+	}
+	
+	public void setHeight(double h) {
+		this.height = h ;
 	}
 }

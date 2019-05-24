@@ -1,4 +1,5 @@
 
+
 public class Weapon 
 {
 	private int ID; // just to keep track which level the player got this weapon
@@ -47,6 +48,16 @@ public class Weapon
 	}
 	
 	/**
+	 * Sets of the damage value of this weapon to a new value
+	 * @post the damage value dealt by this weapon will change
+	 */
+	public void setDamage(double dmg)
+	{
+		this.damage = dmg;
+	}
+	
+	
+	/**
 	 * Returns the ID value  of this weapon
 	 * @return the ID  value of this weapon
 	 */
@@ -55,3 +66,4 @@ public class Weapon
 		return ID;
 	}
 }
+

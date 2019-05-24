@@ -63,18 +63,18 @@ public class Bullet
 	 * will change 
 	 * @return returns true if the bullet should be deleted, false otherwise
 	 */
-	public boolean move(Player p, ArrayList<Structure> structures , ArrayList<Enemy> enemies)
+	public boolean move(Player p, ArrayList<Enemy> enemies, ArrayList<Structure> s)
 	{
 		y += xVelocity/20;
 		x += yVelocity/20;
+
 		
-		for(Structure s : structures)
+		//	new Circle(this.x+10, this.y+10, 20,20,14,14,14) USE THIS FOR ACCURACY COLLISSION
+		for(Structure str : s)
 		{
-			if(s.getHitBox().isPointInside(x,y))
+			if(str.getHitBox().isPointInside(x,y))
 				return true;
 		}
-	//	new Circle(this.x+10, this.y+10, 20,20,14,14,14) USE THIS FOR ACCURACY COLLISSION
-		
 		if(isGood)
 		{
 			for(int x = 0; x < enemies.size(); x++)

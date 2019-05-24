@@ -8,6 +8,7 @@ import processing.core.PImage;
 public class RangedEnemy extends Enemy
 {
 	private Gun eGun;
+	private int timeSinceChanged;
 	
 	
 	/**
@@ -16,7 +17,8 @@ public class RangedEnemy extends Enemy
 	public RangedEnemy() {
 		super();
 		this.eGun = new Gun(1,100,1,1,150,150);
-		super.setVelocity(Math.random()*5, Math.random()*5);
+		setVelocity(Math.random()*5, Math.random()*5);
+		timeSinceChanged = (int)(1000 * Math.random());
 	}
 	
 	/**
@@ -29,23 +31,33 @@ public class RangedEnemy extends Enemy
 	 */
 	public RangedEnemy(double x, double y, double xVel, double yVel) {
 		super(x, y);
-		this.eGun = new Gun(1,400,1,1,50,150);
-		super.setVelocity(xVel, yVel);
+		eGun = new Gun(1,400,1,3,60,150);
+		setVelocity(xVel, yVel);
+		setTimeSinceFire((int)(1000 * Math.random()));
+		timeSinceChanged = (int)(1000 * Math.random());
 	}
 	
 	/**
 	 * Fires a bullet to the location of player
 	 * @param player the player object this RangedEnemy has to shoot/target
 	 */
-	public void fireToPlayer(Player player) {
-		double vx = player.getX() - this.getX();
-		double vy = player.getY() - this.getY();
-
-		double angle = 0;
-		
-		angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+	public void fireToPlayer(Player player, ArrayList<Structure> s, int millis) 
+	{
+		if(!canSeePlayer(player, s)) {
+			return ;
+		}
+		if((millis - getTimeSinceFire())/1000.0 > eGun.getAttackSpeed())
+		{
+			setTimeSinceFire(millis);
+			double vx = player.getX() + player.getRect().getWidth()/2 - getX();
+			double vy = player.getY() + player.getRect().getHeight()/2 - getY();
 	
-		this.getGun().fireBullet(this.getX(), this.getY(), angle, false);
+			double angle = 0;
+			
+			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
+		
+			getGun().fireBullet(getX(), getY(), angle, false);
+		}
 	}
 	
 	/**
@@ -55,7 +67,35 @@ public class RangedEnemy extends Enemy
 	public Gun getGun() {
 		return eGun;
 	}
+	public void move(ArrayList<Structure> s)
+	{
+		//changeDirection();
+		boolean colDetected = false;
+		if(this.getX() >= 900) {
+			colDetected = true;
+		}
+		for(Structure str : s)
+		{
+			if(str.getHitBox().intersects(getRect()))
+				colDetected = true;
+		}
 	
+		
+ 		
+		if(colDetected) 
+ 		{
+			this.setVelocity(getxVel() * -1,getyVel() * -1);
+ 			//setyVel(getyVel() * -1);
+			setY(getY() + getyVel());
+ 			//setxVel(getxVel() * -1);
+			setX(getX() + getxVel());
+ 		}
+		else
+		{
+			setY(getY() + getyVel());
+			setX(getX() + getxVel());
+		}
+	}
 
 	/**
 	 *  Draws a graphical representation of this RangedEnemy at its respective location 
@@ -65,9 +105,10 @@ public class RangedEnemy extends Enemy
 	*/
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		if(isAlive())
-		{			
+		{
+			
 			if(getDir() == 1) { //LEFT
-				drawer.image(eLeft, (int)getX(), (int)getY());
+				drawer.image(eLeft, (int)(getX()), (int)getY());
 			}
 			else if(getDir() == 2) { //UP
 				drawer.image(eUp, (int)getX(), (int)getY());
@@ -79,7 +120,7 @@ public class RangedEnemy extends Enemy
 				drawer.image(eDown,  (int)getX(), (int)getY());
 			}
 			getRect().move(getX(), getY());		
-			drawer.rect((float)this.getX() + 20, (float)this.getY()+10, 10f, 50f);
 		}
 	}
+	
 }

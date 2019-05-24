@@ -40,6 +40,10 @@ public class Line extends Shape {
 		super.draw(drawer);
 		drawer.line((float)x, (float)y, (float)x2, (float)y2);
 	}
+	public double getLength()
+	{
+		return Math.sqrt(Math.pow(x2-x,2)+Math.pow(y2-y,2));
+	}
 
 	/**
 	 * Checks whether two Lines intersect each other

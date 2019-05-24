@@ -1,4 +1,5 @@
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 /**
  * 
  * @author Aaron Dsouza
@@ -10,6 +11,7 @@ public abstract class GameEntity {
 	private double x,y;
 	private double xVel, yVel;
 	private Rectangle rect;
+	private int time;
 	/**
 	 * no args constructor, sets x and y to 50 and both velocities to 0
 	 */
@@ -19,6 +21,7 @@ public abstract class GameEntity {
 		rect = new Rectangle();
 		xVel = 0;
 		yVel = 0;
+		this.time = 0;
 	}
 	/**
 	 * 
@@ -37,8 +40,9 @@ public abstract class GameEntity {
 		rect.setStrokeWeight(5);
 		this.xVel = xVel;
 		this.yVel = yVel;
+		time = 0;
 	}
-	/**
+	/** 
 	 * 
 	 * @param x x position of the Entity
 	 * @param y y position of the Entity
@@ -46,11 +50,29 @@ public abstract class GameEntity {
 	public GameEntity(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.rect = new Rectangle(x, y, 50, 50);
+		this.rect = new Rectangle(x + 25, y + 25, 50, 50);
 		rect.setNoFill();
 		rect.setStrokeWeight(5);
 		this.xVel = 0;
 		this.yVel = 0;
+	}
+	/**
+	 * 
+	 * @return the time since the entity last attacked with its weapon
+	 */
+	public double getTimeSinceFire() {
+		return time;
+	}
+	/**
+	 * 
+	 * @param t the new time since the entity last attacked with its weapon
+	 */
+	public void setTimeSinceFire(int t) {
+		this.time = t;
+	}
+	public void drawHitBox(PApplet drawer)
+	{
+		getRect().draw(drawer);
 	}
 	/**
 	 * 
@@ -128,6 +150,11 @@ public abstract class GameEntity {
 	 */
 	public void setRect(Rectangle rect) {
 		this.rect = rect;
+	}
+	public void step() 
+	{
+		x += xVel;
+		y += yVel;		
 	}
 	
 	

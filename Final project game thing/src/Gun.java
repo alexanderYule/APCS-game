@@ -47,4 +47,13 @@ public class Gun extends Weapon
 	{
 		return bullets;
 	}
+	
+	/**
+	 * Changes the bullet speed of this gun
+	 * to speed
+	 * @param speed The need speed of this gun's bullets
+	 */
+	public void setBulletSpeed(double speed) {
+		this.bulletSpeed = speed;
+	}
 }

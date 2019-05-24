@@ -15,6 +15,7 @@ public class Circle extends Shape2D{
 	private double height;
 	private double radius;
 	private double centerX;
+	private double opacity;
 	private double centerY;
 	
 	/**
@@ -31,6 +32,7 @@ public class Circle extends Shape2D{
 		this.radius = 0;
 		this.centerX = 0;
 		this.centerY = 0;
+		opacity = 0;
 	}
 
 	/**
@@ -48,13 +50,23 @@ public class Circle extends Shape2D{
 	public Circle(double x, double y, double width, double height, int r, int g, int b){
 		super(Math.abs(x), Math.abs(y), r, g, b);
 		setStrokeWeight(1);
-		setStrokeColor(r , g, b);
+		setStrokeColor(255, 255, 255);
 		this.width = Math.abs(width);
 		this.height = Math.abs(height);
 		this.radius = width/2;
 		this.centerX = (height-radius);
 		this.centerY = (width-radius);
-	}                                          
+		opacity = 0;
+	}    
+	public Circle(double x, double y, double width, double height){
+		super(Math.abs(x), Math.abs(y), 255 , 255, 255);
+		this.width = Math.abs(width);
+		this.height = Math.abs(height);
+		this.radius = width/2;
+		this.centerX = (x-radius);
+		this.centerY = (y-radius);
+		opacity = 0;
+	}       
 
 	/**
 	 *  Calculates and returns the area of this circle
@@ -77,19 +89,27 @@ public class Circle extends Shape2D{
 	// Determines whether the point x,y is contained inside this Circle
 	/**
 	 *  Checks whether the point (x,y) is inside this circle 
-	 * 	@param x is the x-coordinate of the point to check for inclusion
-	 * 	@param y is the y-coordinate of the point to check for inclusion
+	 * 	@param pointX is the x-coordinate of the point to check for inclusion
+	 * 	@param pointY is the y-coordinate of the point to check for inclusion
 	 * 	@return true is the point is inside this circle or false otherwise
 	*/
-	public boolean isPointInside(double x, double y){
-		if(Math.pow(x-centerX, 2) + Math.pow(y-centerY, 2) == Math.pow(radius,2)) { //Equation of a circle
+	public boolean isPointInside(double pointX, double pointY)
+	{
+		double distance = Math.pow(Math.sqrt((pointX - x) + (pointY - y)),2);
+		if(distance <= radius)
+		{
 			return true;
 		}
-		else {
+		if(distance > radius)
+		{
 			return false;
 		}
+		return false;
+	}	
+	public void setOpacity(int x)
+	{
+		opacity = x;
 	}
-	
 	/**
 	 *  Sets the width and height of the circle to width and height
 	 *  @param width is the value that will be copied into the Circle object's
@@ -112,17 +132,20 @@ public class Circle extends Shape2D{
 	 *  @pre drawer must not be be null
 	 *  @post the drawer will alter the Circle object's ellipse mode to drawer.CORNER
 	*/
-	public void draw(PApplet drawer){
-		drawer.ellipseMode(drawer.CORNER);
+	public void draw(PApplet drawer)
+	{
+		drawer.pushStyle();
+		drawer.ellipseMode(drawer.CENTER);
 		super.draw(drawer);
 		if(getFillState()) {
 			drawer.noFill();
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
 		else {
-			drawer.fill(getFillR(), getFillG(), getFillB());
+			drawer.fill(getFillR(), getFillG(), getFillB(), 200);
 			drawer.ellipse((float)x, (float)y, (float)width, (float)height);
 		}
+		drawer.popStyle();
 	}
 	
 	/**
@@ -131,7 +154,14 @@ public class Circle extends Shape2D{
 	public double getRadius() {
 		return this.radius;
 	}
-	
+	public double getCenterX()
+	{
+		return centerX;
+	}
+	public double getCenterY()
+	{
+		return centerY;
+	}
 	/**
 	 * @return The x-coordinate of this Circle
 	 */

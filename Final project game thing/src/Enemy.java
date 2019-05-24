@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
+import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 
 /**
  * 
@@ -10,10 +12,11 @@ import adsouza.shapes.Rectangle;
  */
 public class Enemy extends GameEntity
 {
-	private double damage; //WHAT DOES DAMAGE EXACTLY STAND FOR?
+	private double damage; 
 	private double health;
 	private int dir; //1=left, 2=up, 3=right, 4=down
 	private boolean isAlive;
+
 	 
 	/**
 	 * Creates an enemy object that has velocity,
@@ -22,13 +25,17 @@ public class Enemy extends GameEntity
 	 * @param y the y coordinate of this enemy
 	 */
 	public Enemy(double x, double y) {
-		super(x,y,0,0,20,30);
+		super(x,y,0,0,20,40);
 		this.health = 100;
 		this.damage = 0; 
 		this.dir = 4;
 		isAlive = true;
 	}
-	
+	public void drawHitBox(PApplet drawer)
+	{
+		if(isAlive())
+			super.drawHitBox(drawer);
+	}
 	/**
 	 * Creates a default enemy object that has velocity,
 	 * health, damage, direction at a random location
@@ -109,44 +116,38 @@ public class Enemy extends GameEntity
 	public int getDir() {
 		return dir;
 	}
-
-	public void move( ArrayList<Structure> structures)
+	public boolean findCollitions(ArrayList<Structure> structures)
 	{
-		
-		boolean colDetected = false;
-		if(this.getX() >= 900) {
-			colDetected = true;
+		boolean found = false ;
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(getRect())) 
+			{
+				found = true;
+			}
 		}
-		
-		for(int x = 0; x < structures.size(); x++)
- 		{
- 			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(getRect())) 
-				colDetected = true;
- 		}
- 		
-		if(!colDetected) {
-			
-			double tempXVel = this.getxVel(); //Use speed to determine rate of direction change
-			double tempYVel = this.getyVel();
-			if(Math.random()*6 >= 3) {
-				tempXVel*=-1;
-			}
-			else{
-				tempYVel*=-1;
-			}
-			
-			setX(getX() + tempXVel);
-			setY(getY() + tempYVel);
- 		}
- 		else
- 		{
- 			setyVel(getyVel() * -1);
-			setY(getY() + getyVel());
- 			setxVel(getxVel() * -1);
-			setX(getX() + getxVel());
- 		}
+
+		return found ;
 	}
+	public boolean canSeePlayer(Player p, ArrayList<Structure> structures)
+	{
+		Rectangle rect = getRect() ;
+		int rx = (int) (rect.getX() + rect.getWidth()/2) ;
+		int ry = (int) (rect.getY() + rect.getHeight()/2) ;
+		Rectangle prect = p.getRect() ;
+		int px = (int) (prect.getX() + prect.getWidth()/2) ;
+		int py = (int) (prect.getY() + prect.getHeight()/2) ;
+		
+		Line l = new Line(rx,ry,px,py);
+	
+		boolean found = true ;
+		for(Structure r : structures) {
+			if(r.getHitBox().intersects(l)) {
+				found = false ;
+			}
+		}
+		return found;
+	}
+
 	/**
 	 * Sets the direction of this enemy to direction that could
 	 * either be 1,2,3,4
