@@ -116,4 +116,11 @@ public class MeleeEnemy extends Enemy
 		windUpTime++;
 	}
 	
+	/**
+	 * @return the axe weapon of this enemy
+	 */
+	public Weapon getAxe() {
+		return axe;
+	}
+	
 }
