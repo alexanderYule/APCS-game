@@ -86,7 +86,7 @@ public class Rectangle extends Shape2D{
 	 * @param x is the x-coordinate of the point to check
 	 * @param y is the y-coordinate of the point to check
 	 * @return true if the point (x, y) is inside this rectangle,
-	 * false otherwise
+	 * false otherwiseww
 	*/
 	public boolean isPointInside(double x, double y){
 		if((x <= (this.x+width)  && x >= this.x) && 

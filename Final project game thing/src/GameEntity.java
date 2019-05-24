@@ -1,4 +1,5 @@
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 /**
  * 
  * @author Aaron Dsouza
@@ -69,7 +70,10 @@ public abstract class GameEntity {
 	public void setTimeSinceFire(int t) {
 		this.time = t;
 	}
-	
+	public void drawHitBox(PApplet drawer)
+	{
+		getRect().draw(drawer);
+	}
 	/**
 	 * 
 	 * @return x position of the Entity

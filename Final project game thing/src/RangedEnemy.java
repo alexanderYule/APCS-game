@@ -74,7 +74,11 @@ public class RangedEnemy extends Enemy
 		if(this.getX() >= 900) {
 			colDetected = true;
 		}
-		
+		for(Structure str : s)
+		{
+			if(str.getHitBox().intersects(getRect()))
+				colDetected = true;
+		}
 	
 		
  		
@@ -116,7 +120,6 @@ public class RangedEnemy extends Enemy
 				drawer.image(eDown,  (int)getX(), (int)getY());
 			}
 			getRect().move(getX(), getY());		
-			getRect().draw(drawer);
 		}
 	}
 	

@@ -121,7 +121,6 @@ public class Player extends GameEntity
 		
 		//drawer.noFill();
 		//drawer.strokeWeight(5);
-		getRect().draw(drawer);
 	}
 	/**
 	 * Fires the weapon that the player has, needs the milliseconds to determine when the player has last fired so that the player cannot continuously fire.
@@ -285,7 +284,7 @@ public class Player extends GameEntity
 	 * moves the player and stops him if he hits an obstruction
 	 * @param structures - the structures in the room that the player is in.
 	 */
-	public void move(ArrayList<Structure> structures) 
+	public boolean move(ArrayList<Structure> structures) 
 	{
 		//Room room = DrawingSurface.getCurrentRoom() ;
 		if(up)
@@ -312,6 +311,10 @@ public class Player extends GameEntity
  			Structure str  = structures.get(x);
 			if(str.getHitBox().intersects(potentialHitBox)) 
 			{
+				if(str.isExit() && canLeaveRoom)
+				{
+					return true;
+				}
 				colDetected = true;
 			}
  		}
@@ -352,6 +355,7 @@ public class Player extends GameEntity
 		else if(getyVel() > 1){
 			dir = 3;
 		}
+		return false;
 	}
 
 	

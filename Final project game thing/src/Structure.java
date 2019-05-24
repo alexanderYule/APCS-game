@@ -12,7 +12,7 @@ public class Structure
 	private int x;
 	private int y;
 	private Rectangle hitBox;
-	public boolean isWall;
+	private boolean isWall;
 	private boolean isExit;
 	/**
 	 *  creates a structure at the given spot x,y in the 23 by 23 array that represents the room, the object also has a Rectangle that acts as the structure's hit box
