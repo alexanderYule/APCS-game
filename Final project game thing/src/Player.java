@@ -214,7 +214,7 @@ public class Player extends GameEntity
 	 * 
 	 * @param x if x is true the player is to move up, otherwise the player is no longer moving up.
 	 */
-	public void setup(boolean x)
+	public void setUp(boolean x)
 	{
 		up = x;
 		if(x && down)
@@ -224,7 +224,7 @@ public class Player extends GameEntity
 	 * 
 	 * @param x if x is true the player is to move down, otherwise the player is no longer moving down.
 	 */
-	public void setdown(boolean x)
+	public void setDown(boolean x)
 	{
 		down = x;
 		if(x && up)
@@ -234,7 +234,7 @@ public class Player extends GameEntity
 	 * 
 	 * @param x if x is true the player is to move left, otherwise the player is no longer moving left.
 	 */
-	public void setleft(boolean x)
+	public void setLeft(boolean x)
 	{
 		left = x;
 		if(x && right)
@@ -244,7 +244,7 @@ public class Player extends GameEntity
 	 * 
 	 * @param x if x is true the player is to move right, otherwise the player is no longer moving right.
 	 */
-	public void setright(boolean x)
+	public void setRight(boolean x)
 	{
 		right = x;
 		if(x && left)
@@ -288,18 +288,19 @@ public class Player extends GameEntity
 	{
 		//Room room = DrawingSurface.getCurrentRoom() ;
 		if(up)
-			setyVel(-5);
+			setyVel(-4);
 		if(down)
-			setyVel(5);
+			setyVel(4);
 		if(right)
-			setxVel(5);
+			setxVel(4);
 		if(left)
-			setxVel(-5);
+			setxVel(-4);
 		
-		boolean colDetected = false;
+		boolean xColDetected = false;
+		boolean yColDetected = false;
 		Rectangle h = getRect();
-		Rectangle potentialHitBox = new Rectangle(h.getX() + getxVel(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
-		
+		Rectangle potentialXHitBox = new Rectangle(h.getX() + getxVel(), h.getY(), h.getWidth(),h.getHeight());
+		Rectangle potentialYHitBox = new Rectangle(h.getX(), h.getY() + getyVel(), h.getWidth(),h.getHeight());
 		/*colDetected = room.findCollison(potentialHitBox);
 		if(room.enemyCount() <= 0 && room.canExit()) {
 			notMoving();
@@ -309,26 +310,36 @@ public class Player extends GameEntity
 		for(int x = 0; x < structures.size(); x++)
  		{
  			Structure str  = structures.get(x);
-			if(str.getHitBox().intersects(potentialHitBox)) 
+			if(str.getHitBox().intersects(potentialXHitBox)) 
 			{
 				if(str.isExit() && canLeaveRoom)
 				{
 					return true;
 				}
-				colDetected = true;
+				xColDetected = true;
+			}
+			if(str.getHitBox().intersects(potentialYHitBox)) 
+			{
+				if(str.isExit() && canLeaveRoom)
+				{
+					return true;
+				}
+				yColDetected = true;
 			}
  		}
  		
 		
- 		if(!colDetected) {
+ 		if(!xColDetected) {
 			setX(getX() + getxVel());
-			setY(getY() + getyVel());
- 		}
- 		else {
- 			notMoving();
  		}
  		
- 		getRect().move(getX() + 5, getY());
+ 		if(!yColDetected)
+ 		{
+ 			setY(getY() + getyVel());
+ 		}
+ 		
+ 		
+ 		getRect().move(getX() + 5, getY()); // + 5 to make it closer to the actual player sprite
  		setVelocity(getxVel()*0.3*-1, getyVel()*0.3*-1);
 		
 		if(getxVel() < -1) 

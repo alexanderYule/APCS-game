@@ -3,6 +3,7 @@ import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import adsouza.shapes.Circle;
 import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
@@ -17,19 +18,12 @@ import processing.core.PImage;
 public class DrawingSurface extends PApplet {
 	private Player p;
 	private Map m;
-	private PImage back;
 	private PImage backBeta;
 	private PImage pBullet, eBullet;
 	private PImage obstacle;
 	private PImage gun;
-	private PImage eUp;
-	private PImage eDown;
-	private PImage eRight;
-	private PImage eLeft;
-	private PImage hUp;
-	private PImage hDown;
-	private PImage hRight;
-	private PImage hLeft;
+	private PImage eUp, eDown ,eRight ,eLeft;
+	private PImage hUp, hDown, hRight, hLeft;
 	private PImage attackHurt;
 	private Room currentRoom;
 	private PImage leftMeleeGoblin;
@@ -64,7 +58,7 @@ public class DrawingSurface extends PApplet {
 	public void setup() {
 		pBullet = loadImage("Resorces/bullettt.png");
 		eBullet = loadImage("Resorces/bulletE.png");
-		back = loadImage("Resorces/tiles/tileBlock.png");
+		gun = loadImage("Resorces/test/gun.png");
 		// backBeta = loadImage("Resorces/temp,beta/FLOOR.png");
 		backBeta = loadImage("Resorces/tiles/stones.jpg");
 		obstacle = loadImage("Resorces/brick.jpg");
@@ -160,7 +154,7 @@ public class DrawingSurface extends PApplet {
 		} else {
 			p.notMoving();
 		}
-
+		
 		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt, leftMeleeGoblin);
 		
 		ArrayList<Structure> structures = currentRoom.getStructures();
@@ -249,6 +243,12 @@ public class DrawingSurface extends PApplet {
 			p.setRoomStat(false);
 			currentRoom.canExit(false);
 		}
+		image(gun, 50,930);
+		pushStyle();
+		ellipseMode(CENTER);
+		fill(0,0,0,255);
+		//ellipse(50,930,50,50);
+			arc(50,930,50,50,0, (float)(2*PI -(2*PI * (p.getTimeSinceFire()*1000)/p.getGun().getAttackSpeed())), PIE);
 	}
 
 	/**
@@ -262,6 +262,13 @@ public class DrawingSurface extends PApplet {
 
 	// 1=left, 2=left & up, 3=up, 4= right & up
 	// 5 = right 6 = right & down 7 = down 8 = left & down
+	
+	public void keyTyped()
+	{
+		if (key == 'p') {
+			drawHitBox = !drawHitBox;
+		}
+	}
 	/**
 	 * Uses Processing PApplet to check when a keyboard key is pressed
 	 * 
@@ -270,62 +277,60 @@ public class DrawingSurface extends PApplet {
 	private void kPressed() {
 		if (key == CODED) {
 			if (keyCode == UP)
-				p.setup(true);
+				p.setUp(true);
 			if (keyCode == DOWN)
-				p.setdown(true);
+				p.setDown(true);
 			if (keyCode == LEFT)
-				p.setleft(true);
+				p.setLeft(true);
 			if (keyCode == RIGHT)
-				p.setright(true);
+				p.setRight(true);
 		}
 		if (key == 'w') // UP
 		{
-			p.setup(true);
+			p.setUp(true);
 		}
 		if (key == 'a') // LEFT
 		{
-			p.setleft(true);
+			p.setLeft(true);
 		}
 		if (key == 'd') // RIGHT
 		{
-			p.setright(true);
+			p.setRight(true);
 		}
 		if (key == 's') // DOWN
 		{
-			p.setdown(true);
+			p.setDown(true);
 		}
-		if (key == 'p') {
-			drawHitBox = !drawHitBox;
-		}
+		
 	}
 
 	public void keyReleased() {
 		if (key == CODED) {
 			if (keyCode == UP)
-				p.setup(false);
+				p.setUp(false);
 			if (keyCode == DOWN)
-				p.setdown(false);
+				p.setDown(false);
 			if (keyCode == LEFT)
-				p.setleft(false);
+				p.setLeft(false);
 			if (keyCode == RIGHT)
-				p.setright(false);
+				p.setRight(false);
 			levelComplete = false ;
 		}
 		if (key == 'w') // UP
 		{
-			p.setup(false);
+			p.setUp(false);
 		}
 		if (key == 'a') // LEFT
 		{
-			p.setleft(false);
+			p.setLeft(false);
 		}
 		if (key == 'd') // RIGHT
 		{
-			p.setright(false);
+			p.setRight(false);
 		}
 		if (key == 's') // DOWN
 		{
-			p.setdown(false);
+			p.setDown(false);
 		}
 	}
 

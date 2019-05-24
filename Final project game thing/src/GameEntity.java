@@ -42,7 +42,7 @@ public abstract class GameEntity {
 		this.yVel = yVel;
 		time = 0;
 	}
-	/**
+	/** 
 	 * 
 	 * @param x x position of the Entity
 	 * @param y y position of the Entity

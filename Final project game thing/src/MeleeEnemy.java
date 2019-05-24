@@ -18,17 +18,7 @@ public class MeleeEnemy extends Enemy
 	private int windUpTime;
 	private boolean isAttacking;
 	private Circle damageArea ;
-	
-	/**
-	 * Creates a default MeleeEnemy object with a Gun
-	 */
-	public MeleeEnemy() {
-		super();
-		this.axe = new Weapon(1,100,1);
-		super.setVelocity(Math.random()*5, Math.random()*5);
-		setDir(1);
-	}
-	
+	private int damageaAreaCounter;
 	/**
 	 * Creates a custom MeleeEnemy object with a weapon, specific velocity
 	 * at location x,y
@@ -43,6 +33,10 @@ public class MeleeEnemy extends Enemy
 		this.speed = speed;
 		isAttacking = false;
 		setDir(1);
+		damageArea = new Circle(0,0,0,0,240,255,255);
+		damageArea.setFill();
+		damageArea.setOpacity(200);
+		damageaAreaCounter = 0;
 	}
 	public double getSpeed()
 	{
@@ -54,6 +48,7 @@ public class MeleeEnemy extends Enemy
 	}
 	
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
+		
 		if(isAlive())
 		{			
 			Rectangle r = getRect() ;
@@ -72,9 +67,14 @@ public class MeleeEnemy extends Enemy
 				drawer.image(eDown,  (int)getX()-xoffset, (int)getY()-yoffset);
 			}
 			getRect().move(getX(), getY());		
+			if(damageArea != null && damageaAreaCounter <= 30)
+			{			
+				damageArea.draw(drawer);
+				damageaAreaCounter++;
+			}
 		}
-		if(damageArea != null)
-			damageArea.draw(drawer);
+		
+		
 		//drawer.ellipse((float)getX(), (float)getY(), 4, 4);
 	}
 	public void move(Player p, ArrayList<Structure> s)
@@ -104,13 +104,14 @@ public class MeleeEnemy extends Enemy
 	private void attack(Player p)
 	{
 		isAttacking = true;
-		if(windUpTime >= 60)
+		if(windUpTime >= 45)
 		{
-			damageArea = new Circle(getX(), getY(), 60, 60);	
+			damageArea = new Circle(getX() + getRect().getWidth()/2, getY() + getRect().getHeight()/2, 110, 110);	
 			if(damageArea.isPointInside(p.getX(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()+ p.getRect().getHeight()) || damageArea.isPointInside(p.getX(), p.getY()+ p.getRect().getHeight()))
-				p.takeDamage(10);
+				p.takeDamage(axe.getDamage());
 			windUpTime = 0;
 			isAttacking = false;
+			damageaAreaCounter = 0;
 		}
 		windUpTime++;
 	}

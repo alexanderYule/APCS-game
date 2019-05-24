@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import adsouza.shapes.Line;
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 
 /**
  * 
@@ -30,7 +31,11 @@ public class Enemy extends GameEntity
 		this.dir = 4;
 		isAlive = true;
 	}
-	
+	public void drawHitBox(PApplet drawer)
+	{
+		if(isAlive())
+			super.drawHitBox(drawer);
+	}
 	/**
 	 * Creates a default enemy object that has velocity,
 	 * health, damage, direction at a random location
