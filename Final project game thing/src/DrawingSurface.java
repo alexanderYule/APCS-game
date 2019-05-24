@@ -264,7 +264,7 @@ public class DrawingSurface extends PApplet {
 	
 	public void keyTyped()
 	{
-		if (key == 'p') {
+		if (key == 'p' || key == 'P') {
 			drawHitBox = !drawHitBox;
 		}
 	}
@@ -284,19 +284,19 @@ public class DrawingSurface extends PApplet {
 			if (keyCode == RIGHT)
 				p.setRight(true);
 		}
-		if (key == 'w') // UP
+		if (key == 'w' || key == 'W') // UP
 		{
 			p.setUp(true);
 		}
-		if (key == 'a') // LEFT
+		if (key == 'a' || key == 'A') // LEFT
 		{
 			p.setLeft(true);
 		}
-		if (key == 'd') // RIGHT
+		if (key == 'd' || key == 'D') // RIGHT
 		{
 			p.setRight(true);
 		}
-		if (key == 's') // DOWN
+		if (key == 's' || key == 'S') // DOWN
 		{
 			p.setDown(true);
 		}
@@ -315,19 +315,19 @@ public class DrawingSurface extends PApplet {
 				p.setRight(false);
 			levelComplete = false ;
 		}
-		if (key == 'w') // UP
+		if (key == 'w' || key == 'W') // UP
 		{
 			p.setUp(false);
 		}
-		if (key == 'a') // LEFT
+		if (key == 'a' || key == 'A') // LEFT
 		{
 			p.setLeft(false);
 		}
-		if (key == 'd') // RIGHT
+		if (key == 'd' || key == 'D') // RIGHT
 		{
 			p.setRight(false);
 		}
-		if (key == 's') // DOWN
+		if (key == 's' || key == 'S') // DOWN
 		{
 			p.setDown(false);
 		}

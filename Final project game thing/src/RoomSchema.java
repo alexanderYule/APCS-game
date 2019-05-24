@@ -53,14 +53,14 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies00 = {
-			new RangedEnemy(175,175,1,0) ,
-			new RangedEnemy(595,175,1,0) ,
-			new RangedEnemy(175,500,1,0) ,
-			new RangedEnemy(595,500,1,0) 
+			new RangedEnemy(175,175,1,0, 100) ,
+			new RangedEnemy(595,175,1,0, 100) ,
+			new RangedEnemy(175,500,1,0, 100) ,
+			new RangedEnemy(595,500,1,0, 100) 
 		} ;
 
 		MeleeEnemy[] meleeEnemies00 = {
-			new MeleeEnemy(460,100,2) 
+			new MeleeEnemy(460,100,2, 100) 
 		} ;
 				
 		StationEnemy[] stationEnemies00 = {
@@ -83,14 +83,14 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies01 = {
-			new RangedEnemy(175,175,1,0) ,
-			new RangedEnemy(525,200,1,0) ,
-			new RangedEnemy(175,475,1,0) ,
-			new RangedEnemy(525,520,1,0) 
+			new RangedEnemy(175,175,1,0, 100) ,
+			new RangedEnemy(525,200,1,0, 100) ,
+			new RangedEnemy(175,475,1,0, 100) ,
+			new RangedEnemy(525,520,1,0, 100) 
 		} ;
 
 		MeleeEnemy[] meleeEnemies01 = {
-			new MeleeEnemy(460,360,2) 
+			new MeleeEnemy(460,360,2, 100) 
 		} ;
 		
 		StationEnemy[] stationEnemies01 = {
@@ -116,21 +116,21 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies02 = {
-			new RangedEnemy(155,175,0,2) ,
-			new RangedEnemy(210,500,0,-2) ,
-			new RangedEnemy(300,150,1,0) ,
-			new RangedEnemy(625,200,-1,0) ,
-			new RangedEnemy(300,300,1,0) ,
-			new RangedEnemy(625,400,1,0) ,
-			new RangedEnemy(300,425,-1,0) ,
-			new RangedEnemy(625,500,1,0) ,
+			new RangedEnemy(155,175,0,2, 100) ,
+			new RangedEnemy(210,500,0,-2, 100) ,
+			new RangedEnemy(300,150,1,0, 100) ,
+			new RangedEnemy(625,200,-1,0, 100) ,
+			new RangedEnemy(300,300,1,0, 100) ,
+			new RangedEnemy(625,400,1,0, 100) ,
+			new RangedEnemy(300,425,-1,0, 100) ,
+			new RangedEnemy(625,500,1,0, 100) ,
 		} ;
 
 		MeleeEnemy[] meleeEnemies02 = {
-			new MeleeEnemy(460,100,2),
-			new MeleeEnemy(460,600,2),
-			new MeleeEnemy(700,200,1),
-			new MeleeEnemy(700,500,1)
+			new MeleeEnemy(460,100,2, 100),
+			new MeleeEnemy(460,600,2, 100),
+			new MeleeEnemy(700,200,1, 100),
+			new MeleeEnemy(700,500,1, 100)
 		} ;
 		
 		StationEnemy[] stationEnemies02 = {
@@ -185,20 +185,20 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies10 = {
-			new RangedEnemy(600,50,0,1) ,
-			new RangedEnemy(600,650,0,1) ,
-			new RangedEnemy(575,225,1,2) ,
-			new RangedEnemy(675,225,-1,2) ,
+			new RangedEnemy(600,50,0,1, 100) ,
+			new RangedEnemy(600,650,0,1, 100) ,
+			new RangedEnemy(575,225,1,2, 100) ,
+			new RangedEnemy(675,225,-1,2, 100) ,
 		} ;
 
 		MeleeEnemy[] meleeEnemies10 = {
-			new MeleeEnemy(450,350,4) 
+			new MeleeEnemy(450,350,4, 100) 
 		} ;
 		
 		StationEnemy[] stationEnemies10 = {
-			new StationEnemy(150,75,1) ,
-			new StationEnemy(150,600,1),
-			new StationEnemy(250,350,1),
+			new StationEnemy(150,75,1, 100) ,
+			new StationEnemy(150,600,1, 100),
+			new StationEnemy(250,350,1, 100),
 		} ;
 		
 		HealthBooster[] boosters10 = {
@@ -221,17 +221,17 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies11 = {
-			new RangedEnemy(260,550,1,0) ,
-			new RangedEnemy(460,550,1,0) ,
+			new RangedEnemy(260,550,1,0, 100) ,
+			new RangedEnemy(460,550,1,0, 100) ,
 		} ;
 
 		MeleeEnemy[] meleeEnemies11 = {
-			new MeleeEnemy(550,350,4),
-			new MeleeEnemy(300,60,4),
+			new MeleeEnemy(550,350,4, 100),
+			new MeleeEnemy(300,60,4, 100),
 		} ;
 		
 		StationEnemy[] stationEnemies11 = {
-			new StationEnemy(800,350,1) 
+			new StationEnemy(800,350,1, 100) 
 		} ;
 		
 		HealthBooster[] boosters11 = {
@@ -254,18 +254,18 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies12 = {
-			new RangedEnemy(300,550,0,1) ,
-			new RangedEnemy(450,150,0,3) ,
-			new RangedEnemy(775,350,0,2) ,
+			new RangedEnemy(300,550,0,1, 100) ,
+			new RangedEnemy(450,150,0,3, 100) ,
+			new RangedEnemy(775,350,0,2, 100) ,
 		} ;
 
 		MeleeEnemy[] meleeEnemies12 = {
-			new MeleeEnemy(585,250,4) 
+			new MeleeEnemy(585,250,4, 100) 
 		} ;
 		
 		StationEnemy[] stationEnemies12 = {
-			new StationEnemy(45,550,1), 
-			new StationEnemy(660,550,1), 
+			new StationEnemy(45,550,1, 100), 
+			new StationEnemy(660,550,1, 100), 
 		} ;
 		
 		HealthBooster[] boosters12 = {
@@ -310,18 +310,18 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies20 = {
-			new RangedEnemy(50,80,1,0) ,
-			new RangedEnemy(500,175,1,0) ,
-			new RangedEnemy(175,615,1,0) ,
-			new RangedEnemy(595,615,1,0) 
+			new RangedEnemy(50,80,1,0, 100) ,
+			new RangedEnemy(500,175,1,0, 100) ,
+			new RangedEnemy(175,615,1,0, 100) ,
+			new RangedEnemy(595,615,1,0, 100) 
 		} ;
 
 		MeleeEnemy[] meleeEnemies20 = {
-			new MeleeEnemy(800,100,4) 
+			new MeleeEnemy(800,100,4, 100) 
 		} ;
 
 		StationEnemy[] stationEnemies20 = {
-			new StationEnemy(380,620,1) 
+			new StationEnemy(380,620,1, 100) 
 		};
 
 		HealthBooster[] boosters20 = {
@@ -340,9 +340,9 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies21 = {
-			new RangedEnemy(50,80,1,0),
-			new RangedEnemy(500,175,1,0),
-			new RangedEnemy(595,615,1,0) 
+			new RangedEnemy(50,80,1,0, 100),
+			new RangedEnemy(500,175,1,0, 100),
+			new RangedEnemy(595,615,1,0, 100) 
 		} ;
 		rangedEnemies21[0].getGun().setDamage(3);
 		rangedEnemies21[1].getGun().setDamage(3);
@@ -350,12 +350,12 @@ public class RoomSchema {
 
 
 		MeleeEnemy[] meleeEnemies21 = {
-			new MeleeEnemy(600,100,4),
+			new MeleeEnemy(600,100,4, 100),
 		} ;
 		
 		StationEnemy[] stationEnemies21 = {
-				new StationEnemy(380,620,1),
-				new StationEnemy(260,45,1) 
+				new StationEnemy(380,620,1, 100),
+				new StationEnemy(260,45,1, 100) 
 		} ;
 		stationEnemies21[0].getGun().setDamage(3);
 		stationEnemies21[1].getGun().setDamage(3);
@@ -381,8 +381,8 @@ public class RoomSchema {
 		};
 		
 		RangedEnemy[] rangedEnemies22 = {
-			new RangedEnemy(50,80,1,0),
-			new RangedEnemy(100,510,1,0),
+			new RangedEnemy(50,80,1,0, 100),
+			new RangedEnemy(100,510,1,0, 100),
 
 		} ;
 		rangedEnemies22[0].getGun().setAttackSpeed(1);
@@ -392,13 +392,13 @@ public class RoomSchema {
 
 
 		MeleeEnemy[] meleeEnemies22 = {
-			new MeleeEnemy(480,400,4),
+			new MeleeEnemy(480,400,4, 100),
 		} ;
 		
 		StationEnemy[] stationEnemies22 = {
-				new StationEnemy(360,620,1),
-				new StationEnemy(260,45,1),
-				new StationEnemy(700,390,1) 
+				new StationEnemy(360,620,1, 100),
+				new StationEnemy(260,45,1, 100),
+				new StationEnemy(700,390,1, 100) 
 		} ;
 		stationEnemies22[0].getGun().setDamage(5);
 		stationEnemies22[1].getGun().setDamage(5);

@@ -26,9 +26,9 @@ public class MeleeEnemy extends Enemy
 	 * @param y the x coordinate of this enemy
 	 * @param speed how fast the enemy can move
 	 */
-	public MeleeEnemy(double x, double y, double speed)
+	public MeleeEnemy(double x, double y, double speed, int maxHealth)
 	{
-		super(x, y);
+		super(x, y,maxHealth);
 		axe = new Weapon(1,1,1);
 		this.speed = speed;
 		isAttacking = false;
@@ -72,10 +72,8 @@ public class MeleeEnemy extends Enemy
 				damageArea.draw(drawer);
 				damageaAreaCounter++;
 			}
+			super.draw(drawer);
 		}
-		
-		
-		//drawer.ellipse((float)getX(), (float)getY(), 4, 4);
 	}
 	public void move(Player p, ArrayList<Structure> s)
 	{

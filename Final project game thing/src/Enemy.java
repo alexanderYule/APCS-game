@@ -16,6 +16,7 @@ public class Enemy extends GameEntity
 	private double health;
 	private int dir; //1=left, 2=up, 3=right, 4=down
 	private boolean isAlive;
+	private final int maxHealth;
 
 	 
 	/**
@@ -24,12 +25,31 @@ public class Enemy extends GameEntity
 	 * @param x the x coordinate of this enemy
 	 * @param y the y coordinate of this enemy
 	 */
-	public Enemy(double x, double y) {
+	public Enemy(double x, double y, int maxHealth) {
 		super(x,y,0,0,20,40);
+		this.maxHealth = maxHealth;
 		this.health = 100;
 		this.damage = 0; 
 		this.dir = 4;
 		isAlive = true;
+	}
+	public Enemy(double x, double y, int maxHealth, int rectWidth, int rectHeight)
+	{
+		super(x,y,0,0,rectWidth,rectHeight);
+		this.maxHealth = maxHealth;
+		this.health = 100;
+		this.damage = 0; 
+		this.dir = 4;
+		isAlive = true;
+	}
+	public void draw(PApplet drawer)
+	{
+		drawer.pushStyle();
+		drawer.fill(255,0,0);
+		drawer.rect((int)getX(),(int)(getY() + getRect().getHeight()+ 10),(int) getRect().getWidth(), -5);
+		drawer.fill(0,0,0);
+		drawer.rect((int)(getX() + getRect().getWidth()) , (int)(getY() + getRect().getHeight()+ 10) , (int) (health/maxHealth * getRect().getWidth() - getRect().getWidth()) , -5);
+		drawer.popStyle();
 	}
 	public void drawHitBox(PApplet drawer)
 	{
@@ -44,6 +64,7 @@ public class Enemy extends GameEntity
 	 */
 	public Enemy() {
 		super(Math.random()*100,Math.random()*100,0,0,20,25);
+		maxHealth = 100;
 		this.health = 100;
 		this.damage = 0; 	
 		this.dir = 4;
@@ -57,6 +78,14 @@ public class Enemy extends GameEntity
 	public double getDmg()
 	{
 		return damage;
+	}
+	/**
+	 * 
+	 * @return the maximum health the enemy can have
+	 */
+	public int getMaxHealth()
+	{
+		return maxHealth;
 	}
 	/**
 	 * 

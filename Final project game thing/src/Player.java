@@ -31,6 +31,7 @@ public class Player extends GameEntity
 	{
 		super(x,y,0,0,25,45);
 		g = new Gun(50,400,1,1,400,150);
+		//g = new Gun(100,400,1,0.1,400,150); // damage, range (WIP), number of bullets (WIP), fire rate(fires per second), bullet speed, ID
 		dir = 1;
 		up = false;
 		down = false;
@@ -106,7 +107,7 @@ public class Player extends GameEntity
 
 		drawer.text("Health", 530, 28);
 		drawer.fill(255,0,0);
-		drawer.rect(600,10,300,20,30);
+		drawer.rect(600,10,300,20,75,75,75,75);
 		drawer.fill(255);
 		
 		if(health != 100) {
@@ -144,13 +145,25 @@ public class Player extends GameEntity
 			angle =  90-(Math.atan2(vy,vx)*(180/Math.PI));		
 			g.fireBullet(getX(), getY(), angle, true);
 			if(angle > 45 && angle <= 135)
+			{
 				hardDir = 3;
+				dir = 4;
+			}
 			else if (angle > 135 && angle <= 205)
+			{
 				hardDir = 2;
+				dir = 3;
+			}
 			else if (angle > 205 || angle <= -45)
+			{
 				hardDir = 1;
+				dir = 1;
+			}
 			else if(angle > -45 && angle <= 45)
+			{
 				hardDir = 4;
+				dir = 7;
+			}
 		}
 	}
 	

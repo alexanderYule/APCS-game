@@ -29,13 +29,14 @@ public class RangedEnemy extends Enemy
 	 * @param xVel the x velocity component of this enemy
 	 * @param yVel the y velocity component of this enemy
 	 */
-	public RangedEnemy(double x, double y, double xVel, double yVel) {
-		super(x, y);
+	public RangedEnemy(double x, double y, double xVel, double yVel, int maxHealth) {
+		super(x, y, maxHealth);
 		eGun = new Gun(1,400,1,3,60,150);
 		setVelocity(xVel, yVel);
 		setTimeSinceFire((int)(1000 * Math.random()));
 		timeSinceChanged = (int)(1000 * Math.random());
 	}
+	
 	
 	/**
 	 * Fires a bullet to the location of player
@@ -121,6 +122,7 @@ public class RangedEnemy extends Enemy
 			}
 			getRect().move(getX(), getY());		
 		}
+		super.draw(drawer);
 	}
 	
 }

@@ -26,8 +26,8 @@ public class StationEnemy extends Enemy
 	 * @param xVel the x velocity component of this enemy
 	 * @param yVel the y velocity component of this enemy
 	 */
-	public StationEnemy(double x, double y, int fireRate) {
-		super(x, y);
+	public StationEnemy(double x, double y, int fireRate, int maxHealth) {
+		super(x, y, maxHealth);
 		eGun = new Gun(1,400,2,fireRate,60,150);
 		setTimeSinceFire((int)(1000 * Math.random()));
 	}
@@ -74,6 +74,7 @@ public class StationEnemy extends Enemy
 			
 			getRect().move(getX(), getY());		
 		}
+		super.draw(drawer);
 	}
 	
 }
