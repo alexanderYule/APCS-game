@@ -87,6 +87,7 @@ public abstract class GameEntity {
 	 */
 	public void setX(double x) {
 		this.x = x;
+		this.rect.move(x, y);
 	}
 	/**
 	 * 
@@ -101,6 +102,7 @@ public abstract class GameEntity {
 	 */
 	public void setY(double y) {
 		this.y = y;
+		this.rect.move(x, y);
 	}
 	/**
 	 * 
@@ -156,7 +158,4 @@ public abstract class GameEntity {
 		x += xVel;
 		y += yVel;		
 	}
-	
-	
-	
 }

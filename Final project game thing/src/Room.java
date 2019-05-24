@@ -71,6 +71,7 @@ public class Room {
 			player = p;
 			player.setX(50);
 			player.setY(350);
+			player.setRoomStat(false);
 		}
 	}
 
@@ -285,14 +286,6 @@ public class Room {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
-	 * <<<<<<< Updated upstream
-	 * 
-	 * =======
-	 * 
-	 * >>>>>>> Stashed changes
->>>>>>> origin/master
 	 * 
 	 * @param stuct adds a structure to the room
 	 */
