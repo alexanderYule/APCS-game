@@ -47,7 +47,7 @@ public class Gun extends Weapon
 	
 	
 	/**
-	 * Fires a bullet from this weapon that travels across the screens
+	 * Fires a bullet from this weapon that travels across the screens.
 	 * @param x the x coordinate of this weapon
 	 * @param y the y coordinate of this weapon
 	 * @param direction the direction of this weapon
