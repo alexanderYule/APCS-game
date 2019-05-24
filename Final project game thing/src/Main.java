@@ -21,7 +21,7 @@ public class Main
 		window.setMinimumSize(new Dimension(100,100));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
-		window.setTitle("Game Thing");
+		window.setTitle("Hell Shadow");
 
 		window.setVisible(true);
 	}

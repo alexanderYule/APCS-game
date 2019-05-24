@@ -16,6 +16,7 @@ import processing.core.PImage;
  *         Class that draws things and allows for images to be on the screen.
  */
 public class DrawingSurface extends PApplet {
+	private Home home ;
 	private Player p;
 	private Map m;
 	private PImage backBeta;
@@ -39,6 +40,7 @@ public class DrawingSurface extends PApplet {
 	 * Creates a DrawingSurface that has enemies, a player, and other game elements
 	 */
 	public DrawingSurface() {
+		home = new Home();
 		m = new Map(0);
 		p = new Player(50, 460);
 		interval = 1000;
@@ -95,6 +97,10 @@ public class DrawingSurface extends PApplet {
 		currentRoom.setPlayer(player);
 	}
 
+	public void mouseClicked() {
+		home.mouseClicked(this);
+	}
+	
 	/**
 	 * Draws the the particular Shape instances on DrawingSurface using Processing
 	 * PApplet.
@@ -103,6 +109,13 @@ public class DrawingSurface extends PApplet {
 	 *       pressed.
 	 */
 	public void draw() {
+		
+		if(!home.isStarted()) {
+			home.draw(this);
+			return ;
+		} else {
+			strokeWeight(0);
+		}
 		
 		if(levelComplete) {
 			this.fill(255,255,255);
@@ -164,7 +177,7 @@ public class DrawingSurface extends PApplet {
 		for (int x = 0; x < p.getExistingBullets().size(); x++) // INCORPORATE IN RANGED ENEMY CLASS LATER
 		{
 			Bullet b = p.getExistingBullets().get(x);
-		if (b.move(p, currentRoom.getAllEnemies(), structures)) {
+			if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(), structures)) {
 				p.getExistingBullets().remove(x);
 				x--;
 			}
@@ -179,15 +192,17 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
+				if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
 
 				b.draw(this, eBullet);
 			}
-			r.fireToPlayer(p, structures, millis());
-			r.move(structures);
+			if(!home.isPaused()) {
+				r.fireToPlayer(p, structures, millis());
+				r.move(structures);
+			}
 			if(drawHitBox)
 			{
 				r.drawHitBox(this);
@@ -202,14 +217,15 @@ public class DrawingSurface extends PApplet {
 			}
 			for (int x = 0; x < r.getGun().getExistingBullets().size(); x++) {
 				Bullet b = r.getGun().getExistingBullets().get(x);
-				if (b.move(p, currentRoom.getAllEnemies(),structures)) {
+				if (!home.isPaused() && b.move(p, currentRoom.getAllEnemies(),structures)) {
 					r.getGun().getExistingBullets().remove(x);
 					x--;
 				}
 
 				b.draw(this, eBullet);
 			}
-			r.fireAllDir(millis(), structures);
+			if(!home.isPaused())
+				r.fireAllDir(millis(), structures);
 		}
 
 		// if(millis() > interval + timeCheck ) {
@@ -225,14 +241,15 @@ public class DrawingSurface extends PApplet {
 			{
 				r.drawHitBox(this);
 			}
-			r.move(p, structures);
+			if(!home.isPaused())
+				r.move(p, structures);
 		}
 		
 		
 		if(currentRoom.getAllEnemies().size() == 0) //ROOM CHANGE
 			p.setRoomStat(true);
 		p.draw(this,hUp,hDown,hRight,hLeft); // draws this player
-		if(p.move(structures,boosters,currentRoom))
+		if(!home.isPaused() && p.move(structures,boosters,currentRoom))
 		{
 			currentRoom.canExit(true);		
 		}
@@ -330,6 +347,10 @@ public class DrawingSurface extends PApplet {
 		if (key == 's' || key == 'S') // DOWN
 		{
 			p.setDown(false);
+		}
+		if (key == 'f' || key == 'F') // DOWN
+		{
+			home.pause();
 		}
 	}
 
