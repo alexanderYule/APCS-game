@@ -29,7 +29,7 @@ public class DrawingSurface extends PApplet {
 	private PImage leftMeleeGoblin;
 	private double interval, timeCheck;
 	private int levelNumber = 0 ;
-	private int roomNumber = 3 ;
+	private int roomNumber = 0 ;
 	private boolean levelComplete ;
 	private boolean gameOver ;
 	private boolean drawHitBox;
