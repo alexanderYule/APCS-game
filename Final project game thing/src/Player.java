@@ -23,7 +23,7 @@ public class Player extends GameEntity
 	private int counter;
 
 	/**
-	 * creates a player object with a Gun, at location x,y with 100 health
+	 * Creates a Player object with a Gun, at location x,y with 100 health
 	 * @param x the x coordinate of the player.
 	 * @param y the y coordiante of the player.
 	 */
@@ -31,7 +31,6 @@ public class Player extends GameEntity
 	{
 		super(x,y,0,0,25,45);
 		getNewGun(0);
-		//getNewGun(100);
 		dir = 1;
 		up = false;
 		down = false;
@@ -45,8 +44,14 @@ public class Player extends GameEntity
 		counter = 0;
 	}
 	/**
-	 * draws the player
-	 * @param drawer - object that draws the player
+	/**
+	 * Draws the instances that pertain to the Player object
+	 * @param drawer the object used to draw the Player  on the screen
+	 * @param up the up facing image of this Player
+	 * @param down the down facing image of this Player
+	 * @param right the right facing image of this Player
+	 * @param left the left facing image of this Player
+	 * @pre drawer must not be null
 	 */
 	public void draw(DrawingSurface drawer, PImage up, PImage down, PImage right, PImage left)
 	{
@@ -89,8 +94,8 @@ public class Player extends GameEntity
 		}*/
 
 		Rectangle r = getRect() ;
-		int xoffset = (int) (r.getWidth()) ;
-		int yoffset = (int) (r.getHeight()/2) ;
+	//	int xoffset = (int) (r.getWidth()) ;
+	//	int yoffset = (int) (r.getHeight()/2) ;
 		//drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
 
 		
@@ -124,25 +129,38 @@ public class Player extends GameEntity
 		//drawer.noFill();
 		//drawer.strokeWeight(5);
 	}
+	/**
+	 * Changes the gun this Player has based on the ID
+	 * @param ID the ID of the new gun
+	 */
 	public void getNewGun(int ID)
 	{
 		//damage, range (WIP), fire rate(fires per second), bullet speed, ID (doesn't do anything),sprayRange, number of bullets
 		switch(ID)
 		{
 			case 0:
-				g = new Gun(25,0,1,400,150);// default gun
+				g = new Gun(25,0,0.75,400,150,false );// default gun
 				break;
 			case 1:   // 1-3 is first wave
-				g = new Gun(25,0,0.75,400,ID);
+				g = new Gun(34,0,0.75,400,ID,false ); // slightly faster attack speed, slightly more damage
 				break;
 			case 2:
-				g = new Gun(5,0,0.05,400,ID);
+				g = new Gun(5,0,0.1,400,ID,true); // much faster attack speed much less damage
 				break;
 			case 3:
-				g = new Gun(25,0,1.25,400,ID, 60,3);
+				g = new Gun(8,0,1.25,250,ID,false, 20,7); // shotgun
+				break;
+			case 4: // 4-6 is second wave
+				g = new Gun(10,0,0.1,400,ID,true, 3,2); //twin machine gun
+				break;
+			case 5:
+				g = new Gun(12,0,1,400,ID,false,20,7 ); //upgraded shotgun
+				break;
+			case 6:
+				g = new Gun(25,0,0.75,400,ID,false ); 
 				break;
 			case 100:
-				g = new Gun(100,0,0.1,400,150,30,5); //op gun
+				g = new Gun(100,0,0.1,400,150,false,30,5 ); //op gun for testing purposes
 				break;
 		}
 	}
@@ -241,7 +259,9 @@ public class Player extends GameEntity
 	}
 	/**
 	 * 
-	 * @return the direction the player is facing where 1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
+	 * @return the direction the player is facing where 1=left, 
+	 * 2 is left & up, 3 is up, 4 is right & up 5 is right 6 is 
+	 * right & down 7 is down 8 is left & down
 	 */
 	public int getDir() {
 		return dir;
@@ -297,6 +317,13 @@ public class Player extends GameEntity
 		left = false;
 				
 	}
+	/**
+	 * Sets the x and y velocities to the
+	 * respective parameters
+	 * @param xVel the new xVelocity of this Player
+	 * @param yVel the new yVelocity of this Player
+
+	 */
 	public void setVelocity(double xVel, double yVel) {
 		setxVel(xVel);
 		setyVel(yVel);
@@ -317,9 +344,10 @@ public class Player extends GameEntity
 		return this.canLeaveRoom;
 	}
 	/**
-	 * moves the player and stops him if he hits an obstruction
+	 * Moves the player and stops him if he hits an obstruction
 	 * @param structures - the structures in the room that the player is in.
-	 * @param boosters - HEalth boosters in the room
+	 * @param boosters - Health booster in the room
+	 * @param room the Room object 
 	 */
 	public boolean move(ArrayList<Structure> structures, ArrayList<HealthBooster> boosters,Room room) 
 	{

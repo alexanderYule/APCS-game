@@ -1,5 +1,8 @@
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
@@ -25,8 +28,8 @@ public class DrawingSurface extends PApplet {
 	private PImage portal;
 	private Room currentRoom;
 	private PImage leftMeleeGoblin;
-	private int levelNumber = 0 ;
-	private int roomNumber = 0 ;
+	private int levelNumber;
+	private int roomNumber;
 	private boolean levelComplete ;
 	private boolean gameOver ;
 	private boolean drawHitBox;
@@ -40,11 +43,13 @@ public class DrawingSurface extends PApplet {
 		p = new Player(50, 460);
 		currentRoom = null;
 		RoomSchema.create();
-		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
-		currentRoom.setPlayer(p);
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
+		levelNumber = 0;
+		roomNumber = 0;
+		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
+		currentRoom.setPlayer(p);
 	}
 
 	/**
@@ -74,7 +79,11 @@ public class DrawingSurface extends PApplet {
 		portal = loadImage("Resorces/test/Portal.png");
 	}
 
-
+	/**
+	 * Changes the reference of this current room to a new level is the
+	 * player has completed the level and to a a new room if the player has 
+	 * completed the current room
+	 */
 	public void transportToNextRoom() {
 		if(getRoomNumber() < RoomSchema.ROOMS - 1) {
 			setRoomNumber(getRoomNumber() + 1) ;
@@ -91,6 +100,10 @@ public class DrawingSurface extends PApplet {
 		currentRoom.setPlayer(player);
 	}
 
+	/**
+	 * Starts the game when mouse is
+	 * clikced in the home screen
+	 */
 	public void mouseClicked() {
 		home.mouseClicked(this);
 	}
@@ -100,59 +113,70 @@ public class DrawingSurface extends PApplet {
 	 * PApplet.
 	 * 
 	 * @post will move the player if "w","a","s","d" or any of the arrow keys are
-	 *       pressed.
+	 * pressed.
 	 */
 	public void draw() {
 		if(!home.isStarted()) {
 			home.draw(this);
 			return ;
 		} 
+		if (mousePressed == true) {
+		    p.fireWeapon(mouseX, mouseY, millis());
+		} 
 		this.strokeWeight(1);
 		this.stroke(0,0,0);
 		
-		if(levelComplete ) {
+		if(levelComplete  && levelNumber != 3) {
 			background(0,0,0);
 			this.strokeWeight(1);
 			this.stroke(0,0,0);
 			this.fill(0,0,0);
 			this.textSize(40);
 			portal.resize(400, 400);
-			image(portal, 250,50);
-			if(levelNumber == 0)
-			{
-				fill(0,0,0);
-				Rectangle r1 = new Rectangle(200, 500, 75,75);
-				Rectangle r2 = new Rectangle(425, 500, 75,75);
-				Rectangle r3 = new Rectangle(650, 500, 75,75);
+			image(portal, 250,75);			
+			fill(0,0,0);
+			Rectangle r1 = new Rectangle(200, 500, 75,75);
+			Rectangle r2 = new Rectangle(425, 500, 75,75);
+			Rectangle r3 = new Rectangle(650, 500, 75,75);
+			if(!gameOver) {
 				r1.draw(this);
 				r2.draw(this);
 				r3.draw(this);
-				textFont(createFont("Impact", 32));
-				textAlign(CENTER);
-				if(r1.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Increase attack speed, but decrease damage.",463, 650);
-				}
+			}
+			textFont(createFont("Impact", 32));
+			textAlign(CENTER);
+			fill(255,255,255);
+			if(levelNumber <= 1 )
+			{
+				if(r1.isPointInside(mouseX, mouseY))				
+					text("Increase attack speed slightly, slightly more damage.",463, 650);	
 				if(r2.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Increase attack speed slightly, same damage.",463, 650);
-				}
+					text("Increase attack speed drastically, but decreases damage.",463, 650);								
+				if(r3.isPointInside(mouseX, mouseY))						
+					text("Have a spray of bullets, but slower attack speed.",463, 650);				
+				text(" Select a powerup to move onto the next level", 463, 30);
+			}
+			if(levelNumber == 2 && !gameOver)
+			{
+				if(r1.isPointInside(mouseX, mouseY))						
+					text("Increased attack speed and damage.",463, 650);
+				if(r2.isPointInside(mouseX, mouseY))				
+					text("Double Machine gun.",463, 650);	
 				if(r3.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Have a spray of bullets, but slow attack speed.",463, 650);
-				}
+					text("Upgraded Shotgun.",463, 650);													
+				text(" Select a powerup to move onto the next level", 463, 30);
 			}
 			String str = "";
 			if(gameOver) {
+				textFont(createFont("Impact", 100));
+				textAlign(CENTER);
 				str = "Game Over" ;
 				if(levelComplete)
 					str += "\n You Win!" ;
 			}
 			
-			this.text(str, 400, 400);
+			this.text(str, 450, 300);
+			textAlign(LEFT);
 			return ;
 		} else if(gameOver) {
 			for(int x = 0; x < 1000; x += 300) 
@@ -168,9 +192,14 @@ public class DrawingSurface extends PApplet {
 			this.stroke(0,0,0);
 			this.fill(0,0,0);
 			this.textSize(40);
+			textFont(createFont("Impact", 100));
+			textAlign(CENTER);
+			fill(255,255,255);
 			String str = "Game Over\n You Lose!" ;
 			
-			this.text(str, 400, 400);
+			this.text(str, 450, 300);
+			
+			textAlign(LEFT);
 			return ;			
 		}
 
@@ -236,7 +265,7 @@ public class DrawingSurface extends PApplet {
 
 				b.draw(this, eBullet);
 			}
-			r.fireAllDir(millis(), structures);
+			r.fireNearPlayer(p, millis(), structures);
 		}
 
 		// if(millis() > interval + timeCheck ) {
@@ -288,13 +317,42 @@ public class DrawingSurface extends PApplet {
 		{
 			if(levelComplete)
 			{
-				System.out.println(x + "  " + y);
-				if(x >= 200 && x <= 275 && y <= 500 && y>= 575)
-					p.getNewGun(1);
-				if(x >= 425 && x <= 500 && y <= 500 && y>= 575)
-					p.getNewGun(2);
-				if(x >= 650 && x <= 725 && y <= 500 && y>= 575)
-					p.getNewGun(3);
+				if(levelNumber == 1)
+				{
+					if(x >= 200 && x <= 275 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(1);
+						levelComplete = false;
+					}
+					if(x >= 425 && x <= 500 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(2);
+						levelComplete = false;
+					}
+					if(x >= 650 && x <= 725 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(3);
+						levelComplete = false;
+					}
+				}
+				else if(levelNumber == 2)
+				{
+					if(x >= 200 && x <= 275 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(6);
+						levelComplete = false;
+					}
+					if(x >= 425 && x <= 500 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(4);
+						levelComplete = false;
+					}
+					if(x >= 650 && x <= 725 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(5);
+						levelComplete = false;
+					}
+				}
 			}
 			if(!home.isPaused())
 				p.fireWeapon(x, y, millis());
@@ -303,12 +361,16 @@ public class DrawingSurface extends PApplet {
 
 	// 1=left, 2=left & up, 3=up, 4= right & up
 	// 5 = right 6 = right & down 7 = down 8 = left & down
-	
+	/**
+	 * Runs when a key is typed to set 
+	 * disable/enable HitBoxes and levelComplete
+	 * status
+	 */
 	public void keyTyped()
 	{
 		if (key == 'p' || key == 'P') 
 			drawHitBox = !drawHitBox;
-		if(key == 'l')
+		if(key == 'l' || key == 'L')
 			levelComplete = !levelComplete;
 	}
 	/**
@@ -345,7 +407,10 @@ public class DrawingSurface extends PApplet {
 		}
 		
 	}
-
+	/**
+	 *Sets the direction of the player based on the keys 
+	 *W, A, S, D or Up, Down, Left, Right
+	 */
 	public void keyReleased() {
 		if (key == CODED) {
 			if (keyCode == UP)
@@ -379,19 +444,30 @@ public class DrawingSurface extends PApplet {
 			home.pause();
 		}
 	}
-
+	/**
+	 * Sets the game status of the game to over
+	 */
 	public void setGameOver() {
 		gameOver = true ;
 	}
-
+	/**
+	 * @return The room number of the current room
+	 */
 	public int getRoomNumber() {
 		return roomNumber;
 	}
-
+	/**
+	 * Sets the room number of the current Room
+	 * to a new roomNumber
+	 * @param roomNumber The room number the current room's room
+	 * number will be changed to
+	 */
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
+	/**
+	 * @return The levelNumber of the currentRoom
+	 */
 	public int getLevelNumber() {
 		return levelNumber;
 	}

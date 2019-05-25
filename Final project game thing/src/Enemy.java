@@ -20,10 +20,12 @@ public class Enemy extends GameEntity
 
 	 
 	/**
-	 * Creates an enemy object that has velocity,
-	 * health, damage, direction at a certain location
+	  * Creates a default enemy object that with
+	 * x/ y coordinates, health, damage, direction, and a
+	 * bounding Rectangle
 	 * @param x the x coordinate of this enemy
 	 * @param y the y coordinate of this enemy
+	 * @param maxHealth the health of this enemy
 	 */
 	public Enemy(double x, double y, int maxHealth) {
 		super(x,y,0,0,20,40);
@@ -33,6 +35,17 @@ public class Enemy extends GameEntity
 		this.dir = 4;
 		isAlive = true;
 	}
+	/**
+	 * Creates an enemy object that has a custom
+	 * x/ y coordinate health, damage, direction, and a
+	 * bounding Rectangle
+	 * certain location
+	 * @param x the x coordinate of this enemy
+	 * @param y the y coordinate of this enemy
+	 * @param rectWidth the width of the Rectangle that Bounds this Enemy
+	 * @param rectHeight the width of the Rectangle that Bounds this Enemy
+	 * @param maxHealth the health of this enemy
+	 */
 	public Enemy(double x, double y, int maxHealth, int rectWidth, int rectHeight)
 	{
 		super(x,y,0,0,rectWidth,rectHeight);
@@ -42,6 +55,11 @@ public class Enemy extends GameEntity
 		this.dir = 4;
 		isAlive = true;
 	}
+	/**
+	 *  Draws a new instance of the Enemy object
+	 *  @param drawer PApplet used to create a representation of the Circle object
+	 *  @pre drawer must not be be null
+	*/
 	public void draw(PApplet drawer)
 	{
 		drawer.pushStyle();
@@ -51,15 +69,18 @@ public class Enemy extends GameEntity
 		drawer.rect((int)(getX() + getRect().getWidth()) , (int)(getY() + getRect().getHeight()+ 10) , (int) (health/maxHealth * getRect().getWidth() - getRect().getWidth()) , -5);
 		drawer.popStyle();
 	}
+	/**
+	 * Draws the bounding rectangle of this enemy
+	 * @param drawer the hitBox of this enemy
+	 */
 	public void drawHitBox(PApplet drawer)
 	{
 		if(isAlive())
 			super.drawHitBox(drawer);
 	}
 	/**
-	 * Creates a default enemy object that has velocity,health, damage, direction at a random location.
-	 * @param x the x coordinate of this enemy
-	 * @param y the y coordinate of this enemy
+	 * Creates a default enemy object that has velocity,health, damage, 
+	 * direction at a random location.
 	 */
 	public Enemy() {
 		super(Math.random()*100,Math.random()*100,0,0,20,25);
@@ -106,10 +127,18 @@ public class Enemy extends GameEntity
 	{
 		return health;
 	}
+	/**
+	 * Kills this enemy
+	 * @post isAlive value of this 
+	 * enemy is set to false
+	 */
 	public void die()
 	{
 		isAlive = false;
 	}
+	/**
+	 * @return the isAlive status of this enemy
+	 */
 	public boolean isAlive()
 	{
 		return isAlive;
@@ -156,6 +185,13 @@ public class Enemy extends GameEntity
 
 		return found ;
 	}
+	/**
+	 * Draws a line between this enemy and the player to check whether the enemy
+	 * can see the player
+	 * @param p the Player object
+	 * @param structures the list of all structures to check 
+	 * @return true if the enemy can see the player or false otherwise
+	 */
 	public boolean canSeePlayer(Player p, ArrayList<Structure> structures)
 	{
 		Rectangle rect = getRect() ;
@@ -179,6 +215,7 @@ public class Enemy extends GameEntity
 	/**
 	 * Sets the direction of this enemy to direction that could
 	 * either be 1,2,3,4
+	 * @param dir the new direction of this enemy
 	 */
 	public void setDir(int dir) {
 		this.dir = dir;
