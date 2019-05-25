@@ -23,8 +23,9 @@ public class StationEnemy extends Enemy
 	 * at location x,y
 	 * @param x the x coordinate of this enemy
 	 * @param y the x coordinate of this enemy
-	 * @param xVel the x velocity component of this enemy
-	 * @param yVel the y velocity component of this enemy
+	 * @param fireRate the Gun Fire rate of this Enemy
+	 * @param maxHealth the health of this Enemy
+	 * @param damage the damage dealt by this StationEnemy
 	 */
 	public StationEnemy(int damage,double x, double y, int fireRate, int maxHealth) {
 		super(x, y, maxHealth);
@@ -35,6 +36,8 @@ public class StationEnemy extends Enemy
 	/**
 	 * Fires a bullet to the location of player
 	 * @param p the player object this StationEnemy has to shoot/target
+	 * @param millis the number of milliseconds until the StationEnemy shoots again
+	 * @param structures the list of structures in the Room
 	 */
 	public void fireNearPlayer(Player p, int millis, ArrayList<Structure> structures) 
 	{
@@ -65,8 +68,11 @@ public class StationEnemy extends Enemy
 	/**
 	 *  Draws a graphical representation of this StationEnemy at its respective location 
 	 *  by checking the StationEnemy's current direction
-	 * @param structures 
-	 *  @post the x and y coordinate values of this StationEnemy will be changed
+	 * @param eDown the image of this StationEnemy facing front 
+	 * @param drawer the PApplet that draws a representation of this
+	 * StationEnemy
+	 * @pre drawer must not be null
+	 * @post the x and y coordinate values of this StationEnemy will be changed
 	*/
 	public void draw(PApplet drawer, PImage eDown) {
 		if(isAlive())

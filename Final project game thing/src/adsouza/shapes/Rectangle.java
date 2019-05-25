@@ -132,10 +132,9 @@ public class Rectangle extends Shape2D{
 	 * Draws a new instance of the Rectangle using Processing's PApplet
 	 * @param drawer PApplet used to draw the rectangle on
 	 * @pre drawer must not be null 
-	 * @post the method will change the mode of the Rectangle to PApplet.CORNER 
-	 * used to designate the reference from which the Rectangle will be drawn
 	 * @post the method will change the fill property of the Rectangle to the
-	 * specified r, g, b value
+	 * specified r, g, b value and the method will change the mode of the Rectangle to PApplet.CORNER 
+	 * used to designate the reference from which the Rectangle will be drawn
 	*/
 	public void draw(PApplet drawer)
 	{

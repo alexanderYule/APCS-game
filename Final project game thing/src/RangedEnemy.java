@@ -28,6 +28,8 @@ public class RangedEnemy extends Enemy
 	 * @param y the x coordinate of this enemy
 	 * @param xVel the x velocity component of this enemy
 	 * @param yVel the y velocity component of this enemy
+	 * @param damage the damage dealt by this RangedEnemy
+	 * @param maxHealth the health of this RangedEnemy
 	 */
 	public RangedEnemy(int damage, double x, double y, double xVel, double yVel, int maxHealth) {
 		super(x, y, maxHealth);
@@ -41,6 +43,8 @@ public class RangedEnemy extends Enemy
 	/**
 	 * Fires a bullet to the location of player
 	 * @param player the player object this RangedEnemy has to shoot/target
+	 * @param s the list of structures in the Room
+	 * @param millis the time interval of shooting
 	 */
 	public void fireToPlayer(Player player, ArrayList<Structure> s, int millis) 
 	{
@@ -97,13 +101,17 @@ public class RangedEnemy extends Enemy
 			setX(getX() + getxVel());
 		}
 	}
-
+	
 	/**
-	 *  Draws a graphical representation of this RangedEnemy at its respective location 
+	 * Draws a graphical representation of this RangedEnemy at its respective location 
 	 *  by checking the RangedEnemy's current direction
-	 * @param structures 
-	 *  @post the x and y coordinate values of this RangedEnemy will be changed
-	*/
+	 * @param drawer the PApplet that will draw a representation of this RnagedEnemy
+	 * @param eUp the left image of this RangedEnemy
+	 * @param eDown the left image of this RangedEnemy
+	 * @param eRight the left image of this RangedEnemy
+	 * @param eLeft the left image of this RangedEnemy
+	 * @post the x and y coordinate values of this RangedEnemy will be changed
+	 */
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		if(isAlive())
 		{

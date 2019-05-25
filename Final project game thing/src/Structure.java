@@ -15,7 +15,7 @@ public class Structure
 	private boolean isWall;
 	private boolean isExit;
 	/**
-	 *  creates a structure at the given spot x,y in the 23 by 23 array that represents the room, the object also has a Rectangle that acts as the structure's hit box
+	 *  Creates a structure at the given spot x,y in the 23 by 23 array that represents the room, the object also has a Rectangle that acts as the structure's hit box
 	 * @param x the x coordinate of the structure in an 23 by 23 array that is the room
 	 * @param y the y coordinate of the structure in an 23 by 23 array that is the room
 	 */
@@ -42,6 +42,10 @@ public class Structure
 	{
 		return x;
 	}
+	/**
+	 * 
+	 * @return true is this Structure is an exit
+	 */
 	public boolean isExit()
 	{
 		return isExit;
@@ -63,9 +67,10 @@ public class Structure
 		return hitBox;
 	}
 	/**
-	 * draws the structure at it's x,y postion
+	 * Draws the structure at it's x,y position
 	 * @param drawer the object that draws the structure
 	 * @param obstacle the obstacle image that is to be drawn
+	 * @pre drawer must not be null
 	 */
 	public void draw(PApplet drawer, PImage obstacle)
 	{

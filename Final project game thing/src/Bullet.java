@@ -59,8 +59,9 @@ public class Bullet
 	
 	/**
 	 * Moves this bullet to a new location (x,y)
-	 * @post the x and y coordinate values of this bullet 
-	 * will change 
+	 * @param p the Player object
+	 * @param enemies the list of all enemies
+	 * @param the list of all structures
 	 * @return returns true if the bullet should be deleted, false otherwise
 	 */
 	public boolean move(Player p, ArrayList<Enemy> enemies, ArrayList<Structure> s)
@@ -108,7 +109,7 @@ public class Bullet
 	 * 
 	 * @param drawer object used to draw the bullet
 	 * @param Bullet the image of the bullet being drawn
-	 * @post a bullet will be drawn on the plane
+	 * @pre drawer must not be null
 	 */
 	public void draw(PApplet drawer, PImage Bullet)
 	{

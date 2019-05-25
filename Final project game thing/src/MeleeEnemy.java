@@ -25,6 +25,9 @@ public class MeleeEnemy extends Enemy
 	 * @param x the x coordinate of this enemy.
 	 * @param y the x coordinate of this enemy.
 	 * @param speed how fast the enemy can move.
+	 * @param maxHealth the maxHealth value of this MeleeEnemy
+	 * @param damage the damage dealt by this MeleeEnemy
+
 	 */
 	public MeleeEnemy(int damage, double x, double y, double speed, int maxHealth)
 	{
@@ -40,7 +43,7 @@ public class MeleeEnemy extends Enemy
 	}
 	/**
 	 * 
-	 * @return how fast the enemy moves.
+	 * @return the speed of this enemy
 	 */
 	public double getSpeed()
 	{
@@ -55,12 +58,13 @@ public class MeleeEnemy extends Enemy
 		this.speed = speed;
 	}
 	/**
-	 * 
-	 * @param drawer the object used to draw the melee enemy on the screen
-	 * @param eUp
-	 * @param eDown
-	 * @param eRight
-	 * @param eLeft
+	 * Draws the instances that pertain to a MeleeEnemy object
+	 * @param drawer the object used to draw the Melee enemy on the screen
+	 * @param eUp the up facing image of this MeleeEnemy
+	 * @param eDown the down facing image of this MeleeEnemy
+	 * @param eRight the right facing image of this MeleeEnemy
+	 * @param eLeft the left facing image of this MeleeEnemy
+	 * @pre drawer must not be null
 	 */
 	public void draw(PApplet drawer, PImage eUp, PImage eDown,PImage eRight,PImage eLeft) {
 		
@@ -90,6 +94,12 @@ public class MeleeEnemy extends Enemy
 			super.draw(drawer);
 		}
 	}
+	/**
+	 * Moves this MeleeEnemy if it is alive and attacks
+	 * accordingly
+	 * @param p the player object 
+	 * @param s the list of structures in the room
+	 */
 	public void move(Player p, ArrayList<Structure> s)
 	{
 		if(isAlive())
@@ -114,10 +124,14 @@ public class MeleeEnemy extends Enemy
 		}
 		
 	}
+	/**
+	 * Swings this Enemy's axe every 1/2 of a second
+	 * @param p the player object of this enemy
+	 */
 	private void attack(Player p)
 	{
 		isAttacking = true;
-		if(windUpTime >= 45)
+		if(windUpTime >= 30)
 		{
 			damageArea = new Circle(getX() + getRect().getWidth()/2, getY() + getRect().getHeight()/2, 110, 110);	
 			if(damageArea.isPointInside(p.getX(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()) || damageArea.isPointInside(p.getX() + p.getRect().getWidth(), p.getY()+ p.getRect().getHeight()) || damageArea.isPointInside(p.getX(), p.getY()+ p.getRect().getHeight()))

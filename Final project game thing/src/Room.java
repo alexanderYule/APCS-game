@@ -24,7 +24,14 @@ public class Room {
 	private Rectangle[] walls;
 
 	/**
-	 * Creates a default Room object that contains structures in the room
+	 * Creates a custom Room object with a roomID, walls, rangedEnemies, meleeEnemies, 
+	 * stationEnemies, and boosters
+	 * @param roomID the type of room
+	 * @param walls the walls in this room
+	 * @param rangedEnemies the RangedEnemies in this room
+	 * @param meleeEnemies the RangedEnemies in this room
+	 * @param stationEnemies the RangedEnemies in this room
+	 * @param boosters the health boosters within this room
 	 */
 	public Room(int roomID, Rectangle[] walls, RangedEnemy[] rangedEnemies, MeleeEnemy[] meleeEnemies,
 			StationEnemy[] stationEnemies,HealthBooster[] boosters) {
@@ -66,6 +73,10 @@ public class Room {
 		return roomID;
 	}
 
+	/**
+	 * Sets the reference to the player to p
+	 * @param p the new Player object
+	 */
 	public void setPlayer(Player p) {
 		if(p != null) {
 			player = p;
@@ -75,10 +86,17 @@ public class Room {
 		}
 	}
 
+	/**
+	 * @return the Player object in this Room
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 
+	/**
+	 * Sets all RangedEnemies, MeleeEnemies, and StationEnemies
+	 * in the room to the specified, respective parameters
+	 */
 	private void setEnemies(RangedEnemy[] rangedEnemies, MeleeEnemy[] meleeEnemies, StationEnemy[] stationEnemies) {
 		for (RangedEnemy r : rangedEnemies) {
 			addRangedEnemy(r);
@@ -91,13 +109,22 @@ public class Room {
 			m.getGun().setBulletSpeed(150);
 		}
 	}
-	
+	/**
+	 * Sets all the HealthBoosters to the references in
+	 * the specified values
+	 */
 	private void setBoosters(HealthBooster[] boosters) {
 		for(HealthBooster h : boosters) {
 			healthBoosters.add(h);
 		}
 	}
 
+	/**
+	 * Remove the particular HealthBooster b from the
+	 * list of HealthBoosters in this Room
+	 * @param b the HealthBooster object that will be removed 
+	 * from the list of healthboosters in this Room
+	 */
 	public void removeHealthBooster(HealthBooster b) {
 		healthBoosters.remove(b);
 	}
@@ -134,6 +161,10 @@ public class Room {
 		return allEnemies;
 	}
 
+	/**
+	 * @return the number of enemies in this
+	 * Room
+	 */
 	public int enemyCount() {
 		return getAllEnemies().size();
 	}
@@ -161,6 +192,11 @@ public class Room {
 		}
 	}
 
+	/**
+	 * Sets the elements in this Room: 
+	 * structures, entry, and exit doors
+	 * 
+	 */
 	private void setRoom() {
 		for (int x = 0, y = 0; x < 960; x += 40) { // BORDERS
 			structures.add(new Structure(x, y));
@@ -195,7 +231,7 @@ public class Room {
 	}
 
 	/**
-	 * draws the floor, the structures, the enemies, and the bullets
+	 * Draws the floor, the structures, the enemies, and the bullets
 	 * 
 	 * @param drawer   the drawer object that draws everything
 	 * @param floor    the image of the floor to be drawn
@@ -205,11 +241,15 @@ public class Room {
 	 * @param rERight  the image of the enemy when facing right to be drawn
 	 * @param rELeft   the image of the enemy when facing left to be drawn
 	 * @param eBullet  the image of the enemies bullets to be drawn
+	 * @param leftMeleeGoblin the image of the MeleeEnemy facing left
+	 * @param attack the attack image of the MeleeEnemy facing left     
+
+	 * @pre drawer must not be null
 	 */
 	public void draw(DrawingSurface drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, 
 					 PImage rERight,PImage rELeft, PImage eBullet, PImage attack, PImage leftMeleeGoblin) {
 		if (wall == null) {
-			wall = drawer.loadImage("Resorces/tiles/brickwall.jpg");
+			wall = drawer.loadImage("Resorces/tiles/brickwall.jpg");  //ATTACK PIMAGE IS NEVER USED...
 			door = drawer.loadImage("Resorces/tiles/door.jpg");
 		}
 		for (int x = 40; x < 1000; x += 300) {
@@ -269,6 +309,11 @@ public class Room {
 		this.meleeEnemies.add(enemy);
 		allEnemies.add(enemy);
 	}
+	/**
+	 * Checks whether the door is open and returns true 
+	 * accordingly
+	 * @return true if the exit is open or false otherwise
+	 */
 	public boolean canSendPlayer()
 	{
 		if(exitDoor.getHeight() <= 0)
@@ -292,13 +337,25 @@ public class Room {
 	public void addStructure(Structure stuct) {
 		structures.add(stuct);
 	}
-
+	/**
+	 * Sets the exit status of the player in the room 
+	 * @param b boolean to change the exiting status
+	 * @return true if the Player can exit the current Room
+	 * or false otherwise
+	 */
 	public boolean canExit(boolean b) {
 		Rectangle rect = player.getRect();
 		exiting = b;
 		return true;
 	}
-
+	/**
+	 * Checks whether the Rectangle object rect 
+	 * collides with any structures, walls, or exit 
+	 * door in the room
+	 * @param rect the rectangle to check for collision
+	 * @return true if collision was detected or 
+	 * false otherwise
+	 */
 	public boolean findCollison(Rectangle rect) {
 		boolean found = false;
 
@@ -320,7 +377,14 @@ public class Room {
 
 		return found;
 	}
-
+	/**
+	 * Checks whether the point (x,y) collides with 
+	 * structures, or walls in the room
+	 * @param x x-coordinate of the point
+	 * @param y y-coordinate of the point
+	 * @return true if collision was detected or
+	 * false otherwise
+	 */
 	public boolean findCollison(double x, double y) {
 		boolean found = false;
 
@@ -338,7 +402,13 @@ public class Room {
 
 		return found;
 	}
-
+	/**
+	 * Draws a line from the Enemy to the Player and 
+	 * checks whether the Enemy can see the Player
+	 * @param e the Enemy object
+	 * @return true if a straight line can be drawn to the player or 
+	 * false otherwise
+	 */
 	public boolean playerInSight(Enemy e) {
 		Rectangle rect = e.getRect();
 		int rx = (int) (rect.getX() + rect.getWidth() / 2);
@@ -364,7 +434,10 @@ public class Room {
 
 		return found;
 	}
-
+	/**
+	 * 
+	 * @return the healthBoosters in this Room
+	 */
 	public ArrayList<HealthBooster> getHealthBoosters() {
 		return healthBoosters ;
 	}

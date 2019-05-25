@@ -7,27 +7,53 @@ public class Home {
 	private boolean overExit ;
 	private boolean paused ;
 	
+	/**
+	 * Creates a new Home object 
+	 * that has not started and is 
+	 * not paused
+	 */
 	public Home(){
 		started = false ;
 		paused = false ;
 	}
-	
+	/**
+	 * 
+	 * @return whether the game has started
+	 */
 	public boolean isStarted() {
 		return started ;
 	}
 	
+	/**
+	 * Sets the started status to the value of
+	 * s
+	 * @param s the new started value
+	 */
 	public void start(boolean s) {
 		started = s ;
 	}
 
+	/**
+	 * Reverses the status of
+	 * the game
+	 */
 	public void pause() {
 		paused = !paused ;
 	}
-	
+	/**
+	 * 
+	 * @return the paused value of this
+	 * Home
+	 */
 	public boolean isPaused() {
 		return paused ;
 	}
-	
+	/**
+	 * draws the Home on DrawingSurface
+	 * @param drawer the surface upon which this Home
+	 * will be drawn on
+	 * @pre drawer must not be null
+	 */
 	public void draw(DrawingSurface drawer) {
 		Rectangle startBtn = new Rectangle(150, 550, 300, 100);
 		Rectangle exitBtn = new Rectangle(500, 550, 300, 100);
@@ -86,6 +112,12 @@ public class Home {
 
 	}
 	
+	/**
+	 *	Starts or ends running the game
+	 *	based on the current overStart
+	 *	value of this home
+	 * @param d the DrawingSurface object
+	 */
 	void mouseClicked(DrawingSurface d) {
 		if(overStart)
 			started = true ;

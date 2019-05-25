@@ -12,8 +12,10 @@ public abstract class GameEntity {
 	private double xVel, yVel;
 	private Rectangle rect;
 	private int time;
+	
 	/**
-	 * no args constructor, sets x and y to 50 and both velocities to 0
+	 * Creates a GameEnetity object default xVelocity, yVelocity, 
+	 * x and y coordinates, bounding rectangle's height and width
 	 */
 	public GameEntity() {
 		this.x = 50;
@@ -24,7 +26,8 @@ public abstract class GameEntity {
 		this.time = 0;
 	}
 	/**
-	 * 
+	 * Creates a GameEnetity object with custom xVelocity, yVelocity, 
+	 * x and y coordinates, bounding rectangle's height and width
 	 * @param x  x position of the Entity
 	 * @param y y position of the Entity
 	 * @param xVel x Velocity of the Entity
@@ -43,7 +46,9 @@ public abstract class GameEntity {
 		time = 0;
 	}
 	/** 
-	 * 
+	 * Creates a GameEnetity object with default xVelocity, yVelocity, 
+	 * bounding rectangle's height and width, and custom x and y 
+	 * coordinates
 	 * @param x x position of the Entity
 	 * @param y y position of the Entity
 	 */
@@ -70,6 +75,11 @@ public abstract class GameEntity {
 	public void setTimeSinceFire(int t) {
 		this.time = t;
 	}
+	/** 
+	 * Draws the bounding Rectangle of this box
+	 * @param drawer the PAppler that draws the hitBox
+	 * rectangle
+	 */
 	public void drawHitBox(PApplet drawer)
 	{
 		getRect().draw(drawer);
@@ -119,7 +129,7 @@ public abstract class GameEntity {
 		return yVel;
 	}
 	/**
-	 * 
+	 *	Changes the xVel value of this GameEntity 
 	 * @param xVel New x Velocity of the Entity
 	 */
 	public void setxVel(double xVel) {
@@ -147,12 +157,17 @@ public abstract class GameEntity {
 		return rect;
 	}
 	/**
-	 * 
+	 * Sets the bounding rectangle of this GameEntity to rect
 	 * @param rect The new rectangle object that represents the entity's hit box.
 	 */
 	public void setRect(Rectangle rect) {
 		this.rect = rect;
 	}
+	/**
+	 * @post the x and y coordinate values of this 
+	 * GameEntity will be changed based on x and y 
+	 * Velocities
+	 */
 	public void step() 
 	{
 		x += xVel;

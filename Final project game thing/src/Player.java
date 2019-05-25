@@ -23,7 +23,7 @@ public class Player extends GameEntity
 	private int counter;
 
 	/**
-	 * creates a player object with a Gun, at location x,y with 100 health
+	 * Creates a Player object with a Gun, at location x,y with 100 health
 	 * @param x the x coordinate of the player.
 	 * @param y the y coordiante of the player.
 	 */
@@ -44,8 +44,14 @@ public class Player extends GameEntity
 		counter = 0;
 	}
 	/**
-	 * draws the player
-	 * @param drawer - object that draws the player
+	/**
+	 * Draws the instances that pertain to the Player object
+	 * @param drawer the object used to draw the Player  on the screen
+	 * @param up the up facing image of this Player
+	 * @param down the down facing image of this Player
+	 * @param right the right facing image of this Player
+	 * @param left the left facing image of this Player
+	 * @pre drawer must not be null
 	 */
 	public void draw(DrawingSurface drawer, PImage up, PImage down, PImage right, PImage left)
 	{
@@ -88,8 +94,8 @@ public class Player extends GameEntity
 		}*/
 
 		Rectangle r = getRect() ;
-		int xoffset = (int) (r.getWidth()) ;
-		int yoffset = (int) (r.getHeight()/2) ;
+	//	int xoffset = (int) (r.getWidth()) ;
+	//	int yoffset = (int) (r.getHeight()/2) ;
 		//drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
 
 		
@@ -123,6 +129,10 @@ public class Player extends GameEntity
 		//drawer.noFill();
 		//drawer.strokeWeight(5);
 	}
+	/**
+	 * Changes the gun this Player has based on the ID
+	 * @param ID the ID of the new gun
+	 */
 	public void getNewGun(int ID)
 	{
 		//damage, range (WIP), fire rate(fires per second), bullet speed, ID (doesn't do anything),sprayRange, number of bullets
@@ -249,7 +259,9 @@ public class Player extends GameEntity
 	}
 	/**
 	 * 
-	 * @return the direction the player is facing where 1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
+	 * @return the direction the player is facing where 1=left, 
+	 * 2 is left & up, 3 is up, 4 is right & up 5 is right 6 is 
+	 * right & down 7 is down 8 is left & down
 	 */
 	public int getDir() {
 		return dir;
@@ -305,6 +317,13 @@ public class Player extends GameEntity
 		left = false;
 				
 	}
+	/**
+	 * Sets the x and y velocities to the
+	 * respective parameters
+	 * @param xVel the new xVelocity of this Player
+	 * @param yVel the new yVelocity of this Player
+
+	 */
 	public void setVelocity(double xVel, double yVel) {
 		setxVel(xVel);
 		setyVel(yVel);
@@ -325,9 +344,10 @@ public class Player extends GameEntity
 		return this.canLeaveRoom;
 	}
 	/**
-	 * moves the player and stops him if he hits an obstruction
+	 * Moves the player and stops him if he hits an obstruction
 	 * @param structures - the structures in the room that the player is in.
-	 * @param boosters - HEalth boosters in the room
+	 * @param boosters - Health booster in the room
+	 * @param room the Room object 
 	 */
 	public boolean move(ArrayList<Structure> structures, ArrayList<HealthBooster> boosters,Room room) 
 	{

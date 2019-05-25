@@ -40,7 +40,7 @@ public class Weapon
 	
 	/**
 	 * Returns the attack speed of this weapon
-	 * @return the attack speed value of this weapon
+	 * @param speed the new speed of this weapon
 	 */
 	public void setAttackSpeed(double speed)
 	{
@@ -49,7 +49,7 @@ public class Weapon
 	
 	/**
 	 * Sets of the damage value of this weapon to a new value
-	 * @post the damage value dealt by this weapon will change
+	 * @post dmg the new damage value 
 	 */
 	public void setDamage(double dmg)
 	{

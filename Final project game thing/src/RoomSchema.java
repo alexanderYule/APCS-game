@@ -15,19 +15,36 @@ public class RoomSchema {
 	
 	private static RoomSchema self = null ;
 		
+	/**
+	 * Creates a default RoomSchema object  
+	 */
 	private RoomSchema() {
 		RoomSchema.setupRooms();		
 	}
-	
+	/**
+	 * Creates this RoomSchema object
+	 */
 	public static void create(){
 		if(self == null)
 			self = new RoomSchema();
 	}
-	
+	/**
+	 * Gets the room at the specified level and
+	 * room
+	 * @param level the level number
+	 * @param room the room number
+	 * @pre level is less than or equal to 2 && level is 
+	 * greater than or equal to 0 and rooms is less than or equal 
+	 * to 3 and rooms is greater than or equal to 0 
+	 * @return rooms[level][room]
+	 */
 	public static Room getRoom(int level, int room) {
 		return rooms[level][room] ;
 	}
-	
+	/**
+	 * Sets up the general layout of the rooms 
+	 * with structures and different enemies 
+	 */
 	private static void setupRooms() {
 		int level = 0 ;
 		int room = 0 ;

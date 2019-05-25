@@ -77,7 +77,11 @@ public class DrawingSurface extends PApplet {
 		portal = loadImage("Resorces/test/Portal.png");
 	}
 
-
+	/**
+	 * Changes the reference of this current room to a new level is the
+	 * player has completed the level and to a a new room if the player has 
+	 * completed the current room
+	 */
 	public void transportToNextRoom() {
 		if(getRoomNumber() < RoomSchema.ROOMS - 1) {
 			setRoomNumber(getRoomNumber() + 1) ;
@@ -95,6 +99,10 @@ public class DrawingSurface extends PApplet {
 		currentRoom.setPlayer(player);
 	}
 
+	/**
+	 * Starts the game when mouse is
+	 * clikced in the home screen
+	 */
 	public void mouseClicked() {
 		home.mouseClicked(this);
 	}
@@ -104,7 +112,7 @@ public class DrawingSurface extends PApplet {
 	 * PApplet.
 	 * 
 	 * @post will move the player if "w","a","s","d" or any of the arrow keys are
-	 *       pressed.
+	 * pressed.
 	 */
 	public void draw() {
 		if(!home.isStarted()) {
@@ -342,7 +350,11 @@ public class DrawingSurface extends PApplet {
 
 	// 1=left, 2=left & up, 3=up, 4= right & up
 	// 5 = right 6 = right & down 7 = down 8 = left & down
-	
+	/**
+	 * Runs when a key is typed to set 
+	 * disable/enable HitBoxes and levelComplete
+	 * status
+	 */
 	public void keyTyped()
 	{
 		if (key == 'p' || key == 'P') 
@@ -384,7 +396,10 @@ public class DrawingSurface extends PApplet {
 		}
 		
 	}
-
+	/**
+	 *Sets the direction of the player based on the keys 
+	 *W, A, S, D or Up, Down, Left, Right
+	 */
 	public void keyReleased() {
 		if (key == CODED) {
 			if (keyCode == UP)
@@ -418,19 +433,30 @@ public class DrawingSurface extends PApplet {
 			home.pause();
 		}
 	}
-
+	/**
+	 * Sets the game status of the game to over
+	 */
 	public void setGameOver() {
 		gameOver = true ;
 	}
-
+	/**
+	 * @return The room number of the current room
+	 */
 	public int getRoomNumber() {
 		return roomNumber;
 	}
-
+	/**
+	 * Sets the room number of the current Room
+	 * to a new roomNumber
+	 * @param roomNumber The room number the current room's room
+	 * number will be changed to
+	 */
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
 	}
-
+	/**
+	 * @return The levelNumber of the currentRoom
+	 */
 	public int getLevelNumber() {
 		return levelNumber;
 	}
