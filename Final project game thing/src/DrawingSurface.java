@@ -1,4 +1,5 @@
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import adsouza.shapes.Rectangle;
@@ -25,8 +26,8 @@ public class DrawingSurface extends PApplet {
 	private PImage portal;
 	private Room currentRoom;
 	private PImage leftMeleeGoblin;
-	private int levelNumber = 0 ;
-	private int roomNumber = 0 ;
+	private int levelNumber;
+	private int roomNumber;
 	private boolean levelComplete ;
 	private boolean gameOver ;
 	private boolean drawHitBox;
@@ -45,6 +46,8 @@ public class DrawingSurface extends PApplet {
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
+		levelNumber = 0;
+		roomNumber = 0;
 	}
 
 	/**
@@ -85,6 +88,7 @@ public class DrawingSurface extends PApplet {
 		} else {
 			levelComplete = true ;
 			gameOver = true ;
+			levelNumber++ ;
 		}
 		Player player = currentRoom.getPlayer();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
@@ -107,43 +111,49 @@ public class DrawingSurface extends PApplet {
 			home.draw(this);
 			return ;
 		} 
+		if (mousePressed == true) {
+		    p.fireWeapon(mouseX, mouseY, millis());
+		} 
 		this.strokeWeight(1);
 		this.stroke(0,0,0);
 		
-		if(levelComplete ) {
+		if(levelComplete  && levelNumber != 3) {
 			background(0,0,0);
 			this.strokeWeight(1);
 			this.stroke(0,0,0);
 			this.fill(0,0,0);
 			this.textSize(40);
 			portal.resize(400, 400);
-			image(portal, 250,50);
-			if(levelNumber == 0)
+			image(portal, 250,75);			
+			fill(0,0,0);
+			Rectangle r1 = new Rectangle(200, 500, 75,75);
+			Rectangle r2 = new Rectangle(425, 500, 75,75);
+			Rectangle r3 = new Rectangle(650, 500, 75,75);
+			r1.draw(this);
+			r2.draw(this);
+			r3.draw(this);
+			textFont(createFont("Impact", 32));
+			textAlign(CENTER);
+			fill(255,255,255);
+			if(levelNumber <= 1 )
 			{
-				fill(0,0,0);
-				Rectangle r1 = new Rectangle(200, 500, 75,75);
-				Rectangle r2 = new Rectangle(425, 500, 75,75);
-				Rectangle r3 = new Rectangle(650, 500, 75,75);
-				r1.draw(this);
-				r2.draw(this);
-				r3.draw(this);
-				textFont(createFont("Impact", 32));
-				textAlign(CENTER);
-				if(r1.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Increase attack speed, but decrease damage.",463, 650);
-				}
+				if(r1.isPointInside(mouseX, mouseY))				
+					text("Increase attack speed slightly, slightly more damage.",463, 650);	
 				if(r2.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Increase attack speed slightly, same damage.",463, 650);
-				}
+					text("Increase attack speed drastically, but decreases damage.",463, 650);								
+				if(r3.isPointInside(mouseX, mouseY))						
+					text("Have a spray of bullets, but slower attack speed.",463, 650);				
+				text(" Select a powerup to move onto the next level", 463, 30);
+			}
+			if(levelNumber == 2)
+			{
+				if(r1.isPointInside(mouseX, mouseY))						
+					text("Increased attack speed and damage.",463, 650);
+				if(r2.isPointInside(mouseX, mouseY))				
+					text("Double Machine gun.",463, 650);	
 				if(r3.isPointInside(mouseX, mouseY))
-				{
-					fill(255,255,255);
-					text("Have a spray of bullets, but slow attack speed.",463, 650);
-				}
+					text("Upgraded Shotgun.",463, 650);													
+				text(" Select a powerup to move onto the next level", 463, 30);
 			}
 			String str = "";
 			if(gameOver) {
@@ -236,7 +246,7 @@ public class DrawingSurface extends PApplet {
 
 				b.draw(this, eBullet);
 			}
-			r.fireAllDir(millis(), structures);
+			r.fireNearPlayer(p, millis(), structures);
 		}
 
 		// if(millis() > interval + timeCheck ) {
@@ -288,13 +298,42 @@ public class DrawingSurface extends PApplet {
 		{
 			if(levelComplete)
 			{
-				System.out.println(x + "  " + y);
-				if(x >= 200 && x <= 275 && y <= 500 && y>= 575)
-					p.getNewGun(1);
-				if(x >= 425 && x <= 500 && y <= 500 && y>= 575)
-					p.getNewGun(2);
-				if(x >= 650 && x <= 725 && y <= 500 && y>= 575)
-					p.getNewGun(3);
+				if(levelNumber == 1)
+				{
+					if(x >= 200 && x <= 275 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(1);
+						levelComplete = false;
+					}
+					if(x >= 425 && x <= 500 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(2);
+						levelComplete = false;
+					}
+					if(x >= 650 && x <= 725 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(3);
+						levelComplete = false;
+					}
+				}
+				else if(levelNumber == 2)
+				{
+					if(x >= 200 && x <= 275 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(6);
+						levelComplete = false;
+					}
+					if(x >= 425 && x <= 500 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(4);
+						levelComplete = false;
+					}
+					if(x >= 650 && x <= 725 && y >= 500 && y<= 575)
+					{
+						p.getNewGun(5);
+						levelComplete = false;
+					}
+				}
 			}
 			if(!home.isPaused())
 				p.fireWeapon(x, y, millis());
@@ -308,7 +347,7 @@ public class DrawingSurface extends PApplet {
 	{
 		if (key == 'p' || key == 'P') 
 			drawHitBox = !drawHitBox;
-		if(key == 'l')
+		if(key == 'l' || key == 'L')
 			levelComplete = !levelComplete;
 	}
 	/**

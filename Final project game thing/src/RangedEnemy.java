@@ -16,7 +16,7 @@ public class RangedEnemy extends Enemy
 	 */
 	public RangedEnemy() {
 		super();
-		this.eGun = new Gun(1,100,1,150,150);
+		this.eGun = new Gun(1,100,1,150,150, false);
 		setVelocity(Math.random()*5, Math.random()*5);
 		timeSinceChanged = (int)(1000 * Math.random());
 	}
@@ -29,9 +29,9 @@ public class RangedEnemy extends Enemy
 	 * @param xVel the x velocity component of this enemy
 	 * @param yVel the y velocity component of this enemy
 	 */
-	public RangedEnemy(double x, double y, double xVel, double yVel, int maxHealth) {
+	public RangedEnemy(int damage, double x, double y, double xVel, double yVel, int maxHealth) {
 		super(x, y, maxHealth);
-		eGun = new Gun(1,400,3,60,150);
+		eGun = new Gun(damage,400,3,60,150, false);
 		setVelocity(xVel, yVel);
 		setTimeSinceFire((int)(1000 * Math.random()));
 		timeSinceChanged = (int)(1000 * Math.random());

@@ -26,10 +26,10 @@ public class MeleeEnemy extends Enemy
 	 * @param y the x coordinate of this enemy.
 	 * @param speed how fast the enemy can move.
 	 */
-	public MeleeEnemy(double x, double y, double speed, int maxHealth)
+	public MeleeEnemy(int damage, double x, double y, double speed, int maxHealth)
 	{
 		super(x, y,maxHealth);
-		axe = new Weapon(10,1,1);
+		axe = new Weapon(damage,1,1);
 		this.speed = speed;
 		isAttacking = false;
 		setDir(1);

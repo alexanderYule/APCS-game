@@ -7,6 +7,7 @@ public class Gun extends Weapon
 	private ArrayList<Bullet> bullets;
 	private double bulletSpeed;
 	private double sprayRange;
+	private boolean canHold;
 	
 	/**
 	 * Creates a custom Gun object that deals certain damage, can fire
@@ -18,7 +19,7 @@ public class Gun extends Weapon
 	 * @param speed the speed the bullet travels
 	 * @param ID the ID of the weapon
 	 */
-	public Gun(double damage, int range, double fireRate, double speed, int ID, int sprayRange, int bulletCount)
+	public Gun(double damage, int range, double fireRate, double speed, int ID,boolean canHold, int sprayRange, int bulletCount)
 	{		
 		super(damage, fireRate, ID);
 		bullets = new ArrayList<Bullet>();
@@ -26,6 +27,7 @@ public class Gun extends Weapon
 		this.bulletCount = bulletCount;
 		this.bulletSpeed = speed;
 		this.sprayRange = sprayRange;
+		this.canHold = canHold;
 	}
 	/**
 	 * 
@@ -35,7 +37,7 @@ public class Gun extends Weapon
 	 * @param speed
 	 * @param ID
 	 */
-	public Gun(double damage, int range, double fireRate, double speed, int ID)
+	public Gun(double damage, int range, double fireRate, double speed, int ID,boolean canHold)
 	{
 		super(damage, fireRate, ID);
 		bullets = new ArrayList<Bullet>();
@@ -43,6 +45,7 @@ public class Gun extends Weapon
 		this.bulletSpeed = speed;
 		bulletCount = 1;
 		sprayRange = 0;
+		this.canHold = canHold;
 	}
 	
 	

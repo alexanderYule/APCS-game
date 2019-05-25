@@ -31,7 +31,6 @@ public class Player extends GameEntity
 	{
 		super(x,y,0,0,25,45);
 		getNewGun(0);
-		//getNewGun(100);
 		dir = 1;
 		up = false;
 		down = false;
@@ -130,19 +129,28 @@ public class Player extends GameEntity
 		switch(ID)
 		{
 			case 0:
-				g = new Gun(25,0,1,400,150);// default gun
+				g = new Gun(25,0,0.75,400,150,false );// default gun
 				break;
 			case 1:   // 1-3 is first wave
-				g = new Gun(25,0,0.75,400,ID);
+				g = new Gun(34,0,0.75,400,ID,false ); // slightly faster attack speed, slightly more damage
 				break;
 			case 2:
-				g = new Gun(5,0,0.05,400,ID);
+				g = new Gun(5,0,0.1,400,ID,true); // much faster attack speed much less damage
 				break;
 			case 3:
-				g = new Gun(25,0,1.25,400,ID, 60,3);
+				g = new Gun(8,0,1.25,250,ID,false, 20,7); // shotgun
+				break;
+			case 4: // 4-6 is second wave
+				g = new Gun(10,0,0.1,400,ID,true, 3,2); //twin machine gun
+				break;
+			case 5:
+				g = new Gun(12,0,1,400,ID,false,20,7 ); //upgraded shotgun
+				break;
+			case 6:
+				g = new Gun(25,0,0.75,400,ID,false ); 
 				break;
 			case 100:
-				g = new Gun(100,0,0.1,400,150,30,5); //op gun
+				g = new Gun(100,0,0.1,400,150,false,30,5 ); //op gun for testing purposes
 				break;
 		}
 	}
