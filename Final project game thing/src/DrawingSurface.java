@@ -48,8 +48,11 @@ public class DrawingSurface extends PApplet {
 		drawHitBox = false;
 		levelNumber = 0;
 		roomNumber = 0;
+<<<<<<< HEAD
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
+=======
+>>>>>>> origin/master
 	}
 
 	/**
@@ -94,6 +97,7 @@ public class DrawingSurface extends PApplet {
 		} else {
 			levelComplete = true ;
 			gameOver = true ;
+			levelNumber++ ;
 		}
 		Player player = currentRoom.getPlayer();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
@@ -138,11 +142,17 @@ public class DrawingSurface extends PApplet {
 			Rectangle r1 = new Rectangle(200, 500, 75,75);
 			Rectangle r2 = new Rectangle(425, 500, 75,75);
 			Rectangle r3 = new Rectangle(650, 500, 75,75);
+<<<<<<< HEAD
 			if(!gameOver) {
 				r1.draw(this);
 				r2.draw(this);
 				r3.draw(this);
 			}
+=======
+			r1.draw(this);
+			r2.draw(this);
+			r3.draw(this);
+>>>>>>> origin/master
 			textFont(createFont("Impact", 32));
 			textAlign(CENTER);
 			fill(255,255,255);
@@ -156,7 +166,11 @@ public class DrawingSurface extends PApplet {
 					text("Have a spray of bullets, but slower attack speed.",463, 650);				
 				text(" Select a powerup to move onto the next level", 463, 30);
 			}
+<<<<<<< HEAD
 			if(levelNumber == 2 && !gameOver)
+=======
+			if(levelNumber == 2)
+>>>>>>> origin/master
 			{
 				if(r1.isPointInside(mouseX, mouseY))						
 					text("Increased attack speed and damage.",463, 650);
