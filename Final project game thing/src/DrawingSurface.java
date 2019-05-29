@@ -47,8 +47,8 @@ public class DrawingSurface extends PApplet {
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
-		levelNumber = 0;
-		roomNumber = 0;
+		levelNumber = 2;
+		roomNumber = 3;
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 	}
@@ -383,14 +383,18 @@ public class DrawingSurface extends PApplet {
 	 */
 	private void kPressed() {
 		if (key == CODED) {
-			if (keyCode == UP)
+			if (keyCode == UP) {
 				p.setUp(true);
-			if (keyCode == DOWN)
+			}
+			else {
 				p.setDown(true);
-			if (keyCode == LEFT)
+			}
+			if (keyCode == LEFT) {
 				p.setLeft(true);
-			if (keyCode == RIGHT)
+			}
+			else {
 				p.setRight(true);
+			}
 		}
 		if (key == 'w' || key == 'W') // UP
 		{
