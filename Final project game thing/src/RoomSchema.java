@@ -429,6 +429,14 @@ public class RoomSchema {
 		
 		//Winner's room - Todo
 		Rectangle[] walls23 = {
+				new Rectangle(150,40,35,500,60,211,211),
+				new Rectangle(300,200,35,500,60,211,211),
+				
+				new Rectangle(450,40,35,500,60,211,211),
+				new Rectangle(600,200,35,500,60,211,211),
+				
+				new Rectangle(750,40,35,500,60,211,211),
+		
 		};
 		
 		RangedEnemy[] rangedEnemies23 = {

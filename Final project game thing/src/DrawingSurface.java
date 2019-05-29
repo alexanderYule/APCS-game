@@ -24,10 +24,11 @@ public class DrawingSurface extends PApplet {
 	private PImage gun;
 	private PImage eUp, eDown ,eRight ,eLeft;
 	private PImage hUp, hDown, hRight, hLeft;
-	private PImage attackHurt;
 	private PImage portal;
 	private Room currentRoom;
 	private PImage leftMeleeGoblin;
+	private PImage stationEnemy;
+	private PImage barrel;
 	private int levelNumber;
 	private int roomNumber;
 	private boolean levelComplete ;
@@ -46,8 +47,8 @@ public class DrawingSurface extends PApplet {
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
-		levelNumber = 0;
-		roomNumber = 0;
+		levelNumber = 2;
+		roomNumber = 3;
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 	}
@@ -75,7 +76,9 @@ public class DrawingSurface extends PApplet {
 		hDown = loadImage("Resorces/test/down.png");
 		hRight = loadImage("Resorces/test/right.png");
 		hLeft = loadImage("Resorces/test/left.png");
-		attackHurt = loadImage("Resorces/attackBlood.png");
+		stationEnemy = loadImage("Resorces/enemy_sprites/stationE.png");
+		barrel = loadImage("Resorces/room_structures/barrel.png");
+
 		portal = loadImage("Resorces/test/Portal.png");
 	}
 
@@ -91,10 +94,9 @@ public class DrawingSurface extends PApplet {
 			levelComplete = true ;
 			levelNumber++ ;
 			setRoomNumber(0) ;
-		} else {
+		} else {  //Game over
 			levelComplete = true ;
 			gameOver = true ;
-			levelNumber++ ;
 		}
 		Player player = currentRoom.getPlayer();
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
@@ -165,13 +167,14 @@ public class DrawingSurface extends PApplet {
 					text("Double Machine gun.",463, 650);	
 				if(r3.isPointInside(mouseX, mouseY))
 					text("Upgraded Shotgun.",463, 650);													
-				text(" Select a powerup to move onto the next level", 463, 30);
+				text(" Select a powerup to move onto the next level", 463, 50);
 			}
 			String str = "";
 			if(gameOver) {
 				textFont(createFont("Impact", 100));
 				textAlign(CENTER);
 				str = "Game Over" ;
+							
 				if(levelComplete)
 					str += "\n You Win!" ;
 			}
@@ -209,9 +212,8 @@ public class DrawingSurface extends PApplet {
 		} else {
 			p.notMoving();
 		}
-		
-		currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, attackHurt, leftMeleeGoblin);
-		
+			currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, leftMeleeGoblin,stationEnemy);
+			
 		ArrayList<Structure> structures = currentRoom.getStructures();
 		ArrayList<HealthBooster> boosters = currentRoom.getHealthBoosters();
 		

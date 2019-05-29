@@ -242,12 +242,11 @@ public class Room {
 	 * @param rELeft   the image of the enemy when facing left to be drawn
 	 * @param eBullet  the image of the enemies bullets to be drawn
 	 * @param leftMeleeGoblin the image of the MeleeEnemy facing left
-	 * @param attack the attack image of the MeleeEnemy facing left     
-
+	 * @param stationDown the image of the Stationary Enemy
 	 * @pre drawer must not be null
 	 */
 	public void draw(DrawingSurface drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, 
-					 PImage rERight,PImage rELeft, PImage eBullet, PImage attack, PImage leftMeleeGoblin) {
+					 PImage rERight,PImage rELeft, PImage eBullet, PImage leftMeleeGoblin, PImage stationDown) {
 		if (wall == null) {
 			wall = drawer.loadImage("Resorces/tiles/brickwall.jpg");  //ATTACK PIMAGE IS NEVER USED...
 			door = drawer.loadImage("Resorces/tiles/door.jpg");
@@ -287,7 +286,7 @@ public class Room {
 		for (MeleeEnemy e : meleeEnemies)
 			e.draw(drawer, rEUp, rEDown, rERight, leftMeleeGoblin);
 		for (StationEnemy e : stationEnemies)
-			e.draw(drawer, rEDown);
+			e.draw(drawer, stationDown);
 		for (HealthBooster h : healthBoosters)
 			h.draw(drawer);
 	}
