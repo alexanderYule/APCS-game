@@ -47,8 +47,8 @@ public class DrawingSurface extends PApplet {
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
-		levelNumber = 2;
-		roomNumber = 3;
+		levelNumber = 0;
+		roomNumber = 0;
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 	}
@@ -92,7 +92,7 @@ public class DrawingSurface extends PApplet {
 			setRoomNumber(getRoomNumber() + 1) ;
 		} else if(levelNumber < RoomSchema.LEVELS-1) {
 			levelComplete = true ;
-			levelNumber++ ;
+			levelNumber++;
 			setRoomNumber(0) ;
 		} else {  //Game over
 			levelComplete = true ;
