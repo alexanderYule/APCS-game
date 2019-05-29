@@ -47,8 +47,8 @@ public class DrawingSurface extends PApplet {
 		levelComplete = false ;
 		gameOver = false ;
 		drawHitBox = false;
-		levelNumber = 2;
-		roomNumber = 3;
+		levelNumber = 0;
+		roomNumber = 0;
 		currentRoom = RoomSchema.getRoom(levelNumber,getRoomNumber());
 		currentRoom.setPlayer(p);
 	}
@@ -76,7 +76,7 @@ public class DrawingSurface extends PApplet {
 		hDown = loadImage("Resorces/test/down.png");
 		hRight = loadImage("Resorces/test/right.png");
 		hLeft = loadImage("Resorces/test/left.png");
-		stationEnemy = loadImage("Resorces/enemy_sprites/stationE.png");
+		stationEnemy = loadImage("Resorces/enemy_sprites/frontGoblin.png");
 		barrel = loadImage("Resorces/room_structures/barrel.png");
 
 		portal = loadImage("Resorces/test/Portal.png");
