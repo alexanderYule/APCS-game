@@ -76,7 +76,7 @@ public class DrawingSurface extends PApplet {
 		hDown = loadImage("Resorces/test/down.png");
 		hRight = loadImage("Resorces/test/right.png");
 		hLeft = loadImage("Resorces/test/left.png");
-		stationEnemy = loadImage("Resorces/enemy_sprites/frontGoblin.png");
+		stationEnemy = loadImage("Resorces/enemy_sprites/stationE.png");
 		barrel = loadImage("Resorces/room_structures/barrel.png");
 
 		portal = loadImage("Resorces/test/Portal.png");
