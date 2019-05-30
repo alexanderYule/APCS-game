@@ -1,6 +1,12 @@
 import adsouza.shapes.Rectangle;
+import processing.core.PFont;
 
-
+/**
+ * 
+ * @author Alex
+ *
+ * Represents the Home screen object of the game
+ */
 public class Home {
 	private boolean started ;
 	private boolean overStart ;
@@ -55,11 +61,14 @@ public class Home {
 	 * @pre drawer must not be null
 	 */
 	public void draw(DrawingSurface drawer) {
+
+		drawer.background(drawer.loadImage("Resorces/room_structures/backGround.png"));
+
 		Rectangle startBtn = new Rectangle(150, 550, 300, 100);
 		Rectangle exitBtn = new Rectangle(500, 550, 300, 100);
 		
 		if(startBtn.isPointInside(drawer.mouseX, drawer.mouseY)) {
-			overStart = true ;
+			overStart = true;
 		} else {
 			overStart = false ;
 		}
@@ -73,25 +82,22 @@ public class Home {
 		drawer.stroke(0);
 		drawer.strokeWeight(1);
 
-		drawer.fill(255);
-		drawer.rect(60, 60, 825, 450);
-		drawer.fill(0);
-		drawer.rect(50, 50, 825, 450);
-
-		drawer.fill(255,0,0);
+		PFont f = drawer.createFont("Century Gothic", 100);
+		
+		drawer.textFont(f);
+		drawer.fill(255,0,10);
 		drawer.textSize(100);
-		drawer.text("Hell Shadow", 190, 300);
+		drawer.text("Hell Shadow", 185, 300);
 		drawer.fill(0);
 		drawer.rect(160, 560, 300, 100);
 		drawer.rect(510, 560, 300, 100);
-		drawer.fill(255);
-
+		drawer.fill(25,80,9);
 		startBtn.draw(drawer);
 		exitBtn.draw(drawer);
 
 		if(overStart || overExit) {
 			drawer.noFill();
-			drawer.stroke(0,0,255);
+			drawer.stroke(0,0,200);
 			drawer.strokeWeight(5);
 		} else {
 			drawer.noFill();
@@ -105,7 +111,7 @@ public class Home {
 		if(overExit)
 			drawer.rect((int)exitBtn.getX(),(int)exitBtn.getY(),(int)exitBtn.getWidth(),(int)exitBtn.getHeight());
 
-		drawer.fill(255,0,0);
+		drawer.fill(0);
 		drawer.textSize(50);
 		drawer.text("Start", 250, 620);		
 		drawer.text("Exit", 600, 620);		
