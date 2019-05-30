@@ -373,8 +373,6 @@ public class DrawingSurface extends PApplet {
 	{
 		if (key == 'p' || key == 'P') 
 			drawHitBox = !drawHitBox;
-		if(key == 'l' || key == 'L')
-			levelComplete = !levelComplete;
 	}
 	/**
 	 * Uses Processing PApplet to check when a keyboard key is pressed
@@ -383,18 +381,14 @@ public class DrawingSurface extends PApplet {
 	 */
 	private void kPressed() {
 		if (key == CODED) {
-			if (keyCode == UP) {
-				p.setUp(true);
-			}
-			else {
+			if (keyCode == UP) 
+				p.setUp(true);			
+			if(keyCode == DOWN)
 				p.setDown(true);
-			}
-			if (keyCode == LEFT) {
-				p.setLeft(true);
-			}
-			else {
+			if (keyCode == LEFT) 
+				p.setLeft(true);			
+			if(keyCode == RIGHT)
 				p.setRight(true);
-			}
 		}
 		if (key == 'w' || key == 'W') // UP
 		{
