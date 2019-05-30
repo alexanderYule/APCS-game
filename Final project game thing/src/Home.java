@@ -1,4 +1,5 @@
 import adsouza.shapes.Rectangle;
+import processing.core.PApplet;
 
 
 public class Home {
@@ -54,7 +55,7 @@ public class Home {
 	 * will be drawn on
 	 * @pre drawer must not be null
 	 */
-	public void draw(DrawingSurface drawer) {
+	public void draw(PApplet drawer) {
 		Rectangle startBtn = new Rectangle(150, 550, 300, 100);
 		Rectangle exitBtn = new Rectangle(500, 550, 300, 100);
 		
@@ -118,7 +119,7 @@ public class Home {
 	 *	value of this home
 	 * @param d the DrawingSurface object
 	 */
-	void mouseClicked(DrawingSurface d) {
+	public void mouseClicked(DrawingSurface d) {
 		if(overStart)
 			started = true ;
 		if(overExit)

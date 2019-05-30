@@ -76,6 +76,16 @@ public class Structure
 	{
 		if(isWall)
 			drawer.image(obstacle, x, y);
+		else
+		{
+			drawer.pushStyle();
+			drawer.fill(139,69,13);
+			drawer.noStroke();
+			drawer.rect(x, y, (float)hitBox.getWidth(),(float) hitBox.getHeight());
+			drawer.popStyle();
+			
+		}	
+		
 	}
 	
 }

@@ -203,7 +203,6 @@ public class Room {
 		}
 
 		for (int x = 0, y = 0; y < 960; y += 40) { // BORDERS
-			if ((y < 320 || y > 400))
 				structures.add(new Structure(x, y));
 		}
 
@@ -245,7 +244,7 @@ public class Room {
 	 * @param stationDown the image of the Stationary Enemy
 	 * @pre drawer must not be null
 	 */
-	public void draw(DrawingSurface drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, 
+	public void draw(PApplet drawer, PImage floor, PImage obstacle, PImage rEUp, PImage rEDown, 
 					 PImage rERight,PImage rELeft, PImage eBullet, PImage leftMeleeGoblin, PImage stationDown) {
 		if (wall == null) {
 			wall = drawer.loadImage("Resorces/tiles/brickwall.jpg");  //ATTACK PIMAGE IS NEVER USED...
@@ -264,9 +263,6 @@ public class Room {
 		}
 
 		for (Structure s : structures) {
-			/*
-			 * if(s.getClass() != TransportPad.class) s.draw(drawer, obstacle); else
-			 */
 			s.draw(drawer, obstacle);
 		}
 

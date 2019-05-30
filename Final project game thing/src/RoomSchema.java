@@ -38,7 +38,9 @@ public class RoomSchema {
 	 * to 3 and rooms is greater than or equal to 0 
 	 * @return rooms[level][room]
 	 */
-	public static Room getRoom(int level, int room) {
+	public static Room getRoom(int level, int room) 
+	{
+		Room r = rooms[level][room] ;
 		return rooms[level][room] ;
 	}
 	/**

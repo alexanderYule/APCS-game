@@ -17,7 +17,6 @@ public class Player extends GameEntity
 	private int dir; //1=left, 2=left & up, 3=up, 4= right & up 5 = right 6 = right & down 7 = down 8 = left & down
 	private boolean up,down,left,right;
 	private boolean canLeaveRoom;
-	private DrawingSurface d ;
 	private PImage image;
 	private int hardDir;
 	private int counter;
@@ -38,7 +37,6 @@ public class Player extends GameEntity
 		right = false;
 		health = 100;
 		canLeaveRoom = false;
-		d = null ;
 		image = null ;
 		hardDir = 0;
 		counter = 0;
@@ -53,7 +51,7 @@ public class Player extends GameEntity
 	 * @param left the left facing image of this Player
 	 * @pre drawer must not be null
 	 */
-	public void draw(DrawingSurface drawer, PImage up, PImage down, PImage right, PImage left)
+	public void draw(PApplet drawer, PImage up, PImage down, PImage right, PImage left)
 	{
 		if(hardDir == 0)
 		{
@@ -88,46 +86,6 @@ public class Player extends GameEntity
 				hardDir = 0;
 			}
 		}
-		d = drawer;
-		/*if(image == null) {
-			image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
-		}*/
-
-		Rectangle r = getRect() ;
-	//	int xoffset = (int) (r.getWidth()) ;
-	//	int yoffset = (int) (r.getHeight()/2) ;
-		//drawer.image(image,  (int)getX()-xoffset, (int)getY()-yoffset);
-
-		
-		drawer.pushStyle();
-		drawer.strokeWeight(3);
-		drawer.fill(255);
-		drawer.fill(0);
-		drawer.textSize(20);
-
-		String levelStr = "Level " + (d.getLevelNumber()+1) + "   Room " + (d.getRoomNumber()+1);
-		
-		drawer.text(levelStr, 20, 28);
-
-		drawer.text("Health", 530, 28);
-		drawer.fill(255,0,0);
-		drawer.rect(600,10,300,20,75,75,75,75);
-		drawer.fill(255);
-		
-		if(health != 100) {
-			if(health < 0) {
-				drawer.fill(255);
-				drawer.rect(200,10,(float)300,20,75,75,75,75);
-			}
-			else {
-				drawer.rect(900,10,(float)(health/100)*300 - 300,20,0,75,75,0);
-			}
-		}
-		
-		drawer.popStyle();
-		
-		//drawer.noFill();
-		//drawer.strokeWeight(5);
 	}
 	/**
 	 * Changes the gun this Player has based on the ID
@@ -213,25 +171,6 @@ public class Player extends GameEntity
 	public void takeDamage(double dmg)
 	{
 		health -= dmg;
-		
-		if(health <= 0) {
-			d.setGameOver();
-			return ;
-		}
-		
-		//image = d.loadImage("Resorces/hero_sprites/left.png") ;
-/*		TimerTask tt = new TimerTask() {
-
-			@Override
-			public void run() {
-				image = d.loadImage("Resorces/hero_sprites/standingDown.png") ;
-				draw(d);				
-			}
-			
-		};
-		Timer t = new Timer() ;
-		t.schedule(tt, 500);
-		//draw(d);*/
 	}
 	/**
 	 * 

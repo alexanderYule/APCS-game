@@ -213,7 +213,35 @@ public class DrawingSurface extends PApplet {
 			p.notMoving();
 		}
 			currentRoom.draw(this, backBeta, obstacle, eUp, eDown, eRight, eLeft, eBullet, leftMeleeGoblin,stationEnemy);
-			
+		if(p.getHealth() <= 0)
+			setGameOver();
+		
+		pushStyle();
+		strokeWeight(3);
+		fill(255);
+		fill(0);
+		textSize(20);
+
+		String levelStr = "Level " + (getLevelNumber()+1) + "   Room " + (getRoomNumber()+1);
+		
+		text(levelStr, 20, 28);
+
+		text("Health", 530, 28);
+		fill(255,0,0);
+		rect(600,10,300,20,75,75,75,75);
+		fill(255);
+		
+		if(p.getHealth() != 100) {
+			if(p.getHealth() < 0) {
+				fill(255);
+				rect(200,10,(float)300,20,75,75,75,75);
+			}
+			else {
+				rect(900,10,(float)(p.getHealth()/100)*300 - 300,20,0,75,75,0);
+			}
+		}
+		
+		popStyle();
 		ArrayList<Structure> structures = currentRoom.getStructures();
 		ArrayList<HealthBooster> boosters = currentRoom.getHealthBoosters();
 		
