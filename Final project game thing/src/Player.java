@@ -287,6 +287,7 @@ public class Player extends GameEntity
 	 * @param structures - the structures in the room that the player is in.
 	 * @param boosters - Health booster in the room
 	 * @param room the Room object 
+	 * @return true if the player's move was valid or false otherwise
 	 */
 	public boolean move(ArrayList<Structure> structures, ArrayList<HealthBooster> boosters,Room room) 
 	{
