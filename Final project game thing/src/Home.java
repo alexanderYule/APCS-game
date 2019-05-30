@@ -1,6 +1,7 @@
 import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 	
 /**
  * 
@@ -63,7 +64,9 @@ public class Home {
 	 */
 	public void draw(PApplet drawer) {
 
-		drawer.background(drawer.loadImage("Resorces/room_structures/backGround.png"));
+		PImage background = drawer.loadImage("Resorces/room_structures/backGround.png");
+		background.resize(drawer.width, drawer.height);
+		drawer.background(background);
 
 		Rectangle startBtn = new Rectangle(150, 550, 300, 100);
 		Rectangle exitBtn = new Rectangle(500, 550, 300, 100);
