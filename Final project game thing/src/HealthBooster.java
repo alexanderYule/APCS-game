@@ -2,7 +2,11 @@ import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-
+/**
+ * 
+ * @author sumukhi p
+ * Represents objects that increasing health throughout the game
+ */
 public class HealthBooster {
 
 	private boolean isMega ;

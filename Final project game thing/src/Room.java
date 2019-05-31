@@ -5,6 +5,12 @@ import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * 
+ * @author sumukhi p, alex y
+ * Represents a Room object that contains all the 
+ * necessary assets of the game that are in a Room
+ */
 public class Room {
 	private Rectangle entryDoor;
 	private Rectangle exitDoor;

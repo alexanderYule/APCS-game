@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * 
+ * @author aaron d, sumukhi p, alex y
+ * StationEnemy objects are stationed at one place throughout
+ * Room completion and shoot bullets in random direction
+ */
 public class StationEnemy extends Enemy
 {
 	private Gun eGun;

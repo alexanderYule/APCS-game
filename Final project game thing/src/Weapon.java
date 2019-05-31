@@ -1,5 +1,9 @@
 
-
+/**
+ * @author aaron d, alex y
+ * Represents the parent class of objects 
+ * that have attacking characteristics 
+ */
 public class Weapon 
 {
 	private int ID; // just to keep track which level the player got this weapon

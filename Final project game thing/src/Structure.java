@@ -4,7 +4,6 @@ import processing.core.PImage;
 
 /**
  * Structures the obstacles in the room.
- * code TBD
  * @author sumukhipandey
  */
 public class Structure 

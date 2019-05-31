@@ -13,7 +13,7 @@ import processing.core.PImage;
  * 
  * @author Alex, Sumukhi, and Aaron
  *
- *         Class that draws things and allows for images to be on the screen.
+ * Class that draws things and allows for images to be on the screen.
  */
 public class DrawingSurface extends PApplet {
 	private Home home ;

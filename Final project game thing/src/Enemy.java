@@ -8,7 +8,7 @@ import processing.core.PApplet;
  * 
  * @author ayule801
  *
- *super class that represents the enemies that the player needs to fight
+ * Super class that represents the enemies that the player needs to fight
  */
 public class Enemy extends GameEntity
 {

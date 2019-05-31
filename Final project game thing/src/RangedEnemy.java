@@ -5,6 +5,12 @@ import adsouza.shapes.Rectangle;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * 
+ * @author aaron d, alex y
+ * Represents a RangedEnemy object that can attack by firing
+ * at the Player
+ */
 public class RangedEnemy extends Enemy
 {
 	private Gun eGun;

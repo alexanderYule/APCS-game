@@ -2,7 +2,11 @@ import java.util.ArrayList;
 
 import adsouza.shapes.Rectangle;
 
-
+/**
+ * 
+ * @author aaron d, sumukhi p
+ *
+ */
 public class RoomSchema {
 	
 	public static final int LEVELS = 3 ;

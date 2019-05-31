@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author aaron d, sumukhi p, alex y
+ * Represents a Gun object that can fire bullets by game entities
+ */
 public class Gun extends Weapon
 {
 	private int range; // not implemented
